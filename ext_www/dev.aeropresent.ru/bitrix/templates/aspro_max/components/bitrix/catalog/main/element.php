@@ -158,6 +158,8 @@ if ($typeTmpSKU) {
 		$typeSKU = $arType['XML_ID'];
 	}
 }
+$typeSKU = Aspro\Functions\CAsproMax::processRetriveOptionValue('TYPE_SKU', $typeSKU);
+
 $arSection['UF_SECTION_TIZERS'] = $sectionTizers;
 $arSection['UF_HELP_TEXT'] = $sectionHelpText;
 
@@ -214,6 +216,18 @@ else
 
 <? CJSCore::Init(array('ls')); ?>
 	<script>//$(document).ready(function(){$(".buy_block .counter_block input[type=text]").change()})</script>
+
+
+<!-- noindex -->
+<template class="props-template">
+	<?TSolution\Functions::showBlockHtml([
+		'FILE' => 'catalog/props/list.php',
+		'PARAMS' => [
+			'ITEM_CLASSES' => 'properties__item--compact font_xs',
+		]
+	]);?>
+</template>
+<!-- /noindex -->
 
 <?
 $arExt = [

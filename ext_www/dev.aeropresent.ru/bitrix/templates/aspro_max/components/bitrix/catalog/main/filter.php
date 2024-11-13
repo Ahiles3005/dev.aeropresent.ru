@@ -1,6 +1,6 @@
 <?if('Y' == $arParams['USE_FILTER']):?>
 	<?
-	if($arTheme["FILTER_VIEW"]["VALUE"] == 'COMPACT'){
+	if($viewFilter == 'COMPACT'){
 		if($arParams["AJAX_FILTER_CATALOG"]=="Y"){
 			$template_filter = 'main_compact_ajax';
 		}
@@ -16,8 +16,6 @@
 	}
 	?>
 	<?
-
-
 	$TOP_VERTICAL_FILTER_PANEL = $arTheme["LEFT_BLOCK_CATALOG_SECTIONS"]['VALUE'] == 'Y' ? $arTheme["FILTER_VIEW"]['DEPENDENT_PARAMS']['TOP_VERTICAL_FILTER_PANEL']['VALUE'] : 'N';
 	$APPLICATION->IncludeComponent(
 		"bitrix:catalog.smart.filter",
@@ -42,7 +40,7 @@
 			'CURRENCY_ID' => $arParams['CURRENCY_ID'],
 			'DISPLAY_ELEMENT_COUNT' => $arParams['DISPLAY_ELEMENT_COUNT'],
 			"INSTANT_RELOAD" => "Y",
-			"VIEW_MODE" => strtolower($arTheme["FILTER_VIEW"]["VALUE"]),
+			"VIEW_MODE" => strtolower($viewFilter),
 			"SEF_MODE" => (strlen($arResult["URL_TEMPLATES"]["smart_filter"]) ? "Y" : "N"),
 			"SEF_RULE" => $arResult["FOLDER"].$arResult["URL_TEMPLATES"]["smart_filter"],
 			"SMART_FILTER_PATH" => $arResult["VARIABLES"]["SMART_FILTER_PATH"],

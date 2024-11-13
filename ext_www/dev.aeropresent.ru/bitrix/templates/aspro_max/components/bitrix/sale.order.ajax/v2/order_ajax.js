@@ -2603,7 +2603,7 @@ BX.namespace("BX.Sale.OrderAjaxComponent");
                 name: "SMS_CODE",
                 type: "text",
                 size: 40,
-                value: "Y",
+                value: "",
               },
               events: { keypress: BX.proxy(this.checkKeyPress, this) },
             }),

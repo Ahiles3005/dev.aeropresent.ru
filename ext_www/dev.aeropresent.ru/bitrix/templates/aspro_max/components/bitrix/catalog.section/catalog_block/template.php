@@ -444,9 +444,9 @@
 								<div class="counter_wrapp <?=($arItem["OFFERS"] && $arParams["TYPE_SKU"] == "TYPE_1" ? 'woffers' : '')?> clearfix rounded3">
 									<?=\Aspro\Functions\CAsproMax::showItemCounter($arAddToBasketData, $arItem["ID"], $arItemIDs, $arParams, 'big');?>
 									<div id="<?=$arItemIDs["ALL_ITEM_IDS"]['BASKET_ACTIONS']; ?>" class="button_block <?=($arAddToBasketData['ACTION'] === 'OUT_OF_PRODUCTION' || $arAddToBasketData["ACTION"] == "ORDER"  || !$arAddToBasketData["CAN_BUY"] || !$arAddToBasketData["OPTIONS"]["USE_PRODUCT_QUANTITY_LIST"] || $arAddToBasketData["ACTION"] == "SUBSCRIBE" || $arAddToBasketData["ACTION"] == "MORE" ? "wide" : "");?>">
-
+										<!--noindex-->
 											<?=$arAddToBasketData["HTML"]?>
-
+										<!--/noindex-->
 									</div>
 								</div>
 								<?
@@ -479,9 +479,9 @@
 										<div class="counter_wrapp clearfix ce_cmp_hidden">
 											<?=\Aspro\Functions\CAsproMax::showItemCounter($arAddToBasketData, $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["ID"], $arItemIDs, $arParams, 'big');?>
 											<div id="<?=$arItemIDs["ALL_ITEM_IDS"]['BASKET_ACTIONS']; ?>" class="button_block <?=($arAddToBasketData['ACTION'] === 'OUT_OF_PRODUCTION' || $arAddToBasketData["ACTION"] == "ORDER" || !$arAddToBasketData["CAN_BUY"] || !$arAddToBasketData["OPTIONS"]["USE_PRODUCT_QUANTITY_LIST"] || $arAddToBasketData["ACTION"] == "SUBSCRIBE" ? "wide" : "");?>">
-
+												<!--noindex-->
 													<?=$arAddToBasketData["HTML"]?>
-
+												<!--/noindex-->
 											</div>
 										</div>
 										<div class="counter_wrapp ce_cmp_visible">
@@ -744,8 +744,9 @@
 								</div>
 								<div class="item_info--right_block">
 									<?=$itemPrice?>
-								</div>
+								</div>								
 							</div>
+							<?=$itemFooterButton?>
 						<?else:?>
 							<div class="item_info">
 								<div class="item_info--top_block">
@@ -756,7 +757,7 @@
 								</div>
 								<div class="item_info--bottom_block">
 									<?=$itemPrice?>
-								</div>
+								</div>				
 							</div>
 						<?endif;?>
 
@@ -764,10 +765,6 @@
 							<?=$itemFooterButton?>
 						<?endif;?>
 					</div>
-
-					<?if($bBigBlock):?>
-						<?=$itemFooterButton?>
-					<?endif;?>
 				</div>
 			</div>
 		<?}?>

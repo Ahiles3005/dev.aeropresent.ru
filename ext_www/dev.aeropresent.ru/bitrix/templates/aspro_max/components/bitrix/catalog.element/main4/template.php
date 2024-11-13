@@ -277,7 +277,7 @@ $actualItem = $arResult["OFFERS"] ? (isset($arResult['OFFERS'][$arResult['OFFERS
 
 if($arResult["OFFERS"] && $arParams["TYPE_SKU"]=="N")
 	unset($templateData['STORES']);
-$offerPropCount = $arParams["VISIBLE_PROP_WITH_OFFER"] ==="Y" && is_array($arResult['OFFER_PROP']) ? count($arResult['OFFER_PROP']) : 0;
+$offerPropCount = is_array($arResult['OFFER_PROP']) ? count($arResult['OFFER_PROP']) : 0;
 $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 ?>
 
@@ -387,9 +387,9 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 														);?>
 														<?if (!$bHasValue) continue;?>
 														<div class="properties__item properties__item--compact ">
-															<div class="properties__title muted properties__item--inline char_name font_sxs">
-																<?if($arProp["HINT"] && $arParams["SHOW_HINTS"]=="Y"):?><div class="hint"><span class="icon"><i>?</i></span><div class="tooltip"><?=$arProp["HINT"]?></div></div><?endif;?>
-																<span class="props_item"><?=$arProp["NAME"]?>:</span>
+															<div class="properties__title muted properties__item--inline font_sxs">
+																<span class="props_item"><?=$arProp["NAME"]?></span>
+																<?if($arProp["HINT"] && $arParams["SHOW_HINTS"]=="Y"):?><div class="hint"><span class="icon colored_theme_hover_bg"><i>?</i></span><div class="tooltip"><?=$arProp["HINT"]?></div></div><?endif;?> : 
 															</div>
 															<div class="properties__value darken properties__item--inline char_value font_xs">
 																<?if($arResult["TMP_OFFERS_PROP"][$arProp["CODE"]]){
@@ -493,7 +493,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 									<div class="item-buttons item_<?=$arSKU["ID"]?>">
 										<div class="counter_wrapp list clearfix n-mb small-block">
 											<?if($arskuAddToBasketData["OPTIONS"]["USE_PRODUCT_QUANTITY_DETAIL"] && !count((array)$arSKU["OFFERS"]) && $arskuAddToBasketData["ACTION"] == "ADD" && $arskuAddToBasketData["CAN_BUY"]):?>
-												<?=\Aspro\Functions\CAsproMax::showItemCounter($arskuAddToBasketData, $arSKU["ID"], $arSKUIDs, $arParams, '', '', true, true);?>
+												<?=\Aspro\Functions\CAsproMax::showItemCounter($arskuAddToBasketData, $arSKU["ID"], $arSKUIDs, $arParams, 'sm', '', true, true);?>
 											<?endif;?>
 											<div class="button_block <?=(in_array($arSKU["ID"], $arParams["BASKET_ITEMS"]) || $arskuAddToBasketData["ACTION"] === "OUT_OF_PRODUCTION" || $arskuAddToBasketData["ACTION"] == "ORDER" || ($arskuAddToBasketData["ACTION"] == 'MORE' || !$arskuAddToBasketData["CAN_BUY"]) || !$arskuAddToBasketData["OPTIONS"]["USE_PRODUCT_QUANTITY_DETAIL"] ? "wide" : "");?>">
 												<!--noindex-->
@@ -752,7 +752,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 										<span class="btn btn-default btn-lg type_block has-ripple choise btn-wide" data-block=".js-scroll-complect"><span><?=Loc::getMessage("COMPLECT_BUTTON")?></span></span>
 									</div>
 								<?else:?>
-								<?$frame = $this->createFrame()->begin('');?>
+								<?$frame = $this->createFrame()->begin();?>
 									<div class="">
 										<?//dicount timer?>
 										<?if($arParams["SHOW_DISCOUNT_TIME"]=="Y"){?>
@@ -950,7 +950,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 													<?=\Aspro\Functions\CAsproMax::showItemOCB($arAddToBasketData, $arResult, $arParams, false, '');?>
 												<?endif;?>
 											<?elseif($arResult["OFFERS"] && $arParams['TYPE_SKU'] == 'TYPE_1'):?>
-												<div class="offer_buy_block buys_wrapp">
+												<div class="offer_buy_block buys_wrapp has_offer_prop">
 													<div class="counter_wrapp big list clearfix">
 														<?=\Aspro\Functions\CAsproMax::showItemCounter($arAddToBasketData, $arResult["OFFERS"][$arResult["OFFERS_SELECTED"]]["ID"], $arItemIDs, $arParams, 'md', '', true, true);?>
 														<div id="<?=$arItemIDs["ALL_ITEM_IDS"]['BASKET_ACTIONS']; ?>" class="button_block <?=($arAddToBasketData["ACTION"] === "OUT_OF_PRODUCTION" || $arAddToBasketData["ACTION"] == "ORDER" || !$arAddToBasketData["CAN_BUY"] || !$arAddToBasketData["OPTIONS"]["USE_PRODUCT_QUANTITY_DETAIL"] || $arAddToBasketData["ACTION"] == "SUBSCRIBE" ? "wide" : "");?>">
@@ -1074,62 +1074,20 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 						<div class="product-chars flex-50">
 							<?//props?>
 							<?$bShowMoreLink = ($iCountProps > $arParams['VISIBLE_PROP_COUNT']);?>
-							<?if($arResult['DISPLAY_PROPERTIES'] || $arResult['OFFER_PROP']):?>
-								<div class="char-side">
-									<div class="char-side__title font_sm darken"><?=($arParams["T_CHARACTERISTICS"] ? $arParams["T_CHARACTERISTICS"] : Loc::getMessage("T_CHARACTERISTICS"));?></div>
-									<div class="properties list">
-										<div class="properties__container properties <?=!($bShowMoreLink || $arParams["SHOW_LEFT"] == "Y") ? 'js-offers-prop' : ''?>">
-											<?$j=0;?>
-											<?foreach($arResult['DISPLAY_PROPERTIES'] as $arProp):?>
-												<?if($j<$arParams['VISIBLE_PROP_COUNT']):?>
-													<div class="properties__item properties__item--compact font_xs js-prop-replace">
-														<div class="properties__title muted properties__item--inline js-prop-title">
-															<?=$arProp['NAME']?>
-															<?if($arProp["HINT"] && $arParams["SHOW_HINTS"]=="Y"):?>
-																<div class="hint">
-																	<span class="icon colored_theme_hover_bg"><i>?</i></span>
-																	<div class="tooltip"><?=$arProp["HINT"]?></div>
-																</div>
-															<?endif;?>
-														</div>
-														<div class="properties__hr muted properties__item--inline">&mdash;</div>
-														<div class="properties__value darken properties__item--inline js-prop-value">
-															<?if(is_array($arProp["DISPLAY_VALUE"]) && count($arProp["DISPLAY_VALUE"]) > 1):?>
-																<?=implode(', ', $arProp["DISPLAY_VALUE"]);?>
-															<?else:?>
-																<?=$arProp["DISPLAY_VALUE"];?>
-															<?endif;?>
-														</div>
-													</div>
-												<?endif;?>
-												<?$j++;?>
-											<?endforeach;?>
-											<?foreach($arResult['OFFER_PROP'] as $arProp):?>
-												<?if($j<$arParams['VISIBLE_PROP_COUNT'] || (!$bShowMoreLink && $arParams["VISIBLE_PROP_WITH_OFFER"] !=="Y")):?>
-													<div class="properties__item properties__item--compact font_xs js-prop">
-														<div class="properties__title muted properties__item--inline js-prop-title">
-															<?=$arProp['NAME']?>
-															<?if($arProp["HINT"] && $arParams["SHOW_HINTS"]=="Y"):?>
-																<div class="hint">
-																	<span class="icon colored_theme_hover_bg"><i>?</i></span>
-																	<div class="tooltip"><?=$arProp["HINT"]?></div>
-																</div>
-															<?endif;?>
-														</div>
-														<div class="properties__hr muted properties__item--inline">&mdash;</div>
-														<div class="properties__value darken properties__item--inline js-prop-value">
-															<?if(is_array($arProp["DISPLAY_VALUE"]) && count($arProp["DISPLAY_VALUE"]) > 1):?>
-																<?=implode(', ', $arProp["DISPLAY_VALUE"]);?>
-															<?else:?>
-																<?=$arProp["DISPLAY_VALUE"];?>
-															<?endif;?>
-														</div>
-													</div>
-												<?endif;?>
-												<?$j++;?>
-											<?endforeach;?>
-										</div>										
-									</div>
+							<?if ($arParams['VISIBLE_PROP_COUNT'] > 0):?>
+								<?$isShowProps = ($arResult['DISPLAY_PROPERTIES'] || $arResult['OFFER_PROP']);?>
+								<div class="char-side char-toggle-visible <?=($isShowProps ? '' : 'hidden')?>">
+									<?TSolution\Functions::showBlockHtml([
+										'FILE' => '/catalog/props_in_section.php',
+										'TITLE_TOP' => '<div class="char-side__title font_sm darken">'.($arParams["T_CHARACTERISTICS"] ? $arParams["T_CHARACTERISTICS"] : Loc::getMessage("T_CHARACTERISTICS")).'</div>',
+										'ITEM' => $arResult,
+										'PARAMS' => [
+											'ITEM_CLASSES' => 'properties__item--compact font_xs',
+											'SHOW_HINTS' => $arParams['SHOW_HINTS'],
+											'VISIBLE_PROP_COUNT' => $arParams['VISIBLE_PROP_COUNT'],
+											'VISIBLE_PROP_WITH_OFFER' => ($arParams["VISIBLE_PROP_WITH_OFFER"] !== "Y" && !$bShowMoreLink),
+										]
+									])?>
 									<?if($bShowMoreLink):?>
 										<div class="more-char-link"><span class="choise colored_theme_text_with_hover font_sxs dotted" data-block=".js-scrolled"><?=Loc::getMessage('ALL_CHARS');?></span></div>
 									<?endif;?>
@@ -1326,19 +1284,12 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 
 <?if($arResult['VIDEO']):?>
 	<?$this->SetViewTarget('PRODUCT_VIDEO_INFO');?>
-		<div class="hidden_print">
-			<div class="video_block row">
-				<?if(count($arResult['VIDEO']) > 1):?>
-					<?foreach($arResult['VIDEO'] as $v => $value):?>
-						<div class="col-sm-6">
-							<?=str_replace('src=', 'width="660" height="457" src=', str_replace(array('width', 'height'), array('data-width', 'data-height'), $value));?>
-						</div>
-					<?endforeach;?>
-				<?else:?>
-					<div class="col-md-12"><?=$arResult['VIDEO'][0]?></div>
-				<?endif;?>
-			</div>
-		</div>
+		<?=Aspro\Functions\CAsproMax::showBlockHtml([
+				'FILE' => 'video/detail_video_block.php',
+				'PARAMS' => [
+					'VIDEO' => $arResult['VIDEO'],
+				],
+		]);?>
 	<?$this->EndViewTarget();?>
 <?endif;?>
 

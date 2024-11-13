@@ -92,7 +92,6 @@ if (is_array($arResult["QUESTIONS"])) {
 							<input type="text" class="inputtext captcha" name="captcha_word" size="30" maxlength="50" value="" required />
 						</div>
 					</div>
-					<script type="text/javascript">BX.onCustomEvent("onRenderCaptcha");</script>
 				<? elseif ($bHiddenCaptcha == "Y"): ?>
 					<textarea name="nspm" style="display:none;"></textarea>
 				<? endif; ?>

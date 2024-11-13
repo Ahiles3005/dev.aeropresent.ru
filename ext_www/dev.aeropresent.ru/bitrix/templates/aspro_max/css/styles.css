@@ -1629,6 +1629,11 @@ html[xmlns] .slides.flexbox {
   .owl-carousel.shadow .owl-stage-outer:before {
     left: 0px;
   }
+  .catalog_block .catalog_item.big .footer_button {
+    height: auto;
+    padding: 0;
+    box-shadow: 0px 14px 20px 0px rgba(0, 0, 0, 0.15);
+  } 
 
   .flexslider.shadow .flex-viewport:after,
   .owl-carousel.shadow .owl-stage-outer:after {
@@ -3896,8 +3901,8 @@ body .absolute-full-block {
   position: absolute;
   top: 0px;
   bottom: 0px;
-  left: 0px;
-  right: 0px;
+  left: 1px;
+  right: 1px;
 }
 
 .absolute-full-block_bg_center {
@@ -5416,6 +5421,7 @@ body .catalog_block.items .item_block.item {
   border-left-width: 0px;
   border-right-width: 0px;
   border-bottom-width: 0px;
+  border-bottom: 1px solid var(--stroke_black);
 }
 
 .catalog_block .offer_buy_block .counter_wrapp > .counter_block {
@@ -5565,16 +5571,6 @@ body .catalog_block.items .item_block.item {
 
 .catalog_block .catalog_item.big {
   height: 100% !important;
-}
-
-.catalog_block .catalog_item.big .footer_button {
-  position: absolute;
-  height: auto;
-  top: calc(100% + 1px);
-  padding: 0;
-  left: 25px;
-  right: 24px;
-  box-shadow: 0px 14px 20px 0px rgba(0, 0, 0, 0.15);
 }
 
 .mobile .wrapper1.compact-catalog .catalog_block .catalog_item.big .footer_button {
@@ -5957,7 +5953,7 @@ body .item-stock.js-show-stores:hover .value {
 
 .counter_wrapp .more_text {
   color: #b3b3b3;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 14px;
   margin: 8px 0px;
   white-space: normal;

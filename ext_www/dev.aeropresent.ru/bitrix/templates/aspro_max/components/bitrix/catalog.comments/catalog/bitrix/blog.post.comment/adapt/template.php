@@ -354,7 +354,6 @@ else
 								</div>
 							</div>
 						</div>
-						<script type="text/javascript">BX.onCustomEvent("onRenderCaptcha");</script>
 						<?
 					}
 					?>

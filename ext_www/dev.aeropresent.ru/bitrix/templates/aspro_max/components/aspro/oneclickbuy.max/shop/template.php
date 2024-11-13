@@ -65,7 +65,6 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 							<input type="text" class="inputtext captcha" name="captcha_word" size="30" maxlength="50" value="" required="" aria-required="true">
 						</div>
 					</div>
-					<script type="text/javascript">BX.onCustomEvent("onRenderCaptcha");</script>
 					<template class="ocb-captcha-place"></template>
 				<?endif;?>
 				<?if($arParams["SHOW_LICENCE"] == "Y"):?>

@@ -470,7 +470,7 @@ $bColProps = $arParams['SHOW_PROPS_TABLE'] == 'cols';
 										<?if(!$arItem["OFFERS"] || $arParams['TYPE_SKU'] !== 'TYPE_1' || !$bShowOfferTree):?>
 											<div class="small-block counter_wrapp <?=($arItem["OFFERS"] && $arParams["TYPE_SKU"] == "TYPE_1" && $bShowOfferTree ? 'woffers' : '')?> list clearfix n-mb">
 												<?if($arAddToBasketData["OPTIONS"]["USE_PRODUCT_QUANTITY_LIST"] && !count($arItem["OFFERS"]) && $arAddToBasketData["ACTION"] == "ADD" && $arAddToBasketData["CAN_BUY"]):?>
-													<?=\Aspro\Functions\CAsproMax::showItemCounter($arAddToBasketData, $arItem["ID"], $arItemIDs, $arParams, '', '', true);?>
+													<?=\Aspro\Functions\CAsproMax::showItemCounter($arAddToBasketData, $arItem["ID"], $arItemIDs, $arParams, 'sm', '', true);?>
 												<?endif;?>
 												<div id="<?=$arItemIDs["ALL_ITEM_IDS"]['BASKET_ACTIONS']; ?>" class="button_block <?=($arAddToBasketData['ACTION'] === 'OUT_OF_PRODUCTION' || in_array($arItem["ID"], $arParams["BASKET_ITEMS"]) || $arAddToBasketData["ACTION"] == "ORDER"|| $arAddToBasketData["ACTION"] == "SUBSCRIBE" || ($arAddToBasketData["ACTION"] == 'MORE' || !$arAddToBasketData["CAN_BUY"]) || !$arAddToBasketData["OPTIONS"]["USE_PRODUCT_QUANTITY_LIST"] ? "wide" : "");?>">
 													<!--noindex-->
@@ -511,7 +511,7 @@ $bColProps = $arParams['SHOW_PROPS_TABLE'] == 'cols';
 												<div class="offer_buy_block">
 													<div class="small-block counter_wrapp list clearfix ce_cmp_hidden">
 														<?if(($arAddToBasketData["OPTIONS"]["USE_PRODUCT_QUANTITY_LIST"] && $arAddToBasketData["ACTION"] == "ADD") && $arAddToBasketData["CAN_BUY"]):?>		
-															<?=\Aspro\Functions\CAsproMax::showItemCounter($arAddToBasketData, $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["ID"], $arItemIDs, $arParams, '', '', true);?>
+															<?=\Aspro\Functions\CAsproMax::showItemCounter($arAddToBasketData, $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["ID"], $arItemIDs, $arParams, 'sm', '', true);?>
 														<?endif;?>
 														<div id="<?=$arItemIDs["ALL_ITEM_IDS"]['BASKET_ACTIONS']; ?>" class="button_block <?=($arAddToBasketData['ACTION'] === 'OUT_OF_PRODUCTION' || ($arAddToBasketData["ACTION"] == "ORDER"/*&& !$arItem["CAN_BUY"]*/)  || !$arAddToBasketData["CAN_BUY"] || !$arAddToBasketData["OPTIONS"]["USE_PRODUCT_QUANTITY_LIST"] || $arAddToBasketData["ACTION"] == "SUBSCRIBE" ? "wide" : "");?>">
 															<!--noindex-->

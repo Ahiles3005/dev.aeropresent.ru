@@ -197,7 +197,7 @@ if(isset($isAjaxFilter) && $isAjaxFilter == "Y")
 			CheckTopMenuFullCatalogSubmenu();
 		</script>
 	<?endif;?>
-	<?if($arTheme["FILTER_VIEW"]["VALUE"]=="VERTICAL" && $arTheme['LEFT_BLOCK_CATALOG_SECTIONS']['VALUE'] == 'Y'){?>
+	<?if($viewFilter == "VERTICAL" && $arTheme['LEFT_BLOCK_CATALOG_SECTIONS']['VALUE'] == 'Y'){?>
 		<?//add filter with ajax?>
 		<?if($arParams['AJAX_MODE'] == 'Y' && strpos($_SERVER['REQUEST_URI'], 'bxajaxid') !== false):?>
 			<div class="filter_tmp swipeignore">
@@ -260,7 +260,7 @@ if(isset($isAjaxFilter) && $isAjaxFilter == "Y")
 		<?$html=ob_get_clean();?>
 		<?$APPLICATION->AddViewContent('left_menu', $html);?>
 	<?}?>
-	<div class="right_block1 clearfix catalog1 <?=strtolower($arTheme["FILTER_VIEW"]["VALUE"]);?>" id="right_block_ajax">
+	<div class="right_block1 clearfix catalog1 <?=strtolower($viewFilter);?>" id="right_block_ajax">
 		<div class="filter-panel-wrapper <?CMax::getVariable('filter_exists');?>">
 			<?if($isAjax=="N"){
 				$frame = new \Bitrix\Main\Page\FrameHelper("viewtype-block-top");
@@ -270,7 +270,7 @@ if(isset($isAjaxFilter) && $isAjaxFilter == "Y")
 				<?if (!$bSimpleSectionTemplate):?>
 					<?include_once(__DIR__."/../sort.php");?>
 
-					<?if($arTheme["FILTER_VIEW"]["VALUE"]=="COMPACT" || $arTheme['LEFT_BLOCK_CATALOG_SECTIONS']['VALUE'] == 'N'):?>
+					<?if($viewFilter =="COMPACT" || $arTheme['LEFT_BLOCK_CATALOG_SECTIONS']['VALUE'] == 'N'):?>
 						<div class="filter-compact-block swipeignore">
 							<?include(__DIR__."/../filter.php")?>
 						</div>
@@ -282,7 +282,7 @@ if(isset($isAjaxFilter) && $isAjaxFilter == "Y")
 			<?endif;?>
 		</div>
 
-		<?if($arTheme["FILTER_VIEW"]["VALUE"] == 'VERTICAL'):?>
+		<?if($viewFilter == 'VERTICAL'):?>
 			<div id="filter-helper-wrapper">
 				<div id="filter-helper" class="top"></div>
 			</div>
@@ -386,7 +386,7 @@ if(isset($isAjaxFilter) && $isAjaxFilter == "Y")
 						"LINE_ELEMENT_COUNT" => $linerow,
 						"SET_LINE_ELEMENT_COUNT" => $bSetElementsLineRow,
 						"DISPLAY_TYPE" => $display,
-						"TYPE_SKU" => ($typeSKU ? $typeSKU : $arTheme["TYPE_SKU"]["VALUE"]),
+						"TYPE_SKU" => $typeSKU,
 						"SET_SKU_TITLE" => ((($typeSKU == "TYPE_1" || $arTheme["TYPE_SKU"]["VALUE"] == "TYPE_1") && $arTheme["CHANGE_TITLE_ITEM_LIST"]["VALUE"] == "Y") ? "Y" : ""),
 						"PROPERTY_CODE" => $arParams["LIST_PROPERTY_CODE"],
 						"SHOW_ARTICLE_SKU" => $arParams["SHOW_ARTICLE_SKU"],

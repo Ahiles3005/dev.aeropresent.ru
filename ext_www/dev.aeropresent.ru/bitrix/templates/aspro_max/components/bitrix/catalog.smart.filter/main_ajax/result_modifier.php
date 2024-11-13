@@ -96,5 +96,3 @@ if ($arParams['SHOW_SORT']) {
 
 global $sotbitFilterResult;
 $sotbitFilterResult = $arResult;
-
-

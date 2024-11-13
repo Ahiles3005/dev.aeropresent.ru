@@ -24,8 +24,8 @@ $bHideLeftBlockByHeader = ($arTheme['HEADER_TYPE']['VALUE'] == 28 || $arTheme['H
 
 $isBasketPage = CSite::InDir($arTheme["BASKET_PAGE_URL"]['VALUE']);
 
-global $bBigBannersIndexClass, $bTizersIndexClass, $bCatalogSectionsIndexClass, $bCatalogTabIndexClass, $bMiddleAdvIndexClass, $bTopAdvIndexClass, $bFloatBannerIndexClass, $bSaleIndexClass, $bBlogIndexClass, $bBottomBannersIndexClass, $bCompanyTextIndexClass, $bBrandsIndexClass, $bNewsIndexClass, $bMapsIndexClass, $bReviewIndexClass, $bCollectionIndexClass, $bLookbookIndexClass, $bStoriesIndexClass, $bInstagrammIndexClass, $bFloatBannersIndexClass, $bFavoritItemIndexClass, $bGalleryIndexClass;
-global $bShowBigBanners, $bShowTizers, $bShowCatalogSections, $bShowCatalogTab, $bShowMiddleAdvBottomBanner, $bShowTopAdvBanner, $bShowFloatBanner, $bShowSale, $bShowReview, $bShowCollection, $bShowLookbook, $bShowStories, $bShowBlog, $bShowBottomBanner, $bShowCompany, $bShowBrands, $bShowNews, $bShowMaps, $bShowInstagramm, $bShowVK, $bShowFloatBanners, $bShowFavoritItem, $bShowSimple, $bShowGallery;
+global $bBigBannersIndexClass, $bTizersIndexClass, $bCatalogSectionsIndexClass, $bCatalogTabIndexClass, $bMiddleAdvIndexClass, $bTopAdvIndexClass, $bFloatBannerIndexClass, $bSaleIndexClass, $bBlogIndexClass, $bBottomBannersIndexClass, $bCompanyTextIndexClass, $bBrandsIndexClass, $bNewsIndexClass, $bMapsIndexClass, $bReviewIndexClass, $bCollectionIndexClass, $bLookbookIndexClass, $bStoriesIndexClass, $bInstagrammIndexClass, $bFloatBannersIndexClass, $bFavoritItemIndexClass, $bGalleryIndexClass, $bYoutubeIndexClass;
+global $bShowBigBanners, $bShowTizers, $bShowCatalogSections, $bShowCatalogTab, $bShowMiddleAdvBottomBanner, $bShowTopAdvBanner, $bShowFloatBanner, $bShowSale, $bShowReview, $bShowCollection, $bShowLookbook, $bShowStories, $bShowBlog, $bShowBottomBanner, $bShowCompany, $bShowBrands, $bShowNews, $bShowMaps, $bShowInstagramm, $bShowVK, $bShowFloatBanners, $bShowFavoritItem, $bShowSimple, $bShowGallery, $bShowYoutube;
 
 $bActiveTheme = ($arTheme["THEME_SWITCHER"]["VALUE"] == 'Y');
 
@@ -112,6 +112,18 @@ $bInstagrammIndexClass .= ($arTheme["FON_PARAMS"]["fon".$indexType."INSTAGRAMM"]
 $bShowVK = ($bActiveTheme || ($arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["VK"]["VALUE"] != "N"));
 $bVKIndexClass = ($arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["VK"]["VALUE"] == 'Y' ? '' : 'hidden');
 $bVKIndexClass .= ($arTheme["FON_PARAMS"]["fon".$indexType."VK"] == 'Y' ? ' grey_block' : '');
+
+$bShowYoutube = ($bActiveTheme || ($arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["YOUTUBE"]["VALUE"] != "N"));
+$bYoutubeIndexClass = ($arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["YOUTUBE"]["VALUE"] == 'Y' ? '' : 'hidden');
+$bYoutubeIndexClass .= ($arTheme["FON_PARAMS"]["fon".$indexType."YOUTUBE"] == 'Y' ? ' grey_block' : '');
+
+$bShowVKVideo = ($bActiveTheme || ($arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["VK_VIDEO"]["VALUE"] != "N"));
+$bVKVideoIndexClass = ($arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["VK_VIDEO"]["VALUE"] == 'Y' ? '' : 'hidden');
+$bVKVideoIndexClass .= ($arTheme["FON_PARAMS"]["fon".$indexType."VK_VIDEO"] == 'Y' ? ' grey_block' : '');
+
+$bShowRutube = ($bActiveTheme || ($arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["RUTUBE"]["VALUE"] != "N"));
+$bRutubeIndexClass = ($arTheme["INDEX_TYPE"]["SUB_PARAMS"][$indexType]["RUTUBE"]["VALUE"] == 'Y' ? '' : 'hidden');
+$bRutubeIndexClass .= ($arTheme["FON_PARAMS"]["fon".$indexType."RUTUBE"] == 'Y' ? ' grey_block' : '');
 
 $bShowSimple = (CMax::IsBasketPage() || CMax::IsOrderPage()) && $arTheme['SIMPLE_BASKET']['VALUE'] == 'Y';
 

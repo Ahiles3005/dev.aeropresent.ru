@@ -54,6 +54,7 @@ body .wrapper1 .drag-block .item-views.company .text.with-benefit .item-views.ti
 
 .item-views.company .item.video-block .image {
   height: 100%;
+  width: 100%;
   background-repeat: no-repeat;
   background-position: top center;
   position: relative;
