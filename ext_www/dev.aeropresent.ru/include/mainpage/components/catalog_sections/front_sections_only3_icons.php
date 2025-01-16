@@ -7,9 +7,6 @@
 	"aspro:wrapper.block.max", 
 	"front_sections_only2", 
 	array(
-		"SHAPE_PICTURES" => "FROM_THEME",
-		"SLIDER_ELEMENTS_COUNT" => "FROM_THEME",
-		"LAST_LINK_IN_SLIDER" => "FROM_THEME",
 		"IBLOCK_TYPE" => "aspro_max_catalog",
 		"IBLOCK_ID" => "42",
 		"FILTER_NAME" => "arrPopularSections",

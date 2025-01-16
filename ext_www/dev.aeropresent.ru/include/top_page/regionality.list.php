@@ -11,8 +11,6 @@ if($arTheme["USE_REGIONALITY"]["DEPENDENT_PARAMS"]["REGIONALITY_SEARCH_ROW"]["VA
 	$template,
 	Array(
 		
-	),
-	false,
-	array('HIDE_ICONS' => 'Y')
+	)
 );?>
 <?$frame->end();?>

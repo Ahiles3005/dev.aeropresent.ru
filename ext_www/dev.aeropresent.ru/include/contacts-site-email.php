@@ -1,1 +1,1 @@
-<a href="mailto:mail@aeropresent.ru">mail@aeropresent.ru</a>
+mail@aeropresent.ru

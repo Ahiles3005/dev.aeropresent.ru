@@ -50,7 +50,9 @@ $request = $context->getRequest();
 					<a class="btn btn-default btn-lg" href="<?=$arItem["DETAIL_PAGE_URL"];?>"><?=\Bitrix\Main\Localization\Loc::getMessage("MORE_TEXT_LINK");?></a>
 				</div>
 			</div>
-			<script>typeof useCountdown && useCountdown();</script>
+			<script>
+				initCountdown();
+			</script>
 		<?endif;?>
 	<?else:?>
 		ERROR

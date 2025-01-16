@@ -3,74 +3,71 @@
 define('PUBLIC_AJAX_MODE', true);?>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");?>
 <?
-$context = \Bitrix\Main\Application::getInstance()->getContext();
-$request = $context->getRequest();
-
-$form_id = htmlspecialcharsbx($request['form_id']) ?? false;
-$type = htmlspecialcharsbx($request['type']) ?? false;
-
-if (\Bitrix\Main\Loader::includeModule("aspro.max")) {
+$form_id = isset($_REQUEST["form_id"]) ? $_REQUEST["form_id"] : 1;
+if(\Bitrix\Main\Loader::includeModule("aspro.max"))
+{
 	global $arRegion;
-	if (!$arRegion) {
+	if(!$arRegion)
 		$arRegion = CMaxRegionality::getCurrentRegion();
-	}
 	CMax::GetValidFormIDForSite($form_id);
-}?>
-<?if($form_id === 'fast_view'):?>
+}
+$url_sizes = (htmlspecialchars($_REQUEST['url']) ? htmlspecialchars($_REQUEST['url']) : '');
+?>
+<?if($form_id == 'fast_view'):?>
 	<?include('fast_view.php');?>
-<?elseif($form_id === 'fast_view_sale'):?>
+<?elseif($form_id == 'fast_view_sale'):?>
 	<?include('fast_view_sale.php');?>
-<?elseif($form_id === 'fast_view_services'):?>
+<?elseif($form_id == 'fast_view_services'):?>
 	<?include('fast_view_services.php');?>
-<?elseif($form_id === 'city_chooser'):?>
+<?elseif($form_id == 'city_chooser'):?>
 	<?include('city_chooser.php');?>
-<?elseif($form_id === 'subscribe'):?>
+<?elseif($form_id == 'subscribe'):?>
 	<?include('subscribe.php');?>
-<?elseif($form_id === 'TABLES_SIZE'):?>
-	<?$url_sizes = htmlspecialcharsbx(isset($request['url']) && $request['url'] ? $_SERVER['DOCUMENT_ROOT'] . $request['url'] : '');?>
+<?elseif($form_id == 'TABLES_SIZE'):?>
+	<?
+	$context = \Bitrix\Main\Application::getInstance()->getContext();
+	$request = $context->getRequest();
+	$url_sizes = isset($request['url']) && $request['url'] ? $_SERVER['DOCUMENT_ROOT'] . $request['url'] : '';?>
 	<?if(
 		$url_sizes &&
-		strpos(realpath($url_sizes), realpath($_SERVER['DOCUMENT_ROOT'].SITE_DIR.'include')) === 0 &&
+		strpos(realpath($url_sizes), $_SERVER['DOCUMENT_ROOT'].SITE_DIR.'include') === 0 &&
 		file_exists($url_sizes)
 	):?>
-		<a href="#" class="close jqmClose"><?=CMax::showIconSvg('', SITE_TEMPLATE_PATH.'/images/svg/Close.svg')?></a>
-		<div class="form">
-			<div class="form_head">
-				<h2><?=\Bitrix\Main\Localization\Loc::getMessage('TABLES_SIZE_TITLE');?></h2>
-			</div>
-			<div class="form_body">
-				<?include($url_sizes);?>
-			</div>
+	<a href="#" class="close jqmClose"><?=CMax::showIconSvg('', SITE_TEMPLATE_PATH.'/images/svg/Close.svg')?></a>
+	<div class="form">
+		<div class="form_head">
+			<h2><?=\Bitrix\Main\Localization\Loc::getMessage('TABLES_SIZE_TITLE');?></h2>
 		</div>
+		<div class="form_body">
+			<?include($_SERVER['DOCUMENT_ROOT'].$url_sizes);?>
+		</div>
+	</div>
 	<?endif;?>
-<?elseif($form_id === 'delivery'):?>
+<?elseif($form_id == 'delivery'):?>
 	<?include('delivery.php');?>
-<?elseif($form_id === 'share_basket'):?>
+<?elseif($form_id == 'share_basket'):?>
 	<?include('share_basket.php');?>
-<?elseif($type === 'auth'):?>
+<?elseif(isset($_REQUEST['type']) && $_REQUEST['type'] == 'auth'):?>
 	<?include_once('auth.php');?>
-<?elseif($type === 'subscribe'):?>
+<?elseif(isset($_REQUEST['type']) && $_REQUEST['type'] == 'subscribe'):?>
 	<?include_once('subscribe_news.php');?>
-<?elseif($type === 'review'):?>
+<?elseif(isset($_REQUEST['type']) && $_REQUEST['type'] == 'review'):?>
 	<?include('review.php');?>
-<?elseif($type === 'marketing'):?>
+<?elseif(isset($_REQUEST['type']) && $_REQUEST['type'] == 'marketing'):?>
 	<?include('marketing.php');?>
-<?elseif($form_id !== 'one_click_buy'):?>
+<?elseif($form_id != 'one_click_buy'):?>
 	<?
 
-	if (\Bitrix\Main\Loader::includeModule('form')) {
+	if(\Bitrix\Main\Loader::includeModule('form')) {
 		$arFilter = array('ACTIVE' => 'Y', 'ID' => $form_id);
 		$resForms = CForm::GetList($by='s_sort', $order='ask', $arFilter, $is_filtered);
 
 		$form = $resForms->Fetch();
 		$formCode = $form['SID'];
 		$formName = $form['NAME'];
-	} else {
-		$formCode = $form_id;
 	}
-	
-	$formType = CMax::GetFrontParametrValue($formCode . '_FORM');
 
+	$formType = CMax::GetFrontParametrValue($formCode.'_FORM');
 	if($formType == 'CRM') {
 		echo '<div id="bx24_form_inline_second"></div>';
 		$bitrix24 = @file_get_contents($_SERVER['DOCUMENT_ROOT'].SITE_DIR.'include/forms/'.$formCode.'_FORM.php');

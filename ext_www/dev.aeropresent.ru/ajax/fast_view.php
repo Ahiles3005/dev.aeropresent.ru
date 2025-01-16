@@ -11,12 +11,12 @@ if(isset($_GET['iblock_id']) && $_GET['iblock_id'])
 	$request = $context->getRequest();
 
 	$href = $request['item_href'] ?? $result['DETAIL_PAGE_URL']; // from fastViewNav.php
-	$url = htmlspecialcharsbx(urldecode($href));
 	$url = str_replace('&amp;', '&', $href );
 
 	\Bitrix\Main\Loader::includeModule('sale');
 	\Bitrix\Main\Loader::includeModule('currency');
 	\Bitrix\Main\Loader::includeModule('catalog');?>
+
 	<script>
 		var objUrl = parseUrlQuery(),
 			add_url = '<?=(strpos($url, '?') !== false ? '&' : '?')?>FAST_VIEW=Y';
@@ -27,7 +27,7 @@ if(isset($_GET['iblock_id']) && $_GET['iblock_id'])
 		}
 		$('.fast_view_frame').addClass('loading_block');
 		BX.ajax({
-			url: <?var_export($url)?> + add_url,
+			url: '<?=$url;?>'+add_url,
 			method: 'POST',
 			data: BX.ajax.prepareData({'FAST_VIEW':'Y'}),
 			dataType: 'html',
@@ -44,36 +44,23 @@ if(isset($_GET['iblock_id']) && $_GET['iblock_id'])
 					ob.HTML = ob.HTML.replace(/(calculate-delivery[^>]*?)with_preview/, '$1').replace(/<span class=\"calculate-delivery-preview\"><\/span>/, '');
 				<?endif;?>
 
-				if(getComputedStyle($('.fast_view_frame')[0]).getPropertyValue('--fast-view-css-loaded') != 1){
-					$('.fast_view_frame').addClass('wait_css_loading');
-				}
-
 				// inject
 				BX('fast_view_item').innerHTML = ob.HTML;
 				BX.ajax.processScripts(ob.SCRIPT);
 				$('#fast_view_item').closest('.form').addClass('init');
+
 				$('.fast_view_frame').removeClass('loading_block');
 
+				initCountdown();
 				setBasketStatusBtn();
+				// InitFlexSlider();
+				InitZoomPict($('#fast_view_item .zoom_picture'));
 
-				BX.loadScript(arAsproOptions.SITE_TEMPLATE_PATH + '/js/jquery.fancybox.min.js', function(event){
-					BX.loadCSS(arAsproOptions.SITE_TEMPLATE_PATH + '/css/jquery.fancybox.min.css');
-					InitFancyBox();
-					InitFancyBoxVideo();
-				})
+				InitLazyLoad();
+				// InitOwlSlider();
+				InitFancyBox();
+				InitFancyBoxVideo();
 
-				if (typeof showOutOfProductionBlock !== 'undefined') {
-					showOutOfProductionBlock();
-				}
-				
-				if (typeof initSwiperSlider === 'function') {
-					initSwiperSlider();
-				}
-
-				if(typeof useOfferSelect === 'function'){
-					useOfferSelect();
-				}
-				
 				// init calculate delivery with preview
 				if($('#fast_view_item .fastview-product.noffer').length){
 					initCalculatePreview();
@@ -82,6 +69,8 @@ if(isset($_GET['iblock_id']) && $_GET['iblock_id'])
 				setTimeout(function(){
 					showTotalSummItem('Y');
 				}, 100);
+
+				InitScrollBar($('.fastview-product__info'));
 
 				$('.popup .animate-load').click(function(){
 					if(!jQuery.browser.mobile)
@@ -92,23 +81,7 @@ if(isset($_GET['iblock_id']) && $_GET['iblock_id'])
 
 				$('.navigation-wrapper-fast-view .fast-view-nav').removeClass('noAjax');
 
-				let bCSSLoaded = getComputedStyle($('.fast_view_frame')[0]).getPropertyValue('--fast-view-css-loaded') == 1,
-					timerInterval = bCSSLoaded ? 0 : 100;
-
-				var countTicks = 0;
-				var timer = setInterval(function(){
-					const maxCountTicks = 10;
-					if(countTicks > maxCountTicks){
-						document.querySelector('body').style.setProperty('--fast-view-css-loaded', 1);
-					}
-
-					if(getComputedStyle($('.fast_view_frame')[0]).getPropertyValue('--fast-view-css-loaded') == 1){
-						clearInterval(timer);
-						$('.fast_view_frame').removeClass('wait_css_loading');
-					} else {
-						countTicks++;
-					}
-				}, timerInterval);
+				$(window).scroll();
 			}
 		})
 		$(document).on('click', '.jqmClose', function(e){

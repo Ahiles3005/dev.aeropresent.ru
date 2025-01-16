@@ -19,7 +19,7 @@ if($arRegion)
 	"products_slider", 
 	array(
 		"IBLOCK_TYPE" => "aspro_max_catalog",
-		"IBLOCK_ID" => CMax::GetFrontParametrValue('CATALOG_IBLOCK_ID'),
+		"IBLOCK_ID" => \Bitrix\Main\Config\Option::get("aspro.max", "CATALOG_IBLOCK_ID", "#IBLOCK_CATALOG_ID#"),
 		"ELEMENT_SORT_FIELD" => "sort",
 		"ELEMENT_SORT_ORDER" => "asc",
 		"ELEMENT_COUNT" => ($arParams["LINKED_ELEMENST_PAGE_COUNT"] ? $arParams["LINKED_ELEMENST_PAGE_COUNT"] : 20),
@@ -90,10 +90,7 @@ if($arRegion)
 		"SHOW_DISCOUNT_PERCENT_NUMBER" => $arParams["SHOW_DISCOUNT_PERCENT_NUMBER"],
 		"TITLE" => $arParams["TITLE"],
 		"COMPOSITE_FRAME_MODE" => "A",
-		"COMPOSITE_FRAME_TYPE" => "AUTO",
-		"CURRENT_BASE_PAGE" => $APPLICATION->GetCurPage(false),
-		"PAGER_BASE_LINK" => $APPLICATION->GetCurPage(false),
-		"PAGER_BASE_LINK_ENABLE" => "Y",
+		"COMPOSITE_FRAME_TYPE" => "AUTO"
 	),
 	false, array("HIDE_ICONS" => "Y")
 );?>

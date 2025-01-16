@@ -1,4 +1,7 @@
-<?$bAjaxMode = (isset($_POST["AJAX_POST"]) && $_POST["AJAX_POST"] == "Y");
+<?
+use Bitrix\Main\SystemException;
+
+$bAjaxMode = (isset($_POST["AJAX_POST"]) && $_POST["AJAX_POST"] == "Y");
 if($bAjaxMode)
 {
 	require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
@@ -6,6 +9,10 @@ if($bAjaxMode)
 	if(\Bitrix\Main\Loader::includeModule("aspro.max"))
 	{
 		$arRegion = CMaxRegionality::getCurrentRegion();
+	}
+
+    if (!include_once($_SERVER['DOCUMENT_ROOT'].SITE_TEMPLATE_PATH.'/vendor/php/solution.php')) {
+		throw new SystemException('Error include solution constants');
 	}
 }?>
 <?if((isset($arParams["IBLOCK_ID"]) && $arParams["IBLOCK_ID"]) || $bAjaxMode):?>
@@ -39,7 +46,7 @@ if($bAjaxMode)
 
 	$GLOBALS["NavNum"]=0;
 	?>
-	
+
 	<?
 	if(is_array($arGlobalFilter) && $arGlobalFilter)
 		$GLOBALS[$arComponentParams["FILTER_NAME"]] = $arGlobalFilter;
@@ -70,17 +77,17 @@ if($bAjaxMode)
 	$arComponentParams['COMPATIBLE_MODE'] = 'Y';
 	$arComponentParams['DISPLAY_BOTTOM_PAGER'] = 'Y';
 
-	$arComponentParams['CURRENT_BASE_PAGE'] = $APPLICATION->GetCurPage(false);
-	$arComponentParams['PAGER_BASE_LINK'] = $APPLICATION->GetCurPage(false);
+	$arComponentParams['CURRENT_BASE_PAGE'] = Aspro\Max\CacheableUrl::get();
+	$arComponentParams['PAGER_BASE_LINK'] = Aspro\Max\CacheableUrl::get();
 	$arComponentParams['PAGER_BASE_LINK_ENABLE'] = "Y";
 
 	?>
-	
+
 	<?$APPLICATION->IncludeComponent(
 		"bitrix:catalog.section",
 		"catalog_block",
 		$arComponentParams,
 		false, array("HIDE_ICONS"=>"Y")
 	);?>
-	
+
 <?endif;?>

@@ -455,25 +455,34 @@ else
 		}
 				
 	}
-	elseif(!empty($_REQUEST["delete_basket_id"]))
+	elseif(!empty($_REQUEST['delete_basket_id']))
 	{
-		$deleteId = htmlspecialcharsEx($_REQUEST["delete_basket_id"]) ;
-		if(!empty($deleteId)){
-			CSaleBasket::Delete($deleteId);
-			if( !empty($_REQUEST["product_id"]) ){
-				CMax::deleteBasketServices(array($_REQUEST["product_id"]));
+		$arIDs2Delete = CMax::checkUserCurrentBasketItems($_REQUEST['delete_basket_id']);
+		if ($arIDs2Delete) {
+			foreach ($arIDs2Delete as $id) {
+				CSaleBasket::Delete($id);
 			}
-		}				
+	
+			if (!empty($_REQUEST['product_id'])) {
+				CMax::deleteBasketServices([$_REQUEST['product_id']]);
+			}
+		}
 	}
-	elseif(!empty($_REQUEST["update_basket_id"]))
+	elseif(!empty($_REQUEST['update_basket_id']))
 	{
-		$updateId = htmlspecialcharsEx($_REQUEST["update_basket_id"]) ;
-		if(!empty($updateId)){
-			$arFields = array("DELAY" => "N", "SUBSCRIBE" => "N");
-			if($_REQUEST["quantity"]){
-				$arFields['QUANTITY'] = $_REQUEST["quantity"];
+		$arIDs2Update = CMax::checkUserCurrentBasketItems($_REQUEST['update_basket_id']);
+		if ($arIDs2Update) {
+			$arFields = [
+				'DELAY' => 'N',
+				'SUBSCRIBE' => 'N',
+			];
+			if ($_REQUEST['quantity']) {
+				$arFields['QUANTITY'] = $_REQUEST['quantity'];
 			}
-			CSaleBasket::Update($updateId, $arFields);
+
+			foreach ($arIDs2Update as $id) {
+				CSaleBasket::Update($id, $arFields);
+			}
 		}			
 	}
 	elseif(!empty($_REQUEST["delete_linked_services"]))
