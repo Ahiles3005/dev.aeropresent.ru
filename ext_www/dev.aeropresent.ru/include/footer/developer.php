@@ -1,0 +1,1 @@
+<div class="developer hidden-xs">Создание сайта <a href="https://wrp.ru/" target="_blank">WRP</a></div>

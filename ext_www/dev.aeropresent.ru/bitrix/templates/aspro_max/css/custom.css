@@ -116,7 +116,7 @@ a.scroll-to-top {
 	border:1px solid #eee!important;
 	color: #333!important;
 }
-.group_description_block, .menu_top_block li.full.v_bottom>.dropdown>li:not(.current) .section:not(:hover), header .menu_top_block.catalogfirst>li:not(.current) li.full.v_bottom>.dropdown>li:not(.current):not(:hover)>a,  {
+.group_description_block, .menu_top_block li.full.v_bottom>.dropdown>li:not(.current) .section:not(:hover), header .menu_top_block.catalogfirst>li:not(.current) li.full.v_bottom>.dropdown>li:not(.current):not(:hover)>a  {
 	color:#000;
 }
 
@@ -484,7 +484,7 @@ a.scroll-to-top {
     border:1px solid #eee!important;
     color: #333!important;
 }
-.group_description_block, .menu_top_block li.full.v_bottom>.dropdown>li:not(.current) .section:not(:hover), header .menu_top_block.catalogfirst>li:not(.current) li.full.v_bottom>.dropdown>li:not(.current):not(:hover)>a,  {
+.group_description_block, .menu_top_block li.full.v_bottom>.dropdown>li:not(.current) .section:not(:hover), header .menu_top_block.catalogfirst>li:not(.current) li.full.v_bottom>.dropdown>li:not(.current):not(:hover)>a  {
     color:#000;
 }
 
