@@ -82,6 +82,7 @@ if ($section) {
 		"IBLOCK_ID" => $arParams['IBLOCK_ID'],
 		"ACTIVE" => "Y",
 		"GLOBAL_ACTIVE" => "Y",
+        "UF_TAG" => 0
 	);
 	$iSectionsCount = CMaxCache::CIBlockSection_GetCount(array('CACHE' => array("TAG" => CMaxCache::GetIBlockCacheTag($arParams["IBLOCK_ID"]))), CMax::makeSectionFilterInRegion($arSubSectionFilter));
 
@@ -531,6 +532,95 @@ if ($bHideSideSectionBlock) {
 				<?endif;?>
 			</div>
 		</div>
+
+        <?$bgFilled = ($arParams["LANDING_TYPE_VIEW"] == "FROM_MODULE" ? $arTheme["CATALOG_PAGE_LANDINGS"]["VALUE"] : $arParams["LANDING_TYPE_VIEW"]);?>
+        <?$GLOBALS["arTagsSections"] = array(
+            "IBLOCK_ID" => 42,
+            "IBLOCK_SECTION_ID" => $section["ID"],
+            "ACTIVE" => "Y",
+            "UF_TAG" => 1
+        );?>
+        <?$APPLICATION->IncludeComponent(
+            "bitrix:catalog.section.list",
+            "tags_list",
+            array(
+                "USE_REGION" => ($arRegion ? "Y" : "N"),
+                "VIEW_MODE" => "TEXT",
+                "SHOW_PARENT_NAME" => "N",
+                "IBLOCK_TYPE" => "aspro_max_catalog",
+                "IBLOCK_ID" => 42,
+                "SECTION_ID" => $section["ID"],
+                "SECTION_CODE" => "",
+                "SECTION_URL" => "",
+                "COUNT_ELEMENTS" => "N",
+                "TOP_DEPTH" => "1",
+                "SECTION_FIELDS" => array("NAME", "SECTION_PAGE_URL"),
+                "SECTION_USER_FIELDS" => "",
+                "VIEW_TYPE" => $arTheme["CATALOG_PAGE_LANDINGS_VIEW"]["VALUE"],
+                "NEWS_COUNT" => "999",
+                "SHOW_COUNT" => $arParams["LANDING_SECTION_COUNT"],
+                "SHOW_COUNT_MOBILE" => ($arParams["LANDING_SECTION_COUNT_MOBILE"] ? $arParams["LANDING_SECTION_COUNT_MOBILE"] : 3),
+                "COMPARE_FIELD" => "FILTER_URL",
+                "CUR_PAGE" => $APPLICATION->GetCurPage(),
+                "COMPARE_PROP" => "Y",
+                "SORT_BY1" => "SORT",
+                "SORT_ORDER1" => "ASC",
+                "BG_FILLED" => $bgFilled == "landing_2" ? "Y" : "N",
+                "SORT_BY2" => "ID",
+                "SORT_ORDER2" => "DESC",
+                "FILTER_NAME" => "arTagsSections",
+                "FIELD_CODE" => array(
+                    0 => "",
+                    1 => "",
+                ),
+                "PROPERTY_CODE" => array(
+                    0 => "LINK",
+                    1 => "",
+                ),
+                "CHECK_DATES" => "Y",
+                "DETAIL_URL" => "",
+                "AJAX_MODE" => "N",
+                "AJAX_OPTION_JUMP" => "N",
+                "AJAX_OPTION_STYLE" => "Y",
+                "AJAX_OPTION_HISTORY" => "N",
+                "CACHE_TYPE" =>$arParams["CACHE_TYPE"],
+                "CACHE_TIME" => $arParams["CACHE_TIME"],
+                "SEF_CATALOG_URL" => $arResult["URL_TEMPLATES"]["smart_filter"],
+                "CACHE_FILTER" => "Y",
+                "CACHE_GROUPS" => "N",
+                "PREVIEW_TRUNCATE_LEN" => "",
+                "ACTIVE_DATE_FORMAT" => "j F Y",
+                "SET_TITLE" => "N",
+                "SET_STATUS_404" => "N",
+                "INCLUDE_IBLOCK_INTO_CHAIN" => "N",
+                "ADD_SECTIONS_CHAIN" => "N",
+                "HIDE_LINK_WHEN_NO_DETAIL" => "N",
+                "PARENT_SECTION" => "",
+                "PARENT_SECTION_CODE" => "",
+                "INCLUDE_SUBSECTIONS" => "N",
+                "PAGER_TEMPLATE" => "",
+                "DISPLAY_TOP_PAGER" => "N",
+                "DISPLAY_BOTTOM_PAGER" => "N",
+                "PAGER_TITLE" => "",
+                "PAGER_SHOW_ALWAYS" => "N",
+                "PAGER_DESC_NUMBERING" => "N",
+                "PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
+                "PAGER_SHOW_ALL" => "N",
+                "AJAX_OPTION_ADDITIONAL" => "",
+                "COMPONENT_TEMPLATE" => "next",
+                "SET_BROWSER_TITLE" => "N",
+                "SET_META_KEYWORDS" => "N",
+                "SET_META_DESCRIPTION" => "N",
+                "SET_LAST_MODIFIED" => "N",
+                "PAGER_BASE_LINK_ENABLE" => "N",
+                "TITLE_BLOCK" => "Тегированные страницы",
+                "SHOW_404" => "N",
+                "MESSAGE_404" => ""
+            ),
+            false, array("HIDE_ICONS" => "Y")
+        );?>
+
+
 		<?CMax::get_banners_position('CONTENT_BOTTOM');
 		global $bannerContentBottom;
 		$bannerContentBottom = true;

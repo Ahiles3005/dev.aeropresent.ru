@@ -1,5 +1,4 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
-
 <?$this->setFrameMode(true);?>
 <?use \Bitrix\Main\Localization\Loc,
 	  \Bitrix\Main\Web\Json;?>
@@ -317,15 +316,51 @@
 
 
 			<?ob_start();?>
-				<div class="sa_block " data-fields='<?=Json::encode($arParams["FIELDS"])?>' data-stores='<?=Json::encode($arParams["STORES"])?>' data-user-fields='<?=Json::encode($arParams["USER_FIELDS"])?>'>
-					<?=$arQuantityData["HTML"];?>
-					<?if(isset($arQuantityDataCMP) && $arQuantityDataCMP && $arItem['OFFERS'] && !empty($arItem['OFFERS_PROP'])):?>
-						<?=$arQuantityDataCMP["HTML"];?>
-					<?endif;?>
-					<?$bHasArticle = isset($arItem['ARTICLE']) && $arItem['ARTICLE']['VALUE'];?>
-					<div class="article_block" <?if($bHasArticle):?>data-name="<?=Loc::getMessage('T_ARTICLE_COMPACT');?>" data-value="<?=$arItem['ARTICLE']['VALUE'];?>"<?endif;?>><?if($bHasArticle){?><div class="muted font_sxs"><?=Loc::getMessage('T_ARTICLE_COMPACT');?>: <?=$arItem['ARTICLE']['VALUE'];?></div><?}?></div>
-				</div>
-			<?$itemSaBlock = ob_get_clean();?>
+    <div class="sa_block " data-fields='<?=Json::encode($arParams["FIELDS"])?>' data-stores='<?=Json::encode($arParams["STORES"])?>' data-user-fields='<?=Json::encode($arParams["USER_FIELDS"])?>'>
+        <?php 
+        // Проверяем, заполнено ли свойство POPUP_VIDEO
+        if (!empty($arItem["PROPERTIES"]["POPUP_VIDEO"]["VALUE"])): 
+        ?>
+            <!-- Выводим только блок has__video__wrapper и article_block -->
+            <div class="has__video__wrapper">
+			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15 10L19.553 7.724C19.7054 7.64784 19.8748 7.61188 20.045 7.61955C20.2152 7.62721 20.3806 7.67825 20.5256 7.76781C20.6706 7.85736 20.7902 7.98248 20.8733 8.13127C20.9563 8.28007 20.9999 8.44761 21 8.618V15.382C20.9999 15.5524 20.9563 15.7199 20.8733 15.8687C20.7902 16.0175 20.6706 16.1426 20.5256 16.2322C20.3806 16.3218 20.2152 16.3728 20.045 16.3805C19.8748 16.3881 19.7054 16.3522 19.553 16.276L15 14V10ZM3 8C3 7.46957 3.21071 6.96086 3.58579 6.58579C3.96086 6.21071 4.46957 6 5 6H13C13.5304 6 14.0391 6.21071 14.4142 6.58579C14.7893 6.96086 15 7.46957 15 8V16C15 16.5304 14.7893 17.0391 14.4142 17.4142C14.0391 17.7893 13.5304 18 13 18H5C4.46957 18 3.96086 17.7893 3.58579 17.4142C3.21071 17.0391 3 16.5304 3 16V8Z" stroke="#2196E0" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+
+
+                <p class="item__video__text">Внутри видео</p>
+            </div>
+            <?php 
+            $bHasArticle = isset($arItem['ARTICLE']) && $arItem['ARTICLE']['VALUE'];
+            ?>
+            <div class="article_block" <?if($bHasArticle):?>data-name="<?=Loc::getMessage('T_ARTICLE_COMPACT');?>" data-value="<?=$arItem['ARTICLE']['VALUE'];?>"<?endif;?>>
+                <?if($bHasArticle):?>
+                    <div class="muted font_sxs"><?=Loc::getMessage('T_ARTICLE_COMPACT');?>: <?=$arItem['ARTICLE']['VALUE'];?></div>
+                <?endif;?>
+            </div>
+        <?php 
+        else: 
+        ?>
+            <!-- Если видео нет, выводим только arQuantityData и article_block -->
+            <?=$arQuantityData["HTML"];?>
+            <?if(isset($arQuantityDataCMP) && $arQuantityDataCMP && $arItem['OFFERS'] && !empty($arItem['OFFERS_PROP'])):?>
+                <?=$arQuantityDataCMP["HTML"];?>
+            <?endif;?>
+            <?php 
+            $bHasArticle = isset($arItem['ARTICLE']) && $arItem['ARTICLE']['VALUE'];
+            ?>
+            <div class="article_block" <?if($bHasArticle):?>data-name="<?=Loc::getMessage('T_ARTICLE_COMPACT');?>" data-value="<?=$arItem['ARTICLE']['VALUE'];?>"<?endif;?>>
+                <?if($bHasArticle):?>
+                    <div class="muted font_sxs"><?=Loc::getMessage('T_ARTICLE_COMPACT');?>: <?=$arItem['ARTICLE']['VALUE'];?></div>
+                <?endif;?>
+            </div>
+        <?php 
+        endif; 
+        ?>
+    </div>
+<?$itemSaBlock = ob_get_clean();?>
+
 
 			<?ob_start();?>
 				<div class="item-title">
@@ -406,9 +441,9 @@
 					<?if($arParams["TYPE_VIEW_BASKET_BTN"] == "TYPE_2" && !$bBigBlock):?>
 						<div class="icons-basket-wrapper offer_buy_block ce_cmp_hidden">
 							<div class="button_block">
-								<!--noindex-->
+								
 									<?=$arAddToBasketData["HTML"]?>
-								<!--/noindex-->
+								
 							</div>
 						</div>
 					<?endif;?>					
@@ -423,9 +458,9 @@
 							<div class="basket-icons-wrapper clearfix offer_buy_block<?=(($arAddToBasketData["ACTION"] == "NOTHING") ? ' n-btn' : '');?> ce_cmp_hidden">
 								<?\Aspro\Functions\CAsproMaxItem::showDelayCompareBtn(array_merge($arParams, $addParams), $arItem, $arAddToBasketData, $totalCount, $bUseSkuProps, 'block static', false, ($arParams['SHOW_ONE_CLICK_BUY'] == 'Y' && !$bComplect), '', $currentSKUID, $currentSKUIBlock);?>
 								<div class="basket-icons-wrapper__btn button_block">
-									<!--noindex-->
+									
 										<?=$arAddToBasketData["HTML"]?>
-									<!--/noindex-->
+									
 								</div>
 							</div>
 							<div class="counter_wrapp clearfix offer_buy_block<?=(($arAddToBasketData["ACTION"] == "NOTHING") ? ' n-btn' : '');?> ce_cmp_visible">
@@ -434,9 +469,9 @@
 										<?$arItem["OFFERS_MORE"] = "Y";?>
 										<?$arAddToBasketData = CMax::GetAddToBasketArray($arItem, $totalCountCMP, $arParams["DEFAULT_COUNT"], $arParams["BASKET_URL"], false, $arItemIDs["ALL_ITEM_IDS"], 'btn-exlg', $arParams);?>
 									<?endif;?>
-									<!--noindex-->
+									
 										<?=$arAddToBasketData["HTML"]?>
-									<!--/noindex-->
+								
 								</div>
 							</div>
 						<?else:?>
@@ -444,9 +479,9 @@
 								<div class="counter_wrapp <?=($arItem["OFFERS"] && $arParams["TYPE_SKU"] == "TYPE_1" ? 'woffers' : '')?> clearfix rounded3">
 									<?=\Aspro\Functions\CAsproMax::showItemCounter($arAddToBasketData, $arItem["ID"], $arItemIDs, $arParams, 'big');?>
 									<div id="<?=$arItemIDs["ALL_ITEM_IDS"]['BASKET_ACTIONS']; ?>" class="button_block <?=($arAddToBasketData['ACTION'] === 'OUT_OF_PRODUCTION' || $arAddToBasketData["ACTION"] == "ORDER"  || !$arAddToBasketData["CAN_BUY"] || !$arAddToBasketData["OPTIONS"]["USE_PRODUCT_QUANTITY_LIST"] || $arAddToBasketData["ACTION"] == "SUBSCRIBE" || $arAddToBasketData["ACTION"] == "MORE" ? "wide" : "");?>">
-										<!--noindex-->
+										
 											<?=$arAddToBasketData["HTML"]?>
-										<!--/noindex-->
+										
 									</div>
 								</div>
 								<?
@@ -470,18 +505,18 @@
 									<div class="offer_buy_block buys_wrapp woffers">
 										<?$arItem["OFFERS_MORE"] = "Y";
 										$arAddToBasketData = CMax::GetAddToBasketArray($arItem, $totalCount, $arParams["DEFAULT_COUNT"], $arParams["BASKET_URL"], false, $arItemIDs["ALL_ITEM_IDS"], 'btn-exlg', $arParams);?>
-										<!--noindex-->
+									
 											<?=$arAddToBasketData["HTML"]?>
-										<!--/noindex-->
+										
 									</div>
 								<?}else{?>
 									<div class="offer_buy_block">
 										<div class="counter_wrapp clearfix ce_cmp_hidden">
 											<?=\Aspro\Functions\CAsproMax::showItemCounter($arAddToBasketData, $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]]["ID"], $arItemIDs, $arParams, 'big');?>
 											<div id="<?=$arItemIDs["ALL_ITEM_IDS"]['BASKET_ACTIONS']; ?>" class="button_block <?=($arAddToBasketData['ACTION'] === 'OUT_OF_PRODUCTION' || $arAddToBasketData["ACTION"] == "ORDER" || !$arAddToBasketData["CAN_BUY"] || !$arAddToBasketData["OPTIONS"]["USE_PRODUCT_QUANTITY_LIST"] || $arAddToBasketData["ACTION"] == "SUBSCRIBE" ? "wide" : "");?>">
-												<!--noindex-->
+												
 													<?=$arAddToBasketData["HTML"]?>
-												<!--/noindex-->
+												
 											</div>
 										</div>
 										<div class="counter_wrapp ce_cmp_visible">
@@ -539,9 +574,9 @@
 										}
 									?>
 								<?endif;?>
-								<!--noindex-->
+							
 									<?=$arAddToBasketData["HTML"]?>
-								<!--/noindex-->
+								
 							</div>
 						</div>
 					<?endif;?>
@@ -637,6 +672,7 @@
 					<?endif;?>
 					<?$bUseSelectOffer = true;?>
 					<div class="inner_wrap <?=$arParams["TYPE_VIEW_BASKET_BTN"]?>">
+
 						<?if(isset($arParams["COMPLECT_MODE"]) && $arParams["COMPLECT_MODE"] == "Y"):?>
 							<div class="item_block__complect-checkbox filter label_block">
 								<input type="checkbox" class="complect_checkbox_item" name="chec_item" id=<?=$arItem["strMainID"]."_complect"?>>
@@ -753,6 +789,7 @@
 									<?=$itemRating?>
 									<?=$itemTitle?>
 									<?=$itemSubTitle?>
+									
 									<?=$itemSaBlock?>
 								</div>
 								<div class="item_info--bottom_block">

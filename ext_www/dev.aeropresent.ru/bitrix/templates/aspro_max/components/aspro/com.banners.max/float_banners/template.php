@@ -5,12 +5,16 @@ $this->setFrameMode(true);
 
 $arParams['SIZE_IN_ROW'] = $arParams['SIZE_IN_ROW'] ?? 4;
 ?>
+
 <?if($arResult['ITEMS']):?>
 	<?
 	$col = (round(12/$arParams['SIZE_IN_ROW']));
 	$position = ($arParams['BG_POSITION'] ? ' set-position '.$arParams['BG_POSITION'] : '');
 	$bType2 = ($arParams['TYPE_BLOCK'] == 'type2');
 	?>
+<? if ($APPLICATION->GetCurPage() == "/"): ?> 
+<h1 class="mainpage__title">Aeropresent - воздушные шары с доставкой</h1>
+<? endif ?>
 	<div class="content_wrapper_block <?=$templateName;?> <?=$bType2 ? 'text-inside' : ''?>">
 		<div class="maxwidth-theme">
 			<div class="item-views float_banners <?=$arParams['TYPE_BLOCK'];?><?=($arResult['MIXED_BLOCKS'] && $bType2 ? ' sm-block' : '');?>">
