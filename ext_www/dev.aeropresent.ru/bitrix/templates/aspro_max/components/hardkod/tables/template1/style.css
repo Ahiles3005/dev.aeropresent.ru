@@ -1,0 +1,236 @@
+.container__tabs {
+	display: flex;
+}
+.tabs {
+	margin-bottom: 20px!important;
+	max-height: 50px;
+	overflow: hidden;
+	transition: max-height 0.3s ease;
+}
+.tab {
+	padding: 10px 20px;
+	border: 1px solid #ececec;
+	position: relative;
+	cursor: pointer;
+	text-align: center;
+}
+.tabs.expanded {
+	max-height: 1000px; /* Установите значение в соответствии с максимальной высотой блока */
+}
+
+.tab.active {
+	background-color: #f6faf3;
+}
+.tab-content {
+	flex: 1;
+}
+.tab-pane {
+	display: none;
+	overflow: hidden;
+}
+.tab-pane.active {
+	display: block;
+}
+.tab__description{
+	padding: 20px 10px;
+	border: 1px solid #ECECEC;
+}
+.top__description{
+	padding: 20px 10px;
+	border: 1px solid #ECECEC;
+	margin-bottom: 20px;
+}
+
+.tab-content .tab__description{
+	margin-top: 20px;
+}
+.tab-content .tab-content__table{
+	overflow: hidden;
+	width: 1024px;
+}
+.tab-arrow {
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	transform: translateY(-50%);
+	width: 0;
+	height: 0;
+	transition: transform 0.3s ease;
+}
+.tab-arrow:after{
+	content: '\25BA \25BC \25C0 \25B2';
+
+}
+.tabs.expanded .tab-arrow {
+	transform: translateY(-50%) rotate(90deg);
+}
+@media (min-width: 768px) {
+	.tabs {
+		max-height: none;
+		overflow: visible;
+	}
+
+	.tab-arrow {
+		display: none;
+	}
+}
+
+table.main {
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+
+table.main th, table.main td {
+	height: 30px;
+	text-align: center;
+}
+table.main{
+	border: 1px solid  #2196E0;
+}
+table.main td{
+	padding: 5px;
+}
+table.main tr:last-child{
+	border: none;
+}
+table.main tbody > tr:nth-child(2n+1){
+	background-color: #EDEDED;
+}
+table.inside tr:nth-child(2n){
+	background-color: #2196E057!important;
+}
+table.main tbody tr{
+	border-bottom: 1px solid #2196E0;
+}
+table.inside tr:last-child{
+	border-bottom: none;
+}
+table.main tbody > tr:first-child{
+	background: #2196E057;
+}
+table.main th {
+	background-color: #f2f2f2;
+	text-align: left;
+}
+table.main td:first-child {
+	text-align: left;
+	padding-left: 10px;
+}
+table.main tbody tr:first-child td:last-child {
+	padding: 0;
+}
+table.main tbody > tr td:first-child {
+	padding-left: 10px;
+}
+table.main td.cell_centered {
+	text-align: center;
+}
+table.inside{
+	width: 100%;
+}
+table.inside td{
+	text-align: center!important;
+	background-color: #badcf4!important;
+
+}
+table.inside td{
+	text-align: center;
+	border: none;
+}
+table.inside{
+	border-left: 1px solid #2196E0;
+}
+table.inside tr:first-child{
+	border-bottom: 1px solid #2196E0;
+}
+.form__wrapper {
+	display: flex;
+	align-items: center; /* Добавлено свойство для вертикального выравнивания */
+	height: 132px;
+	width: 100%;
+	border: 1px solid #ECECEC;
+}
+.form__wrapper__icon {
+	width: 80px;
+	height: 42px;
+	background-image: url("/images/rounded.png");
+	background-repeat: no-repeat;
+	background-size: 80px 42px;
+}
+.form__wrapper__text {
+	width: 70%;
+	margin-left: 30px;
+}
+.form__wrapper__text-header {
+	font-size: 18px;
+	font-family: Moncerat, serif;
+	margin-bottom: 10px;
+}
+.form__wrapper__text-body {
+	font-size: 13px;
+	font-family: Moncerat, serif;
+	margin-bottom: 0;
+	margin-top: 0;
+}
+.form__wrapper__button {
+	cursor: pointer;
+	text-align: center;
+	border-radius: 20px;
+	font-size: 11px;
+	height: 40px;
+	width: 200px;
+	line-height: 40px;
+	padding: 0 20px;
+	color: #fff;
+	background-color: #82CF00;
+}
+
+/* выпадашка */
+.arrow-2 {
+	cursor: pointer;
+	height: 15px;
+	width: 15px;
+	position: absolute;
+	top: 50%;
+	right: 10px;
+	transform: translateY(-50%);
+	transition: transform 0.3s ease;
+}
+
+.arrow-2-top,
+.arrow-2-bottom {
+	background: #337AB7;
+	height: 2px;
+	left: 50%;
+	position: absolute;
+
+	width: 10px;
+}
+
+.arrow-2-top {
+	top: calc(50% - 3px);
+	transform: translate(-50%, -50%) rotate(45deg);
+	transform-origin: center;
+}
+
+.arrow-2-bottom {
+	top: calc(50% + 3px);
+	transform: translate(-50%, -50%) rotate(-45deg);
+	transform-origin: center;
+}
+
+.tabs.expanded .arrow-2 {
+	transform: translateY(-50%) rotate(90deg);
+}
+
+@media (min-width: 768px) {
+	.tabs {
+		max-height: none;
+		overflow: visible;
+	}
+
+	.arrow-2 {
+		display: none;
+	}
+}

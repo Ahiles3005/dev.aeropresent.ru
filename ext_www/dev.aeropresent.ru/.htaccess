@@ -1,8 +1,8 @@
-RewriteEngine on
-php_value auto_prepend_file "/home/bitrix/ext_www/aeropresent.ru/protect743/code/include.php"
-RewriteRule ^(.*)index\.php$ $1 [R=301,L]
-Options -Indexes 
-ErrorDocument 404 /404.php
+#RewriteEngine on
+#php_value auto_prepend_file "/home/bitrix/ext_www/aeropresent.ru/protect743/code/include.php"
+#RewriteRule ^(.*)index\.php$ $1 [R=301,L]
+#Options -Indexes
+#ErrorDocument 404 /404.php
 
 <IfModule mod_php.c>
   php_flag session.use_trans_sid off

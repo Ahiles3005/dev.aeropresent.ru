@@ -24,6 +24,14 @@ $arUrlRewrite=array (
     'PATH' => '/pub/calendar_sharing.php',
     'SORT' => 100,
   ),
+  105 => 
+  array (
+    'CONDITION' => '#^/pub/booking/confirmation/([0-9a-z\\.]+)/#',
+    'RULE' => 'hash=$1',
+    'ID' => 'bitrix:booking.pub.confirm',
+    'PATH' => '/pub/booking/confirmation.php',
+    'SORT' => 100,
+  ),
   72 => 
   array (
     'CONDITION' => '#^/timeman/login-history/([0-9]+)/.*#',
@@ -70,6 +78,14 @@ $arUrlRewrite=array (
     'RULE' => '',
     'ID' => 'bitrix:catalog.catalog.controller',
     'PATH' => '/shop/documents-catalog/index.php',
+    'SORT' => 100,
+  ),
+  104 => 
+  array (
+    'CONDITION' => '#^/booking/detail/([0-9]+)#',
+    'RULE' => 'id=$1',
+    'ID' => 'bitrix:booking.booking.detail',
+    'PATH' => '/booking/detail.php',
     'SORT' => 100,
   ),
   71 => 
@@ -328,6 +344,14 @@ $arUrlRewrite=array (
     'PATH' => '/loyalty/index.php',
     'SORT' => 100,
   ),
+  103 => 
+  array (
+    'CONDITION' => '#^/booking/#',
+    'RULE' => '',
+    'ID' => 'bitrix:booking',
+    'PATH' => '/booking/index.php',
+    'SORT' => 100,
+  ),
   76 => 
   array (
     'CONDITION' => '#^/market/#',
@@ -382,6 +406,22 @@ $arUrlRewrite=array (
     'RULE' => '',
     'ID' => 'bitrix:news',
     'PATH' => '/blog/index.php',
+    'SORT' => 100,
+  ),
+  102 => 
+  array (
+    'CONDITION' => '#^/crm/#',
+    'RULE' => '',
+    'ID' => 'bitrix:crm.router',
+    'PATH' => '/crm/index.php',
+    'SORT' => 100,
+  ),
+  101 => 
+  array (
+    'CONDITION' => '#^/hr/#',
+    'RULE' => '',
+    'ID' => 'bitrix:humanresources.start',
+    'PATH' => '/hr/index.php',
     'SORT' => 100,
   ),
   100 => 
