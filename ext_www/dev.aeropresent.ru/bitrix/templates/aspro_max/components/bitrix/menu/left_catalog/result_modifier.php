@@ -56,10 +56,10 @@ if($arSections){
 						if($menuRootCatalogSectionId){
 							$arResult = array(
 								array(
-									'LINK' => $catalogPageUrl, 
+									'LINK' => $catalogPageUrl,
 									'PARAMS' => array(
-										'FROM_IBLOCK' => 1, 
-										'DEPTH_LEVEL' => 1, 
+										'FROM_IBLOCK' => 1,
+										'DEPTH_LEVEL' => 1,
 										'MEGA_MENU_CHILDS' => 1
 									),
 								)
@@ -72,26 +72,28 @@ if($arSections){
 		CMax::replaceMenuChilds($arResult, $arParams);
 	}
 
-	if($bRightBrand) {    
-        if($arBrandsID) {
-            $brandIblockId = CMaxCache::$arIBlocks[SITE_ID]["aspro_max_content"]["aspro_max_brands"][0];
-            $arBrandFilter = array('ACTIVE' => 'Y', 'IBLOCK_ID' => $brandIblockId, 'ID' => $arBrandsID);
-            $arBrandSelect = array('ID', 'PREVIEW_PICTURE', 'NAME', 'DETAIL_PAGE_URL', 'IBLOCK_ID');
-            $arBrands = CMaxCache::CIblockElement_GetList(array("SORT" => "ASC", "CACHE" => array("GROUP" => 'ID', "TAG" => CMaxCache::GetIBlockCacheTag($brandIblockId))), $arBrandFilter, false, false, $arBrandSelect);
+if ($bRightBrand) {
+    if ($arBrandsID) {
+        $brandIblockId = CMaxCache::$arIBlocks[SITE_ID]['aspro_max_content']['aspro_max_brands'][0];
+        $arBrandFilter = ['ACTIVE' => 'Y', 'IBLOCK_ID' => $brandIblockId, 'ID' => $arBrandsID];
+        $arBrandSelect = ['ID', 'PREVIEW_PICTURE', 'NAME', 'DETAIL_PAGE_URL', 'IBLOCK_ID'];
+        $arBrands = CMaxCache::CIblockElement_GetList(['SORT' => 'ASC', 'CACHE' => ['GROUP' => 'ID', 'TAG' => CMaxCache::GetIBlockCacheTag($brandIblockId)]], $arBrandFilter, false, false, $arBrandSelect);
 
-            if($arBrands) {
-                foreach($arResult as $key=>$arItem)
-                {
-                    if( isset($arItem['UF_MENU_BRANDS']) && $arItem['UF_MENU_BRANDS'] ) {
-                        foreach($arItem['UF_MENU_BRANDS'] as $brandKey => $brandID) {
-                            if($arBrands[$brandID]) {
-                                $arResult[$key]['UF_MENU_BRANDS'][$brandKey] = $arBrands[$brandID];
-                            }
+        if ($arBrands) {
+            foreach ($arResult as $key => $arItem) {
+                if (isset($arItem['UF_MENU_BRANDS']) && $arItem['UF_MENU_BRANDS']) {
+                    foreach ($arItem['UF_MENU_BRANDS'] as $brandKey => $brandID) {
+                        if ($arBrands[$brandID]) {
+                            $arResult[$key]['UF_MENU_BRANDS'][$brandKey] = $arBrands[$brandID];
+                        } else {
+                            unset($arResult[$key]['UF_MENU_BRANDS'][$brandKey]);
                         }
                     }
                 }
             }
         }
-	}
-	
+    }
+}
+
+
 }?>

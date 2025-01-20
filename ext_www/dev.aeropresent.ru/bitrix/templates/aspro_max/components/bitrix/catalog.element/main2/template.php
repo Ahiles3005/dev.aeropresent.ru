@@ -1,6 +1,9 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 <?$this->setFrameMode(true);?>
-<?use \Bitrix\Main\Localization\Loc;?>
+<?
+use \Bitrix\Main\Localization\Loc;
+use \Aspro\Max\Product\Blocks;
+?>
 
 <div class="basket_props_block" id="bx_basket_div_<?=$arResult["ID"];?>" style="display: none;">
 	<?if (!empty($arResult['PRODUCT_PROPERTIES_FILL'])){
@@ -95,7 +98,7 @@ $templateData = array(
 	'LINK_BLOG' => $arResult['BLOG'],
 	'LINK_STAFF' => $arResult['LINK_STAFF'],
 	'LINK_VACANCY' => $arResult['LINK_VACANCY'],
-	'REVIEWS_COUNT' => $arParams['REVIEWS_VIEW'] == 'EXTENDED' 
+	'REVIEWS_COUNT' => $arParams['REVIEWS_VIEW'] == 'EXTENDED'
 		? $arResult["PROPERTIES"]['EXTENDED_REVIEWS_COUNT']['VALUE']
 		: $arResult['PROPERTIES']['FORUM_MESSAGE_CNT']['VALUE'],
 	'CATALOG_SETS' => array(
@@ -111,6 +114,9 @@ $templateData = array(
 		'PRODUCT_SET_GROUP' => $arResult["PROPERTIES"]["PRODUCT_SET_GROUP"]["VALUE"] === "Y",
 	),
 	'XML_ID' => $arResult['XML_ID'],
+    'CUSTOM_BLOCKS_DATA' => [
+        'PROPERTIES' => Blocks::getPropertiesByParams($arParams['CUSTOM_PROPERTY_DATA'], $arResult["PROPERTIES"]),
+    ],
 );
 unset($currencyList, $templateLibrary);
 
@@ -140,7 +146,7 @@ if( $showCustomOffer && isset($arResult['OFFERS'][$arResult['OFFERS_SELECTED']])
 	$arCurrentSKU = $arResult['OFFERS'][$arResult['OFFERS_SELECTED']];
 	$templateData['TOTAL_COUNT'] = $totalCount = CMax::GetTotalCount($arCurrentSKU, $arParams);
 	$templateData['QUANTITY_DATA'] = $arQuantityData = CMax::GetQuantityArray([
-		'totalCount' => $totalCount, 
+		'totalCount' => $totalCount,
 		'arItemIDs' => ['ID' => $arCurrentSKU["ID"]],
 		'useStoreClick' => ($arParams["USE_STORE"] == "Y" && $arResult["STORES_COUNT"] && $arResult['CATALOG_TYPE'] != CCatalogProduct::TYPE_SET ? "Y" : "N"),
 		'dataAmount' => $arParams['CATALOG_DETAIL_SHOW_AMOUNT_STORES'] !== 'Y' ? [] : [
@@ -152,8 +158,8 @@ if( $showCustomOffer && isset($arResult['OFFERS'][$arResult['OFFERS_SELECTED']])
 } else {
 	$templateData['TOTAL_COUNT'] = $totalCount = CMax::GetTotalCount($arResult, $arParams);
 	$templateData['QUANTITY_DATA'] = $arQuantityData = CMax::GetQuantityArray([
-		'totalCount' => $totalCount, 
-		'arItemIDs' => $arItemIDs["ALL_ITEM_IDS"], 
+		'totalCount' => $totalCount,
+		'arItemIDs' => $arItemIDs["ALL_ITEM_IDS"],
 		'useStoreClick' => ($arParams["USE_STORE"] == "Y" && $arResult["STORES_COUNT"] && $arResult['CATALOG_TYPE'] != CCatalogProduct::TYPE_SET && (!$arResult["OFFERS"] || ($arResult["OFFERS"] && $arParams["TYPE_SKU"]!="N")) ? "Y" : "N"),
 		'dataAmount' => $arParams['CATALOG_DETAIL_SHOW_AMOUNT_STORES'] !== 'Y' ? [] : [
 			'ID' => $arResult['ID'],
@@ -187,7 +193,7 @@ if( $showCustomOffer && isset($arResult['OFFERS'][$arResult['OFFERS_SELECTED']])
 	$bOfferDetailText = $arParams['SHOW_SKU_DESCRIPTION'] === 'Y' && $arCurrentSKU["DETAIL_TEXT"];
 	if(strlen($arParams["SKU_DETAIL_ID"]))
 		$arResult['DETAIL_PAGE_URL'].= '?'.$arParams["SKU_DETAIL_ID"].'='.$arCurrentSKU['ID'];
-	$templateData["OFFERS_INFO"]["CURRENT_OFFER"] = $arCurrentSKU["ID"];	
+	$templateData["OFFERS_INFO"]["CURRENT_OFFER"] = $arCurrentSKU["ID"];
 	$templateData["OFFERS_INFO"]["CURRENT_OFFER_TITLE"] = $arCurrentSKU['IPROPERTY_VALUES']["ELEMENT_PAGE_TITLE"] ?? $arCurrentSKU["NAME"];
 	$templateData["OFFERS_INFO"]["CURRENT_OFFER_WINDOW_TITLE"] = $arCurrentSKU['IPROPERTY_VALUES']["ELEMENT_META_TITLE"] ?? $templateData["OFFERS_INFO"]["CURRENT_OFFER_TITLE"];
 	if ($arCurrentSKU["DISPLAY_PROPERTIES"]["ARTICLE"]["VALUE"]) {
@@ -242,7 +248,7 @@ $arOfferProps = implode(';', $arParams['OFFERS_CART_PROPERTIES']);
 // save item viewed
 $arFirstPhoto = reset($arResult['MORE_PHOTO']);
 $viwedItem = $arCurrentSKU ?? $arResult;
-$arItemPrices = $viwedItem['MIN_PRICE'];	
+$arItemPrices = $viwedItem['MIN_PRICE'];
 if(isset($viwedItem['PRICE_MATRIX']) && $viwedItem['PRICE_MATRIX'])
 {
 	$rangSelected = $viwedItem['ITEM_QUANTITY_RANGE_SELECTED'];
@@ -387,7 +393,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 														<div class="properties__item properties__item--compact ">
 															<div class="properties__title muted properties__item--inline font_sxs">
 																<span class="props_item"><?=$arProp["NAME"]?></span>
-																<?if($arProp["HINT"] && $arParams["SHOW_HINTS"]=="Y"):?><div class="hint"><span class="icon colored_theme_hover_bg"><i>?</i></span><div class="tooltip"><?=$arProp["HINT"]?></div></div><?endif;?> : 
+																<?if($arProp["HINT"] && $arParams["SHOW_HINTS"]=="Y"):?><div class="hint"><span class="icon colored_theme_hover_bg"><i>?</i></span><div class="tooltip"><?=$arProp["HINT"]?></div></div><?endif;?> :
 															</div>
 															<div class="properties__value darken properties__item--inline char_value font_xs">
 																<?if($arResult["TMP_OFFERS_PROP"][$arProp["CODE"]]){
@@ -687,9 +693,9 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 				<?//offers tree props?>
 				<?if($arResult["OFFERS"] && $showCustomOffer):?>
 					<?=\Aspro\Max\Product\SkuTools::getTemplateWithJsonOffers($arResult["OFFERS"])?>
-					
+
 					<?$templateData["USE_OFFERS_SELECT"] = true;?>
-					
+
 					<?$frame = $this->createFrame()->begin();?>
 					<script>typeof useOfferSelect === 'function' && useOfferSelect()</script>
 						<div class="buy_block offer-props-wrapper">
@@ -776,7 +782,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 									<div class="prices-wrapper">
 										<div class="price font-bold font_mxs">
 											<div class="price_value_block values_wrapper">
-												<span class="price_value complect_price_value">0</span>												
+												<span class="price_value complect_price_value">0</span>
 												<span class="price_currency">
 													<?//$arResult['MIN_PRICE']['CURRENCY']?>
 													<?=str_replace("999", "", \CCurrencyLang::CurrencyFormat("999", $arResult["CURRENCIES"][0]["CURRENCY"]))?>
@@ -867,7 +873,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 												<?=CMax::showPriceRangeTop($arResult, $arParams, Loc::getMessage("CATALOG_ECONOMY"));?>
 											<?endif;?>
 											<?if(
-												count($arResult['PRICE_MATRIX']['ROWS']) > 1 
+												count($arResult['PRICE_MATRIX']['ROWS']) > 1
 												|| count($arResult['PRICE_MATRIX']['COLS']) > 1
 											):?>
 												<?=CMax::showPriceMatrix($arResult, $arParams, $strMeasure, $arAddToBasketData);?>
@@ -1032,7 +1038,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 						(
 							!$arResult["OFFERS"] &&
 							$arAddToBasketData["ACTION"] == "ADD" &&
-							$arAddToBasketData["CAN_BUY"] && 
+							$arAddToBasketData["CAN_BUY"] &&
 							!$bComplect
 						) ||
 						(
@@ -1306,7 +1312,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 <?//files?>
 <?$instr_prop = ($arParams["DETAIL_DOCS_PROP"] ? $arParams["DETAIL_DOCS_PROP"] : "INSTRUCTIONS");?>
 <?if(
-		( is_array($arResult["PROPERTIES"][$instr_prop]["VALUE"]) && count($arResult["PROPERTIES"][$instr_prop]["VALUE"]) ) 
+		( is_array($arResult["PROPERTIES"][$instr_prop]["VALUE"]) && count($arResult["PROPERTIES"][$instr_prop]["VALUE"]) )
 		|| ( is_array($arResult["SECTION_FULL"]["UF_FILES"]) && count($arResult["SECTION_FULL"]["UF_FILES"]) )
 	):?>
 	<?

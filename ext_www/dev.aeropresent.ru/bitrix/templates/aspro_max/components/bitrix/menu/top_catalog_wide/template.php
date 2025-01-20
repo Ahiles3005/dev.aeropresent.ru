@@ -127,18 +127,20 @@ $bRightBrand = $bRightSide && $RightContent == 'BRANDS';
 															false, array('ACTIVE_COMPONENT' => 'Y', 'HIDE_ICONS' => 'Y')
 														);
 														?>
-													<?elseif($bRightBrand && $arItem['PARAMS']['BRANDS']):?>
+													<?elseif($bRightBrand && is_array($arItem['PARAMS']['BRANDS'])):?>
 														<div class="brands-wrapper">
 															<?foreach ($arItem['PARAMS']['BRANDS'] as $brand):?>
-																<div class="brand-wrapper">
-																	<?if($brand['DETAIL_PAGE_URL']):?>
-																		<a href="<?=$brand['DETAIL_PAGE_URL']?>">
-																	<?endif;?>
-																		<img src="<?=CFile::GetPath($brand['PREVIEW_PICTURE'])?>" alt="<?=$brand['NAME']?>" title="<?=$brand['NAME']?>" />
-																	<?if($brand['DETAIL_PAGE_URL']):?>
-																		</a>
-																	<?endif;?>
-																</div>
+                                                                <?if(is_array($brand)) :?>
+                                                                    <div class="brand-wrapper">
+                                                                        <?if($brand['DETAIL_PAGE_URL']):?>
+                                                                            <a href="<?=$brand['DETAIL_PAGE_URL']?>">
+                                                                        <?endif;?>
+                                                                            <img src="<?=CFile::GetPath($brand['PREVIEW_PICTURE'])?>" alt="<?=$brand['NAME']?>" title="<?=$brand['NAME']?>" />
+                                                                        <?if($brand['DETAIL_PAGE_URL']):?>
+                                                                            </a>
+                                                                        <?endif;?>
+                                                                    </div>
+                                                                <?endif;?>
 															<?endforeach;?>
 														</div>
 													<?endif;?>
@@ -146,7 +148,7 @@ $bRightBrand = $bRightSide && $RightContent == 'BRANDS';
 											</div>
 
 										<?endif;?>
-									
+
 										<ul class="menu-wrapper <?='menu-type-'.$MENU_TYPE?>">
 											<?foreach($arItem["CHILD"] as $arSubItem):?>
 
@@ -186,7 +188,7 @@ $bRightBrand = $bRightSide && $RightContent == 'BRANDS';
 													?>
 													<li class="<?=($arSubItem["CHILD"] && $bShowChilds ? "dropdown-submenu" : "")?> <?=$bIcon ? 'icon' : ''?> <?=($arSubItem["SELECTED"] ? "active" : "")?> <?=($bHasPicture ? "has_img" : "")?>">
 														<?if($bHasPicture && $bWideMenu):
-															
+
 															$arSubItemImg = ( (isset($arSubItem['PARAMS']['SECTION_ICON'])) ? $arSubItem['PARAMS']['SECTION_ICON'] : $arSubItem['PARAMS']['PICTURE'] );
 															$arImg = CFile::ResizeImageGet($arSubItemImg, array('width' => 60, 'height' => 60), BX_RESIZE_IMAGE_PROPORTIONAL_ALT);
 															if(is_array($arImg)):?>

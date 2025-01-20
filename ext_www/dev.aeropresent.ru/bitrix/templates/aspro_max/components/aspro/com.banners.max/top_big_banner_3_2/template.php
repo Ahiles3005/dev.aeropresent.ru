@@ -20,7 +20,9 @@
 				<?endforeach;?>
 			</div>
 		<?endif;?>
+
 	</div>
+
 	<?if($arParams['WIDE_BANNER'] != 'Y'):?>
 		</div>
 	<?endif;?>

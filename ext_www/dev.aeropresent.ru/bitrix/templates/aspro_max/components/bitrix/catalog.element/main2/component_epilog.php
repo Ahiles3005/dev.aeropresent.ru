@@ -4,6 +4,7 @@
 use Bitrix\Main\Loader,
 	Bitrix\Main\ModuleManager,
 	Bitrix\Main\Localization\Loc;
+use Aspro\Max\Product\Blocks;
 
 global $arTheme, $arRegion;
 
@@ -19,9 +20,11 @@ $bCombineStoresMode = ($arTheme['STORE_AMOUNT_VIEW']['VALUE'] == "COMBINE_AMOUNT
 
 $bServicesRegionality = $arTheme['SERVICES_REGIONALITY']['VALUE'] === 'Y' && $arTheme['USE_REGIONALITY']['VALUE'] === 'Y' && $arTheme['USE_REGIONALITY']['DEPENDENT_PARAMS']['REGIONALITY_FILTER_ITEM']['VALUE'] === 'Y';
 
-if($arTheme['USE_DETAIL_TABS']['VALUE'] != 'Y'){
+$bUseDetailTabs = $arTheme['USE_DETAIL_TABS']['VALUE'] != 'N';
+
+if(!$bUseDetailTabs){
 	$arBlockOrder = explode(",", $arParams["DETAIL_BLOCKS_ALL_ORDER"]);
-	
+
 	//add new blocks in update
 	if( !in_array('buy_services', $arBlockOrder) ){
 		$arBlockOrder[] = 'buy_services';
@@ -35,6 +38,13 @@ if( !in_array('modules', $arBlockOrder) ){
 
 $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['ID'] ;
 
+// custom blocks
+$curentCustomParams = $arParams['~CUSTOM_DETAIL_BLOCKS'] ?? '';
+$blocksObj = new Blocks(SITE_ID, $curentCustomParams);
+$blocksObj->prepareForShow(arParams: $arParams, arResult: $arResult, templateData: $templateData);
+$countCustomTabs = $blocksObj->countTabs;
+$allCustomBlocks = $blocksObj->items;
+
 ?>
 <?if($arResult["ID"]):?>
 	<?if ($templateData['OUT_OF_PRODUCTION']):?>
@@ -42,11 +52,11 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 		ob_start();
 			$APPLICATION->IncludeFile(SITE_DIR . "include/element_detail_out_of_production_title.php", [], ["MODE" => "html"]);
 		$out_of_production_text = trim(ob_get_clean());
-		
+
 		ob_start();
 			$APPLICATION->IncludeFile(SITE_DIR . "include/element_detail_out_of_production_note.php", [], ["MODE" => "html"]);
 		$out_of_production_note = trim(ob_get_clean());
-		
+
 		$arOptions = [
 			'ID' => $templateData['OUT_OF_PRODUCTION']['SHOW_ANALOG']['ID'],
 			'SITE_ID' => SITE_ID,
@@ -226,14 +236,14 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 
 	<?$bShowAllServicesInAnounce = $templateData["OFFERS_INFO"]["OFFERS_MORE"] || (isset($arParams["SHOW_ALL_SERVICES_IN_SLIDE"]) && $arParams["SHOW_ALL_SERVICES_IN_SLIDE"] === 'Y');?>
 	<?if($templateData['LINK_SERVICES'] && !$templateData['OUT_OF_PRODUCTION']):?>
-		<?//buy_services in anounce	
-		ob_start();		
+		<?//buy_services in anounce
+		ob_start();
 			$GLOBALS['arBuyServicesFilter']['ID'] = $templateData['LINK_SERVICES'];
 			$GLOBALS['arBuyServicesFilter']['PROPERTY_ALLOW_BUY_VALUE'] = 'Y';
 			if( $bServicesRegionality && isset($arRegion['ID']) ){
 				$GLOBALS['arBuyServicesFilter'][] = array( "PROPERTY_LINK_REGION" => $arRegion['ID'] );
 			}
-			?>										
+			?>
 			<?$APPLICATION->IncludeComponent(
 				"bitrix:catalog.section",
 				"services_list",
@@ -264,8 +274,8 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 		if($htmlBuyServicesAnounce && trim($htmlBuyServicesAnounce) && strpos($htmlBuyServicesAnounce, 'error') === false){?>
 			<?
 			$htmlBuyServicesAnounceBefore = '<div class=" buy_services_wrap in_announce js-services-hide" data-parent_product='.$currentProductId.'>';
-			$htmlBuyServicesAnounce = $htmlBuyServicesAnounceBefore.$htmlBuyServicesAnounce.'</div>';			
-			$APPLICATION->AddViewContent('PRODUCT_SIDE_INFO', $htmlBuyServicesAnounce, 550);			
+			$htmlBuyServicesAnounce = $htmlBuyServicesAnounceBefore.$htmlBuyServicesAnounce.'</div>';
+			$APPLICATION->AddViewContent('PRODUCT_SIDE_INFO', $htmlBuyServicesAnounce, 550);
 			?>
 			<?\Aspro\Max\Functions\Extensions::init('buy_services');?>
 		<?}?>
@@ -274,13 +284,13 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 	<?//tab buy_services
 	$buyServices = false;
 	if(!$bShowAllServicesInAnounce):
-		ob_start();		
+		ob_start();
 			$GLOBALS['arBuyServicesFilter']['ID'] = $templateData['LINK_SERVICES'];
 			$GLOBALS['arBuyServicesFilter']['PROPERTY_ALLOW_BUY_VALUE'] = 'Y';
 			if( $bServicesRegionality && isset($arRegion['ID']) ){
 				$GLOBALS['arBuyServicesFilter'][] = array( "PROPERTY_LINK_REGION" => $arRegion['ID'] );
 			}
-			?>										
+			?>
 			<?$APPLICATION->IncludeComponent(
 				"bitrix:catalog.section",
 				"services_list",
@@ -326,6 +336,7 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 	$bShowStoresTab = ($templateData["STORES"]['USE_STORES'] && $templateData["STORES"]["STORES"] ? ++$i : '');
 	$bShowReviewsTab = ( ($arParams["USE_REVIEW"] == "Y" && ($templateData["YM_ELEMENT_ID"] || IsModuleInstalled("forum")) ) ? ++$i : '');
 	$bShowBuyServicesTab = ($templateData['LINK_SERVICES'] && $buyServices ? ++$i : '');
+    $i += $countCustomTabs;
 
 	if ($templateData['OUT_OF_PRODUCTION']) {
 		$arBlockOrder = array_diff($arBlockOrder, ['complect', 'nabor']);
@@ -337,14 +348,21 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 	if($bShowVideoTab){
 		$totalCountVideoElements = array_reduce($templateData["VIDEO"], fn($summ, $item) => $summ + count($item), 0);
 	}
-	
+
+    // event for manipulation epilog blocks
+    foreach(GetModuleEvents(TSolution::moduleID, 'OnAsproShowDetailEpilogBlocks', true) as $arEvent)
+        ExecuteModuleEventEx($arEvent, [$arParams, $arResult, $templateData, &$arBlockOrder, &$arTabOrder]);
 	?>
 
 	<div class="maxwidth-theme bottom-info-wrapper">
 		<div class="bottom-info product-view--side-left">
 			<?foreach($arBlockOrder as $code):?>
+                <?//custom blocks?>
+                <?if(Blocks::checkContent($allCustomBlocks, $code)):?>
+                    <?include Blocks::getViewDir()."/custom_blocks.php";?>
+
 				<?//complect?>
-				<?if($code == 'complect' && $templateData['CATALOG_SETS']['SET_ITEMS'] && $arParams['SHOW_KIT_PARTS'] == "Y"):?>
+				<?elseif($code == 'complect' && $templateData['CATALOG_SETS']['SET_ITEMS'] && $arParams['SHOW_KIT_PARTS'] == "Y"):?>
 					<div class="ordered-block">
 						<div class="ordered-block__title option-font-bold font_lg"><?=($arParams["T_KOMPLECT"] ? $arParams["T_KOMPLECT"] : Loc::getMessage('KOMPLECT_TITLE'));?></div>
 						<div class="complect set_wrapp set_block bordered rounded3">
@@ -452,57 +470,62 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 					<?endif;?>
 				<?//tabs?>
 				<?elseif($code == 'tabs'):?>
-					<?if($bShowDetailTextTab || $bShowPropsTab || $bShowVideoTab || $bShowHowBuyTab || $bShowPaymentTab || $bShowDeliveryTab || $bShowStoresTab || $bShowCustomTab || $bShowReviewsTab || $bShowBuyServicesTab):?>
+					<?if($bShowDetailTextTab || $bShowPropsTab || $bShowVideoTab || $bShowHowBuyTab || $bShowPaymentTab || $bShowDeliveryTab || $bShowStoresTab || $bShowCustomTab || $bShowReviewsTab || $bShowBuyServicesTab || $countCustomTabs):?>
 						<div class="ordered-block js-store-scroll tabs-block" data-hash="Y">
 							<?if($i > 1):?>
 								<div class="tabs arrow_scroll">
 									<ul class="nav nav-tabs font_upper_md">
 										<?$iTab = 0;?>
 										<?foreach($arTabOrder as $value):?>
+                                            <?//show custom_tabs block?>
+									        <?if(Blocks::checkContent($allCustomBlocks, $value)):?>
+                                                <?$customTabName = !empty($allCustomBlocks[$value]['name']) ? $allCustomBlocks[$value]['name'] : $value;?>
+                                                <li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>"><a href="#<?=$value?>" data-toggle="tab"><?=$customTabName?></a></li>
+
 											<?//show desc block?>
-											<?if($value == "desc"):?>
+											<?elseif($value == "desc"):?>
 												<?if($bShowDetailTextTab || ($arParams["PROPERTIES_DISPLAY_LOCATION"] != "TAB" && $bShowPropsTab)):?>
 													<li class="bordered rounded3 <?=((!($iTab++) && (!$templateData['HIDE_ADDITIONAL_GALLERY'] || $bShowDetailText || $bShowDocs)) ? 'active' : '')?> <?=$templateData['HIDE_ADDITIONAL_GALLERY'] && !$bShowDocs && !$bShowDetailText ? "hidden" : "";?>"><a href="#desc" data-toggle="tab"><?=($arParams["T_DESC"] ? $arParams["T_DESC"] : Loc::getMessage("T_DESC"));?></a></li>
 												<?endif;?>
-											<?endif;?>
+
 											<?//show char block?>
-											<?if($value == "char"):?>
+											<?elseif($value == "char"):?>
 												<?if($bShowPropsTab && $arParams["PROPERTIES_DISPLAY_LOCATION"] == "TAB"):?>
 													<li class="bordered rounded3 <?=(!($iTab++) || ($templateData['HIDE_ADDITIONAL_GALLERY'] && !$bShowDetailText && !$bShowDocs) ? 'active' : '')?>"><a href="#props" data-toggle="tab"><?=($arParams["T_CHARACTERISTICS"] ? $arParams["T_CHARACTERISTICS"] : Loc::getMessage("T_CHARACTERISTICS"));?></a></li>
 												<?endif;?>
-											<?endif;?>
+
 											<?//show howbuy block?>
-											<?if($value == "buy"):?>
+											<?elseif($value == "buy"):?>
 												<?if($bShowHowBuyTab):?>
 													<li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>"><a href="#buy" data-toggle="tab"><?=$arParams["TITLE_HOW_BUY"];?></a></li>
 												<?endif;?>
-											<?endif;?>
+
 											<?//show payment block?>
-											<?if($value == "payment"):?>
+											<?elseif($value == "payment"):?>
 												<?if($bShowPaymentTab):?>
 													<li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>"><a href="#payment" data-toggle="tab"><?=$arParams["TITLE_PAYMENT"];?></a></li>
 												<?endif;?>
-											<?endif;?>
+
 											<?//show delivery block?>
-											<?if($value == "delivery"):?>
+											<?elseif($value == "delivery"):?>
 												<?if($bShowDeliveryTab):?>
 													<li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>"><a href="#delivery" data-toggle="tab"><?=$arParams["TITLE_DELIVERY"];?></a></li>
 												<?endif;?>
-											<?endif;?>
+
 											<?//show stores block?>
-											<?if($value == "stores"):?>
+											<?elseif($value == "stores"):?>
 												<?if($bShowStoresTab):?>
 													<li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>"><a href="#stores" data-toggle="tab"><?=$arParams["TAB_STOCK_NAME"];?></a></li>
 												<?endif;?>
-											<?endif;?>
+
 											<?//show custom_tab block?>
-											<?if($value == "custom_tab"):?>
+											<?elseif($value == "custom_tab"):?>
 												<?if($bShowCustomTab):?>
 													<li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>"><a href="#custom_tab" data-toggle="tab"><?=$arParams["TAB_DOPS_NAME"];?></a></li>
 												<?endif;?>
-											<?endif;?>
+
 											<?//show reviews block?>
-											<?if($value == "reviews"):?>
+											<?elseif($value == "reviews"):?>
 												<?if($bShowReviewsTab):?>
 													<li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>">
 														<a href="#reviews" data-toggle="tab"><?=$arParams["TAB_REVIEW_NAME"];?>
@@ -512,9 +535,9 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 													</a>
 												</li>
 												<?endif;?>
-											<?endif;?>
+
 											<?//show video block?>
-											<?if($value == "video"):?>
+											<?elseif($value == "video"):?>
 												<?if($bShowVideoTab):?>
 													<li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>">
 														<a href="#video" data-toggle="tab">
@@ -525,13 +548,13 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 														</a>
 													</li>
 												<?endif;?>
-											<?endif;?>
+
 											<?//show buy_services block?>
-											<?if($value == "buy_services"):?>
+											<?elseif($value == "buy_services"):?>
 												<?if($bShowBuyServicesTab):?>
 													<li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>">
 														<a href="#buy_services" data-toggle="tab">
-															<?=$arParams["TAB_BUY_SERVICES_NAME"];?>													
+															<?=$arParams["TAB_BUY_SERVICES_NAME"];?>
 														</a>
 													</li>
 												<?endif;?>
@@ -543,8 +566,12 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 							<div class="tab-content<?=($i <= 1 ? ' not_tabs' : '')?>">
 								<?$iTab = 0;?>
 								<?foreach($arTabOrder as $value):?>
+                                    <?//custom_tabs?>
+                                    <?if(Blocks::checkContent($allCustomBlocks, $value)):?>
+                                        <?include Blocks::getViewDir()."/custom_tabs.php";?>
+
 									<?//detail text?>
-									<?if($value == "desc"):?>
+									<?elseif($value == "desc"):?>
 										<?if($bShowDetailTextTab || ($arParams["PROPERTIES_DISPLAY_LOCATION"] != "TAB" && $bShowPropsTab)):?>
 											<div class="tab-pane <?=(!($iTab++) && (!$templateData['HIDE_ADDITIONAL_GALLERY'] || $bShowDocs || $bShowDetailText) ? 'active' : '')?>" id="desc">
 												<?if($bShowDetailText):?>
@@ -576,9 +603,9 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 												<?endif;?>
 											</div>
 										<?endif;?>
-									<?endif;?>
+
 									<?//props?>
-									<?if($value == "char"):?>
+									<?elseif($value == "char"):?>
 										<?if($bShowPropsTab && $arParams["PROPERTIES_DISPLAY_LOCATION"] == "TAB"):?>
 											<div class="tab-pane <?=$value;?> <?=(!($iTab++) || ($templateData['HIDE_ADDITIONAL_GALLERY'] && !$bShowDetailText && !$bShowDocs) ? 'active' : '')?>" id="props">
 												<?if($i == 1):?>
@@ -589,9 +616,9 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 												<?$APPLICATION->ShowViewContent('PRODUCT_PROPS_INFO')?>
 											</div>
 										<?endif;?>
-									<?endif;?>
+
 									<?//how buy?>
-									<?if($value == "buy"):?>
+									<?elseif($value == "buy"):?>
 										<?if($bShowHowBuyTab):?>
 											<div class="tab-pane <?=$value;?> <?=(!($iTab++) ? 'active' : '')?>" id="buy">
 												<?if($i == 1):?>
@@ -602,9 +629,9 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 												<?$APPLICATION->ShowViewContent('PRODUCT_HOW_BUY_INFO')?>
 											</div>
 										<?endif;?>
-									<?endif;?>
+
 									<?//payment?>
-									<?if($value == "payment"):?>
+									<?elseif($value == "payment"):?>
 										<?if($bShowPaymentTab):?>
 											<div class="tab-pane <?=$value;?> <?=(!($iTab++) ? 'active' : '')?>" id="payment">
 												<?if($i == 1):?>
@@ -615,9 +642,9 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 												<?$APPLICATION->ShowViewContent('PRODUCT_PAYMENT_INFO')?>
 											</div>
 										<?endif;?>
-									<?endif;?>
+
 									<?//delivery?>
-									<?if($value == "delivery"):?>
+									<?elseif($value == "delivery"):?>
 										<?if($bShowDeliveryTab):?>
 											<div class="tab-pane <?=$value;?> <?=(!($iTab++) ? 'active' : '')?>" id="delivery">
 												<?if($i == 1):?>
@@ -628,9 +655,9 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 												<?$APPLICATION->ShowViewContent('PRODUCT_DELIVERY_INFO')?>
 											</div>
 										<?endif;?>
-									<?endif;?>
+
 									<?//custom_tab?>
-									<?if($value == "custom_tab"):?>
+									<?elseif($value == "custom_tab"):?>
 										<?if($bShowCustomTab):?>
 											<div class="tab-pane <?=$value;?> <?=(!($iTab++) ? 'active' : '')?>" id="custom_tab">
 												<?if($i == 1):?>
@@ -641,9 +668,9 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 												<?$APPLICATION->ShowViewContent('PRODUCT_CUSTOM_TAB_INFO')?>
 											</div>
 										<?endif;?>
-									<?endif;?>
+
 									<?//show video block?>
-									<?if($value == "video"):?>
+									<?elseif($value == "video"):?>
 										<?if($bShowVideoTab):?>
 											<div class="tab-pane <?=$value;?> <?=(!($iTab++) ? 'active' : '')?>" id="video">
 												<?if($i == 1):?>
@@ -654,9 +681,9 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 												<?$APPLICATION->ShowViewContent('PRODUCT_VIDEO_INFO')?>
 											</div>
 										<?endif;?>
-									<?endif;?>
+
 									<?//show buy_services block?>
-									<?if($value == "buy_services"):?>
+									<?elseif($value == "buy_services"):?>
 										<?if($bShowBuyServicesTab):?>
 											<div class="tab-pane <?=$value;?> <?=(!($iTab++) ? 'active' : '')?>" id="buy_services">
 												<?if($i == 1):?>
@@ -669,9 +696,9 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 												</div>
 											</div>
 										<?endif;?>
-									<?endif;?>
+
 									<?//show stores block?>
-									<?if($value == "stores"):?>
+									<?elseif($value == "stores"):?>
 										<?if($bShowStoresTab):?>
 											<div class="tab-pane <?=$value;?> <?=(!($iTab++) ? 'active' : '')?>" id="stores">
 												<?if($i == 1 || $bCombineStoresMode):?>
@@ -684,9 +711,9 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 												</div>
 											</div>
 										<?endif;?>
-									<?endif;?>
+
 									<?//show reviews block?>
-									<?if($value == "reviews"):?>
+									<?elseif($value == "reviews"):?>
 										<?if($bShowReviewsTab):?>
 											<div class="tab-pane <?=$value;?> <?=$arParams['REVIEWS_VIEW']?> <?=(!($iTab++) ? 'active' : '')?>" id="reviews">
 												<?if($i == 1 && $arParams['REVIEWS_VIEW'] == 'STANDART'):?>
@@ -891,7 +918,7 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 				<?elseif($code == "buy_services" && $bShowBuyServicesTab):?>
 					<div class="ordered-block <?=$code?> js-scroll-services">
 						<div class="ordered-block__title option-font-bold font_lg">
-							<?=$arParams["TAB_BUY_SERVICES_NAME"];?>					
+							<?=$arParams["TAB_BUY_SERVICES_NAME"];?>
 						</div>
 						<div class='buy_services_wrap' data-parent_product=<?=$currentProductId?>>
 							<?=$htmlBuyServices;?>
@@ -1479,7 +1506,7 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 												$arParams["FROM_AJAX"] = 'Y';
 											}
 											else{
-												CMax::checkRestartBuffer(true, 'assoc');												
+												CMax::checkRestartBuffer(true, 'assoc');
 											}?>
 												<?if(CMax::checkAjaxRequest()):?>
 													<?$APPLICATION->ShowAjaxHead();?>
@@ -1500,7 +1527,6 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 											}
 											?>
 										</div>
-
 									</div>
 								<?endif;?>
 							<?endif;?>
@@ -1527,7 +1553,7 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 												$arParams["FROM_AJAX"] = 'Y';
 											}
 											else{
-												CMax::checkRestartBuffer(true, 'expandables');												
+												CMax::checkRestartBuffer(true, 'expandables');
 											}?>
 												<?if(CMax::checkAjaxRequest()):?>
 													<?if(!$templateData['ASSOCIATED'])
@@ -1575,7 +1601,7 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 											$arParams["FROM_AJAX"] = 'Y';
 										}
 										else{
-											CMax::checkRestartBuffer(true, 'assoc');												
+											CMax::checkRestartBuffer(true, 'assoc');
 										}?>
 											<?if(CMax::checkAjaxRequest()):?>
 												<?$APPLICATION->ShowAjaxHead();?>
@@ -1613,7 +1639,7 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 											$arParams["FROM_AJAX"] = 'Y';
 										}
 										else{
-											CMax::checkRestartBuffer(true, 'expandables');												
+											CMax::checkRestartBuffer(true, 'expandables');
 										}?>
 											<?if(CMax::checkAjaxRequest()):?>
 												<?$APPLICATION->ShowAjaxHead();?>
@@ -1643,7 +1669,7 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 						<?=$arParams["TITLE_SLIDER"];?>
 					</div>
 					<div class="bigdata-wrapper"><?include_once($_SERVER["DOCUMENT_ROOT"].$arParams["BIGDATA_PATH_TEMPLATE"]);?></div>
-				</div>	
+				</div>
 			<?endif; ?>
 			<?CMax::get_banners_position('CONTENT_BOTTOM');
 			global $bannerContentBottom;

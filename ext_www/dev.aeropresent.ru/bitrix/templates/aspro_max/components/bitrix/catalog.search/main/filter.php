@@ -16,15 +16,11 @@
 	?>
 	<?
 	$TOP_VERTICAL_FILTER_PANEL = $bHideLeftBlock ? 'N' : $arTheme["FILTER_VIEW"]['DEPENDENT_PARAMS']['TOP_VERTICAL_FILTER_PANEL']['VALUE'];
-	
-	/*if ($arTheme['LEFT_BLOCK_CATALOG_SECTIONS']['VALUE'] == 'N') {
-		$template_filter = 'main';
-	}*/
-	
+
+    TSolution\CacheableUrl::addSmartFilterNameParam($arParams['FILTER_NAME']);
 	$APPLICATION->IncludeComponent(
 		"aspro:catalog.smart.filter",
 		$template_filter,
-		// ($arParams["AJAX_FILTER_CATALOG"]=="Y" ? "main_ajax" : "main"),
 		Array(
 			"IBLOCK_TYPE" => $arParams["IBLOCK_TYPE"],
 			"IBLOCK_ID" => $catalogIBlockID,

@@ -173,7 +173,7 @@
 		"OID" => $arParams["OID"],
 		"SHOW_SKU_DESCRIPTION" => $arParams["SHOW_SKU_DESCRIPTION"],
 		"SKU_DETAIL_ID" => $arParams["SKU_DETAIL_ID"],
-		"CURRENT_BASE_PAGE" => $APPLICATION->GetCurPage(false),
+		'CURRENT_BASE_PAGE' => TSolution\CacheableUrl::get(),
 	),
 	$component
 );?>

@@ -21,4 +21,5 @@
 	$MESS["SECT_DISPLAY_BLOCK"] = "плиткой";
 	$MESS["SECT_DISPLAY_3"] = "3 в ряд";
 	$MESS["SECT_DISPLAY_4"] = "4 в ряд";
+    $MESS["SORT_TITLE_PROPETY"] = "#CODE#";
 ?>

@@ -32,7 +32,7 @@ if($bHideLeftBlock){
 	} else {
 		$arTheme["FILTER_VIEW"]["VALUE"] = 'VERTICAL';
 	}
-	
+
 }
 
 $bShowSortInFilter = ($arParams['SHOW_SORT_IN_FILTER'] != 'N');
@@ -111,7 +111,7 @@ $bHideLeftBlock = $APPLICATION->GetDirProperty('HIDE_LEFT_BLOCK') == 'Y' || ($ar
 			$propsInSortName = array();
 			foreach($arSorts as $sort_prop){
 				if(!in_array($sort_prop, $defaulSortButtons)){
-					$arAvailableSort['PROPERTY_'.$sort_prop] = array('PROPERTY_'.$sort_prop, "desc");
+					$arAvailableSort['PROPERTY_'.mb_strtoupper($sort_prop)] = array('PROPERTY_'.$sort_prop, "desc");
 					$propsInSort[] = $sort_prop;
 				}
 			}
@@ -119,14 +119,14 @@ $bHideLeftBlock = $APPLICATION->GetDirProperty('HIDE_LEFT_BLOCK') == 'Y' || ($ar
 				foreach($propsInSort as $propSortCode){
 					$dbRes = CIBlockProperty::GetList(array(), array('ACTIVE' => 'Y', 'IBLOCK_ID' => $arParams['IBLOCK_ID'], 'CODE' => $propSortCode));
 					while($arPropperty = $dbRes->Fetch()){
-						$propsInSortName['PROPERTY_'.$arPropperty['CODE']] = $arPropperty['NAME'];
+						$propsInSortName['PROPERTY_'.mb_strtoupper($arPropperty['CODE'])] = $arPropperty['NAME'];
 					}
 				}
 			}
-						
-			$sortElementField = ToUpper($arParams["ELEMENT_SORT_FIELD"]);
+
+			$sortElementField = mb_strtoupper($arParams["ELEMENT_SORT_FIELD"]);
 			if(in_array("CUSTOM", $arSorts) && !array_key_exists($sortElementField, $arAvailableSort) ){
-				$arAvailableSort[$sortElementField] = array("CUSTOM", ToLower($arParams["ELEMENT_SORT_ORDER"]));
+				$arAvailableSort[$sortElementField] = array("CUSTOM", mb_strtolower($arParams["ELEMENT_SORT_ORDER"]));
 			}
 
 			$sort = "SHOWS";
@@ -134,36 +134,36 @@ $bHideLeftBlock = $APPLICATION->GetDirProperty('HIDE_LEFT_BLOCK') == 'Y' || ($ar
 			if(!$_SESSION['rank_sort'] && $arParams["SHOW_SORT_RANK_BUTTON"] !== "N"){
 				$_SESSION['rank_sort'] = 'Y';
 			}
-			if((array_key_exists("sort", $_REQUEST) && array_key_exists(ToUpper($_REQUEST["sort"]), $arAvailableSort)) || (array_key_exists("sort", $_SESSION) && array_key_exists(ToUpper($_SESSION["sort"]), $arAvailableSort)) || $arParams["ELEMENT_SORT_FIELD"]){
+			if((array_key_exists("sort", $_REQUEST) && array_key_exists(mb_strtoupper($_REQUEST["sort"]), $arAvailableSort)) || (array_key_exists("sort", $_SESSION) && array_key_exists(mb_strtoupper($_SESSION["sort"]), $arAvailableSort)) || $arParams["ELEMENT_SORT_FIELD"]){
 				if($_REQUEST["sort"]){
-					$sort = ToUpper($_REQUEST["sort"]);
+					$sort = mb_strtoupper($_REQUEST["sort"]);
 
 					if($sort === "RANK" && $arParams["SHOW_SORT_RANK_BUTTON"] !== "N"){
 						$_SESSION["rank_sort"] = "Y";
 					}else{
 						$_SESSION["rank_sort"] = "N";
-						$_SESSION["sort"] = ToUpper($_REQUEST["sort"]);
+						$_SESSION["sort"] = mb_strtoupper($_REQUEST["sort"]);
 					}
 				}
 				elseif($_SESSION["rank_sort"] === "Y" && $arParams["SHOW_SORT_RANK_BUTTON"] !== "N"){
 					$sort = "RANK";
 				}
 				elseif($_SESSION["sort"]){
-					$sort = ToUpper($_SESSION["sort"]);
+					$sort = mb_strtoupper($_SESSION["sort"]);
 				}
 				else{
-					$sort = ToUpper($arParams["ELEMENT_SORT_FIELD"]);
+					$sort = mb_strtoupper($arParams["ELEMENT_SORT_FIELD"]);
 				}
 			}
 
 			if( $sort === $sortElementField ){
 				if(!array_key_exists($sortElementField, $arAvailableSort) || $arAvailableSort[$sortElementField][0] === 'CUSTOM'  ){
 					$customSort = true;
-				}				
+				}
 			}
 
 			$sort_order=$arAvailableSort[$sort][1];
-			if((array_key_exists("order", $_REQUEST) && in_array(ToLower($_REQUEST["order"]), Array("asc", "desc"))) || (array_key_exists("order", $_REQUEST) && in_array(ToLower($_REQUEST["order"]), Array("asc", "desc")) ) || $arParams["ELEMENT_SORT_ORDER"]){
+			if((array_key_exists("order", $_REQUEST) && in_array(mb_strtolower($_REQUEST["order"]), Array("asc", "desc"))) || (array_key_exists("order", $_REQUEST) && in_array(mb_strtolower($_REQUEST["order"]), Array("asc", "desc")) ) || $arParams["ELEMENT_SORT_ORDER"]){
 				if($sort === "RANK"){
 					$sort_order = "desc";
 				}
@@ -175,7 +175,7 @@ $bHideLeftBlock = $APPLICATION->GetDirProperty('HIDE_LEFT_BLOCK') == 'Y' || ($ar
 					$sort_order = $_SESSION["order"];
 				}
 				else{
-					$sort_order = ToLower($arParams["ELEMENT_SORT_ORDER"]);
+					$sort_order = mb_strtolower($arParams["ELEMENT_SORT_ORDER"]);
 				}
 			}
 			$arDelUrlParams = array('sort', 'order', 'control_ajax', 'ajax_get_filter', 'linerow', 'display');

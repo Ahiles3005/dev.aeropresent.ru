@@ -397,7 +397,7 @@ $MESS["SHOW_ALL_SERVICES_IN_SLIDE"] = "Show other services in the announcement";
 $MESS["DISPLAY_LINKED_PAGER_TITLE"] = "Show button show more for related products";
 $MESS["DISPLAY_LINKED_ELEMENT_SLIDER_CROSSLINK_TITLE"] = "The number of items received for cross-selling";
 $MESS["DETAIL_SET_PRODUCT_TITLE"] = "Block header \"Modules\"";
-$MESS["DETAIL_SET_PRODUCT_VALUE"] = "Build a set"; 
+$MESS["DETAIL_SET_PRODUCT_VALUE"] = "Build a set";
 $MESS["CP_BC_TPL_PRODUCT_BLOCK_MODULES"] = "Modules";
 $MESS["MODULES_ELEMENT_COUNT"] = "Number of elements in a block \"Modules\"";
 $MESS["VISIBLE_PROP_WITH_OFFER"] = "Take into account the properties of trading proposals in the output of properties from above";
@@ -408,4 +408,12 @@ $MESS['T_SHOW_KIT_ALL'] = "Show all goods of kit immediately";
 
 $MESS["T_USE_COMPARE_GROUP"] = "Use grouping on the comparison page";
 $MESS["LANDING_SEARCH_COUNT_MOBILE"] = "Number of visible elements in the \"Similar queries\" block for landing pages in the search (<768 px)";
+
+$MESS["T_PS_NAME_OF_CUSTOM_DETAIL_BLOCK"] = "Block Title";
+$MESS["T_PS_CUSTOM_DETAIL_BLOCKS"] = "Custom Blocks and Tabs";
+$MESS["T_PS_ICON_OF_CUSTOM_DETAIL_IS_TAB"] = "Is a tab";
+$MESS["T_PS_DSC_OF_CUSTOM_DETAIL_CODE"] = "Block code:";
+$MESS["T_PS_URL_OF_CUSTOM_DETAIL_LINK"] = "Path to file";
+$MESS["CUSTOM_PROPERTY_DATA"] = "Properties for custom blocks";
+$MESS["CUSTOM_PROPERTY_DATA_TIP"] = "You only need to select the properties that will be used in custom blocks. The data is added to \$templateData['CUSTOM_BLOCKS_DATA']['PROPERTIES'].";
 ?>

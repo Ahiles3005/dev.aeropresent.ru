@@ -123,7 +123,7 @@
 			"STAFF_VIEW_TYPE" => ($arParams["STAFF_VIEW_TYPE"] ? $arParams["STAFF_VIEW_TYPE"] : "staff_block"),
 			'STRICT_SECTION_CHECK' => (isset($arParams['DETAIL_STRICT_SECTION_CHECK']) ? $arParams['DETAIL_STRICT_SECTION_CHECK'] : ''),
 			'RELATIVE_QUANTITY_FACTOR' => (isset($arParams['RELATIVE_QUANTITY_FACTOR']) ? $arParams['RELATIVE_QUANTITY_FACTOR'] : ''),
-			
+
 			"DETAIL_USE_COMMENTS" => (isset($arParams['DETAIL_USE_COMMENTS']) ? $arParams['DETAIL_USE_COMMENTS'] : 'N'),
 			"COMMENTS_COUNT" => (isset($arParams['COMMENTS_COUNT']) ? $arParams['COMMENTS_COUNT'] : '5'),
 			"DETAIL_BLOG_EMAIL_NOTIFY" => (isset($arParams['DETAIL_BLOG_EMAIL_NOTIFY']) ? $arParams['DETAIL_BLOG_EMAIL_NOTIFY'] : 'Y'),
@@ -279,7 +279,7 @@
 			"SHOW_SKU_DESCRIPTION" => $arParams["SHOW_SKU_DESCRIPTION"],
 			"VISIBLE_PROP_WITH_OFFER" => $arParams["VISIBLE_PROP_WITH_OFFER"],
 			"MOBILE_CAROUSEL" => "Y",
-			"SECTION_ID_FOR_BIG_DATA" => $arSection['ID'], 
+			"SECTION_ID_FOR_BIG_DATA" => $arSection['ID'],
 			"BIGDATA_PATH_TEMPLATE" => $this->__folder.'/page_blocks/'.$sViewBigDataExtTemplate.'.php',
 			"BIGDATA_TYPE_VIEW" => $arParams['BIGDATA_TYPE_VIEW'],
 			"BIGDATA_SHOW_FROM_SECTION" => $arParams['BIGDATA_SHOW_FROM_SECTION'],
@@ -287,7 +287,9 @@
 			"BIGDATA_SET_COUNT_BOTTOM" =>  $arParams["BIGDATA_SET_COUNT_BOTTOM"],
 			"BIGDATA_COUNT" => $arParams["BIGDATA_COUNT"],
 			"BIG_DATA_FILTER_IDS" => $arParams['BIG_DATA_FILTER_IDS'],
-			"CURRENT_BASE_PAGE" => $APPLICATION->GetCurPage(false),
+			'CURRENT_BASE_PAGE' => TSolution\CacheableUrl::get(),
+            "CUSTOM_DETAIL_BLOCKS" => $arParams["~CUSTOM_DETAIL_BLOCKS"],
+            "CUSTOM_PROPERTY_DATA" => $arParams["CUSTOM_PROPERTY_DATA"],
 		),
 		$component
 	);?>
@@ -300,7 +302,7 @@
 	<?if($arParams['USE_BIG_DATA'] == 'Y' && $arParams['BIGDATA_TYPE_VIEW'] === 'RIGHT' ):?>
 		<?
 		$GLOBALS['CATALOG_CURRENT_ELEMENT_ID'] = $ElementID;
-		
+
 		$GLOBALS['arrFilterBigData']['IBLOCK_ID'] = $arParams['IBLOCK_ID'];
 		CMax::makeElementFilterInRegion($GLOBALS['arrFilterBigData']);
 		?>

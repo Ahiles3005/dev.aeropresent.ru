@@ -362,7 +362,7 @@ if ($arParams['USE_ADDITIONAL_GALLERY'] === 'Y') {
             if (!empty($imageIDs)) {
                 foreach ($imageIDs as $imgID) {
                     $arFileImage = CFile::GetFileArray($imgID);
-                   
+
 					$alt = trim($arFileImage['DESCRIPTION']) ?: trim($arResult['DETAIL_PICTURE']['ALT']) ?: trim($arFileImage['ALT']) ?: trim($arResult['NAME']);
 					$title = trim($arFileImage['DESCRIPTION']) ?: trim($arResult['DETAIL_PICTURE']['TITLE']) ?: trim($arFileImage['TITLE']) ?: trim($arResult['NAME']);
 
@@ -1106,8 +1106,8 @@ if ($arResult['MODULES']['catalog'] && $arResult['CATALOG'])
 	} elseif (isset($arResult['ITEM_PRICE_MODE']) && $arResult['ITEM_PRICE_MODE'] === 'Q') {
 		//set PRICE_MATRIX when PRICE_RANGE will start not from 1
 		if (
-			function_exists('CatalogGetPriceTableEx') 
-			&& (isset($arResult['PRICE_MATRIX'])) 
+			function_exists('CatalogGetPriceTableEx')
+			&& (isset($arResult['PRICE_MATRIX']))
 			&& !$arResult['PRICE_MATRIX']
 			&& $arResult['CAT_PRICES']
 		) {
@@ -1130,7 +1130,7 @@ if ($arResult['MODULES']['catalog'] && $arResult['CATALOG'])
 		$bNeedFindPicture = (CMax::GetFrontParametrValue("SHOW_FIRST_SKU_PICTURE") == "Y") && $bEmptyPictureProduct;
 		if( $bNeedFindPicture ){
 			$bFindPicture = false;
-						
+
 			foreach ($arResult['OFFERS'] as $keyOffer => $arOffer) {
 				if (($arOffer['DETAIL_PICTURE'] && $arOffer['PREVIEW_PICTURE']) || (!$arOffer['DETAIL_PICTURE'] && $arOffer['PREVIEW_PICTURE'])) {
 					$arOffer['DETAIL_PICTURE'] = $arOffer['PREVIEW_PICTURE'];
@@ -1459,7 +1459,7 @@ if(in_array('HELP_TEXT', $arParams['PROPERTY_CODE']))
 					"EDIT_TEMPLATE" => ""
 				)
 			);?>
-		<?$help_text = ob_get_contents();		
+		<?$help_text = ob_get_contents();
 		ob_end_clean();
 		$bshowHelpTextFromFile = true;
 		if( strlen( trim($help_text) ) < 1){
@@ -1471,7 +1471,7 @@ if(in_array('HELP_TEXT', $arParams['PROPERTY_CODE']))
 				$bshowHelpTextFromFile = false;
 			}
 		}
-		
+
 		if( $bshowHelpTextFromFile ){
 			$arResult['HELP_TEXT'] = $help_text;
 			$arResult['HELP_TEXT_FILE'] = true;
@@ -1484,7 +1484,7 @@ if(in_array('HELP_TEXT', $arParams['PROPERTY_CODE']))
 $arResult["VIDEO"] = \Aspro\Max\Video\Inline::getFilesFromProperties($arResult['DISPLAY_PROPERTIES']);
 
 if($arInherite['UF_VIDEO']){
-	$arResult["VIDEO"]['VIDEO_FILE'] = array_merge((array)$arResult["VIDEO"]['VIDEO_FILE'], array_map(fn($arVideoFile) => unserialize($arVideoFile), $arInherite['UF_VIDEO']));
+	$arResult["VIDEO"]['VIDEO_FILE'] = array_merge((array)$arResult["VIDEO"]['VIDEO_FILE'], array_map(fn($arVideoFile) => Solution::unserialize($arVideoFile), $arInherite['UF_VIDEO']));
 }
 
 if($arInherite['UF_VIDEO_IFRAME']){

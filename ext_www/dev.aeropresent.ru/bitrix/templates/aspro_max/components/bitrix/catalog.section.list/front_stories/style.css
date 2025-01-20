@@ -1,8 +1,8 @@
 #main .tab_slider_wrapp.stories {
-  padding-top: 0;
-  padding-bottom: 66px;
+  padding: 0;
+  margin-bottom: 66px;
 }
-.front_stories .owl-carousel {
+.front_stories .slider-solution {
   min-height: 100px;
 }
 .front_stories .item {
@@ -26,21 +26,10 @@ body#main .wrapper1 .wrapper_inner.front .drag-block.container .content_wrapper_
   padding-top: 69px;
 }
 @media (max-width: 600px) {
-  .front_stories .owl-item {
-    flex-shrink: 0;
-  }
-  .front_stories .owl-carousel .owl-stage {
-    display: flex;
-  }
-  .front_stories .owl-carousel .owl-stage-outer {
-    margin-left: -16px;
-    margin-right: -16px;
-    padding-left: 16px;
-    padding-right: 16px;
-  }
   body#main .wrapper1 .wrapper_inner.front .drag-block.container .tab_slider_wrapp.stories {
     margin-top: -6px;
-    padding-bottom: 42px;
+    margin-bottom: 42px;
+    padding-bottom: 0px;
   }
   body#main .wrapper1 .wrapper_inner.front .drag-block.container .content_wrapper_block.no-title > .maxwidth-theme {
     padding-top: 51px;
@@ -71,27 +60,23 @@ body#main .wrapper1 .wrapper_inner.front .drag-block.container .content_wrapper_
   border-radius: 50%;
 }
 @media (min-width: 768px) {
-  .front_stories.ROUND .owl-carousel {
+  .front_stories.ROUND .slider-solution {
     margin: 0 58px;
     width: calc(100% - 116px);
   }
-  .front_stories.ROUND .owl-carousel.visible-nav .owl-nav {
-    left: -76px;
-    right: -76px;
-  }
 }
 @media (max-width: 600px) {
-  .front_stories.ROUND .owl-item {
+  .front_stories.ROUND .item {
     width: 100px !important;
   }
   body#main .wrapper1 .wrapper_inner.front .drag-block.container .front_stories.ROUND .tab_slider_wrapp.stories {
-    padding-bottom: 36px;
+    margin-bottom: 36px;
   }
 }
 
 /* RECTANGLE */
 #main .front_stories.RECTANGLE .tab_slider_wrapp.stories {
-  padding-bottom: 72px;
+  margin-bottom: 72px;
 }
 .front_stories.RECTANGLE .item .img {
   padding-top: 145%;
@@ -133,7 +118,7 @@ body#main .wrapper1 .wrapper_inner.front .drag-block.container .content_wrapper_
 }
 
 @media (max-width: 600px) {
-  .front_stories.RECTANGLE .owl-item {
+  .front_stories.RECTANGLE .item {
     width: 152px !important;
   }
   .front_stories.RECTANGLE .item .img span:before {

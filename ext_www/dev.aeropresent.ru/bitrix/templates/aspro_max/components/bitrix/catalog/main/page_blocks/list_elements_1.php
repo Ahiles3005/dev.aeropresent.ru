@@ -498,9 +498,10 @@ if(isset($isAjaxFilter) && $isAjaxFilter == "Y")
 						"SHOW_OFFER_TREE_IN_TABLE" => CMax::GetFrontParametrValue('SHOW_OFFER_TREE_IN_TABLE'),
 						"SHOW_SLIDER" => "N",
 						"COMPATIBLE_MODE" => "Y",
-						"CURRENT_BASE_PAGE" => $APPLICATION->GetCurPage(false),
-						"PAGER_BASE_LINK" => $APPLICATION->GetCurPage(false),
-						"PAGER_BASE_LINK_ENABLE" => "Y",
+						'CURRENT_BASE_PAGE' => TSolution\CacheableUrl::get(),
+                        'PAGER_BASE_LINK' => TSolution\CacheableUrl::get(),
+                        'PAGER_BASE_LINK_ENABLE' => 'Y',
+
 					), $component, array("HIDE_ICONS" => $isAjax)
 				);?>
 
@@ -659,7 +660,7 @@ if(isset($isAjaxFilter) && $isAjaxFilter == "Y")
 				if($bannersCount):
 				?>
 					<div class="linked-banners-list <?=$linkedBannersPos?>" data-desktop_row="<?=$linkedBannersRows?>" data-mobile_row="<?=$linkedBannersRowsMobile?>">
-					<?					
+					<?
 					$APPLICATION->IncludeComponent(
 						"bitrix:news.list",
 						"banners",
@@ -738,7 +739,7 @@ if(isset($isAjaxFilter) && $isAjaxFilter == "Y")
 						),
 						false, array('ACTIVE_COMPONENT' => 'Y', 'HIDE_ICONS' => 'Y')
 					);
-					
+
 					?>
 					</div>
 				<?endif;?>
@@ -912,7 +913,7 @@ if($arParams["AJAX_MODE"] !== "Y" && isset($isAjaxFilter) && $isAjaxFilter && CM
 	<script type="text/javascript">
 		BX.removeCustomEvent("onAjaxSuccessFilter", function tt(e){});
 		BX.addCustomEvent("onAjaxSuccessFilter", function tt(e){
-			var arAjaxPageData = <?=CUtil::PhpToJSObject($arAdditionalData);?>;			
+			var arAjaxPageData = <?=CUtil::PhpToJSObject($arAdditionalData);?>;
 			if($('.element-count-wrapper .element-count').length){
 				//$('.element-count-wrapper .element-count').text($('.js_append').closest('.ajax_load.cur').find('.bottom_nav').attr('data-all_count'));
 				var cntFromNav = $('.js_append').closest('.ajax_load.cur').find('.bottom_nav').attr('data-all_count');
@@ -920,9 +921,9 @@ if($arParams["AJAX_MODE"] !== "Y" && isset($isAjaxFilter) && $isAjaxFilter && CM
 					$('.element-count-wrapper .element-count').text(cntFromNav);
 				} else {
 					$('.element-count-wrapper .element-count').text($('.js_append > div.item:not(.flexbox)').length)
-				}				
+				}
 			}
-			<?if( $arParams["AJAX_MODE"] !== "Y" ):?>	
+			<?if( $arParams["AJAX_MODE"] !== "Y" ):?>
 				if (arAjaxPageData.TITLE)
 					BX.ajax.UpdatePageTitle(arAjaxPageData.TITLE);
 				if (arAjaxPageData.WINDOW_TITLE || arAjaxPageData.TITLE)
@@ -933,7 +934,7 @@ if($arParams["AJAX_MODE"] !== "Y" && isset($isAjaxFilter) && $isAjaxFilter && CM
 					$('#navigation').html(ajaxBreadCrumb);
 					$('.ajax_breadcrumb').remove();
 				}
-					
+
 			<?endif;?>
 
 		});

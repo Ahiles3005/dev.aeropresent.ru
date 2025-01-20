@@ -42,7 +42,7 @@ $itemsCnt = CMaxCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CM
 <?if(!$itemsCnt):?>
 	<div class="alert alert-warning"><?=GetMessage("SECTION_EMPTY")?></div>
 <?else:?>
-	
+
 	<?$this->SetViewTarget('product_share');?>
 		<?if($arParams['USE_RSS'] !== 'N'):?>
 			<div class="colored_theme_hover_bg-block">
@@ -51,7 +51,7 @@ $itemsCnt = CMaxCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CM
 		<?endif;?>
 	<?$this->EndViewTarget();?>
 
-	
+
 	<?/* start tags */?>
 	<?
 	if(isset($arItemFilter['CODE']))
@@ -67,7 +67,7 @@ $itemsCnt = CMaxCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CM
 	?>
 	<?
 	$arTags = array();
-	
+
 	$arElements = CMaxCache::CIblockElement_GetList(array('CACHE' => array('TAG' => CMaxCache::GetIBlockCacheTag($arParams['IBLOCK_ID']), 'MULTI' => 'Y')), $arItemFilter, false, false, array('ID', 'TAGS'));
 
 	foreach($arElements as $arElement)
@@ -79,7 +79,7 @@ $itemsCnt = CMaxCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CM
 	}
 	?>
 	<?
-	global $NavNum; 
+	global $NavNum;
 	$context = \Bitrix\Main\Application::getInstance()->getContext();
 	if($NavNum){
 		$pagen = $NavNum;
@@ -152,9 +152,9 @@ $itemsCnt = CMaxCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CM
 		);?>
 	<?$this->__component->__template->EndViewTarget();?>
 	<?/* end tags */?>
-	
-	
-	
+
+
+
 	<?$arItems = CMaxCache::CIBLockElement_GetList(array('SORT' => 'ASC', 'NAME' => 'ASC', 'CACHE' => array('TAG' => CMaxCache::GetIBlockCacheTag($arParams['IBLOCK_ID']))), $arItemFilter, false, false, array('ID', 'NAME', 'ACTIVE_FROM'));
 	$arYears = array();
 	if($arItems)
@@ -195,7 +195,7 @@ $itemsCnt = CMaxCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CM
 									<?if($bSelected):?>
 										<span class="btn-inline darken"><?=$value;?></span>
 									<?else:?>
-										<a class="btn-inline dark_link" href="<?=$APPLICATION->GetCurPageParam('year='.$value, array('year'));?>"><?=$value;?></a>
+										<a class="btn-inline dark_link" href="<?='?year='.htmlspecialchars($value)?>"><?=$value;?></a>
 									<?endif;?>
 								</div>
 							</div>
@@ -213,13 +213,13 @@ $itemsCnt = CMaxCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CM
 			<?}
 		}
 	}?>
-	
 
-	
+
+
 		<div class="sub_container fixed_wrapper">
 		<div class="row">
 			<div class="col-md-12">
-			    
+
 	<?if((isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == "xmlhttprequest") || (strtolower($_REQUEST['ajax']) == 'y'))
 	{
 		$APPLICATION->RestartBuffer();
@@ -232,10 +232,10 @@ $itemsCnt = CMaxCache::CIblockElement_GetList(array("CACHE" => array("TAG" => CM
 		die();
 	}?>
 
-	
+
 			</div>
-			
+
 		</div>
 		</div>
-	
+
 <?endif;?>

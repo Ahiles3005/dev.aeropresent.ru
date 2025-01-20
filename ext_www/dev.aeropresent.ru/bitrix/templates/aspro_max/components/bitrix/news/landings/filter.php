@@ -6,21 +6,23 @@ if($arFilterPath)
 	for($i=0;$i<count($arFilterPath);++$i){
 		if(strlen($arFilterPath[$i])){
 			if($next === true)
-				$dbFilterPath[] = urldecode($arFilterPath[$i]);			
-			
+				$dbFilterPath[] = urldecode($arFilterPath[$i]);
+
 			if($arFilterPath[$i] == 'filter')
 			{
 				$dbFilterPath[] = $arFilterPath[$i];
 				$next = true;
 			}
-			
+
 		}
 	}
 }
 
-if($dbFilterPath)
-	$filterPath = implode('/', $dbFilterPath);
+if ($dbFilterPath) {
+    $filterPath = implode('/', $dbFilterPath);
+}
 
+TSolution\CacheableUrl::addSmartFilterNameParam($arParams['FILTER_NAME']);
 ?>
 
 

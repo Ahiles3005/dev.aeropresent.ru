@@ -376,7 +376,15 @@ $bIsAjax = isset($arParams['IS_AJAX']) && $arParams['IS_AJAX'] == true;
 				<?if (!$bIsAjax):?>
 				</div> <?// .tab-content?>
 				<?endif;?>
-
+<div class="arrow_scroll mobile__only">
+					<ul class="nav nav-tabs font_upper_md">
+						<?$i = 0;?>
+						<?foreach($arResult['SECTIONS'] as $SID => $arSection):?>
+							<?if(!$SID) continue;?>
+							<li class="<?=$i++ == 0 ? 'active' : ''?> rounded3 bordered"><a data-toggle="tab" href="#<?=$this->GetEditAreaId($arSection['ID'])?>"><?=$arSection['NAME']?></a></li>
+						<?endforeach;?>
+					</ul>
+				</div>
 		<?if($arParams['SHOW_TABS'] == 'Y'):?>
 			</div>
 		<?endif;?>

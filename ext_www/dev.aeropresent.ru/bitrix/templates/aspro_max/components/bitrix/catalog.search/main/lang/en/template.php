@@ -19,3 +19,4 @@ $MESS["SECT_SORT_QUANTITY"] = "By availability";
 $MESS["SECT_SORT_RANK"] = "By relevance";
 $MESS["SECT_SORT_SHOWS"] = "By popularity";
 $MESS["SECT_SORT_SORT"] = "By index sorting";
+$MESS["SORT_TITLE_PROPETY"] = "#CODE#";

@@ -2,7 +2,7 @@
 <? $this->setFrameMode( true ); ?>
 <?if( !empty( $arResult ) ){
 	global $arTheme;
-	
+
 	$bRightSide = $arTheme['SHOW_RIGHT_SIDE']['VALUE'] == 'Y';
 	$RightContent = $arTheme['SHOW_RIGHT_SIDE']['DEPENDENT_PARAMS']['RIGHT_CONTENT']['VALUE'];
 	$bRightBanner = $bRightSide && $RightContent == 'BANNER';
@@ -48,7 +48,7 @@
 						<div class="dropdown-block <?=strtolower($arTheme["MENU_TYPE_VIEW"]["VALUE"]) == 'bottom' ? 'dropdown' : ''?>">
 							<div class="dropdown">
 								<ul class="left-menu-wrapper">
-									
+
 									<?foreach($arItem["CHILD"] as $arChildItem){?>
 										<?
 										$arChildItem['IMAGES'] = (isset($arChildItem['PARAMS']['SECTION_ICON']) ? $arChildItem['PARAMS']['SECTION_ICON'] : (isset($arChildItem['PARAMS']['PICTURE']) ? $arChildItem['PARAMS']['PICTURE'] : $arChildItem['IMAGES']));
@@ -67,7 +67,7 @@
 															]);?>
 														<?else:?>
 															<img class="lazy" data-src="<?=$arChildItem["IMAGES"]["src"];?>" src="<?=\Aspro\Functions\CAsproMax::showBlankImg($arChildItem["IMAGES"]["src"]);?>" alt="<?=$arChildItem["NAME"];?>" />
-														<?endif;?>	
+														<?endif;?>
 													</a>
 												</span>
 											<?}?>
@@ -171,18 +171,20 @@
 													false, array('ACTIVE_COMPONENT' => 'Y', 'HIDE_ICONS' => 'Y')
 												);
 												?>
-											<?elseif($bRightBrand && $arItem['UF_MENU_BRANDS']):?>
+											<?elseif($bRightBrand && is_array($arItem['UF_MENU_BRANDS'])):?>
 												<div class="brands-wrapper">
 													<?foreach ($arItem['UF_MENU_BRANDS'] as $brand):?>
-														<div class="brand-wrapper">
-															<?if($brand['DETAIL_PAGE_URL']):?>
-																<a href="<?=$brand['DETAIL_PAGE_URL']?>">
-															<?endif;?>
-																<img src="<?=CFile::GetPath($brand['PREVIEW_PICTURE'])?>" alt="<?=$brand['NAME']?>" title="<?=$brand['NAME']?>" />
-															<?if($brand['DETAIL_PAGE_URL']):?>
-																</a>
-															<?endif;?>
-														</div>
+                                                        <?if(is_array($brand)) :?>
+                                                            <div class="brand-wrapper">
+                                                                <?if($brand['DETAIL_PAGE_URL']):?>
+                                                                    <a href="<?=$brand['DETAIL_PAGE_URL']?>">
+                                                                <?endif;?>
+                                                                    <img src="<?=CFile::GetPath($brand['PREVIEW_PICTURE'])?>" alt="<?=$brand['NAME']?>" title="<?=$brand['NAME']?>" />
+                                                                <?if($brand['DETAIL_PAGE_URL']):?>
+                                                                    </a>
+                                                                <?endif;?>
+                                                            </div>
+                                                        <?endif;?>
 													<?endforeach;?>
 												</div>
 											<?endif;?>

@@ -137,11 +137,11 @@ $APPLICATION->ShowViewContent('PERIOD_LINE');?>
             if ($arStoreMap = explode(',', $templateData['MAP'])) {
                 $gps_S = $arStoreMap[0];
                 $gps_N = $arStoreMap[1];
-                
+
                 if ($gps_S && $gps_N) {
 					$mapLAT += $gps_S;
                     $mapLON += $gps_N;
-			
+
 					ob_start();
 					\Aspro\Functions\CAsproMax::showBlockHtml(
 						[
@@ -152,9 +152,9 @@ $APPLICATION->ShowViewContent('PERIOD_LINE');?>
 							])
 						]
 					);
-					
-					$html = ob_get_clean();	
-                    
+
+					$html = ob_get_clean();
+
                     $arPlacemarks[] = [
                         "ID" => $arResult["ID"],
 						"LAT" => $gps_S,
@@ -188,7 +188,7 @@ $APPLICATION->ShowViewContent('PERIOD_LINE');?>
                             "MAP_WIDTH" => "100%",
                             "OPTIONS" => array(0=>"ENABLE_DBLCLICK_ZOOM",1=>"ENABLE_DRAGGING",),
                             "ZOOM_BLOCK" => array("POSITION"=>"right center",),
-							
+
                         ),
                         false,
                         Array(
@@ -1261,23 +1261,30 @@ $APPLICATION->ShowViewContent('PERIOD_LINE');?>
 			global $arTheme;
 			$catalogIBlockID = ($arParams["IBLOCK_CATALOG_ID"] ? $arParams["IBLOCK_CATALOG_ID"] : $arTheme["CATALOG_IBLOCK_ID"]["VALUE"]);
 			$arItemsFilter = array("IBLOCK_ID" => $catalogIBlockID, "ACTIVE" => "Y", 'SECTION_GLOBAL_ACTIVE' => 'Y');
+            if ('Y' === $arParams['HIDE_NOT_AVAILABLE']) {
+                $arItemsFilter['AVAILABLE'] = 'Y';
+            }
+
 			$arItemsFilter = array_merge($arItemsFilter, $GLOBALS['arrProductsFilter']);
 
-			// if(is_array($GLOBALS['arRegionLink'])){
-			// 	$arItemsFilter = array_merge($arItemsFilter, $GLOBALS['arRegionLink']);
-			// }
 			if($GLOBALS['arRegion']){
 				if(CMax::GetFrontParametrValue('REGIONALITY_FILTER_ITEM') == 'Y' && CMax::GetFrontParametrValue('REGIONALITY_FILTER_CATALOG') == 'Y'){
 					$arItemsFilter['PROPERTY_LINK_REGION'] = $GLOBALS['arRegion']['ID'];
 					CMax::makeElementFilterInRegion($arItemsFilter);
 				}
-			}			
+			}
 			if($arParams['SHOW_SECTIONS_FILTER']!="N"){
 				$nTopCount = array("nTopCount" => 20000);
 			} else {
 				$nTopCount = array("nTopCount" => 10);
 			}
-			$arItems = CMaxCache::CIBLockElement_GetList(array('CACHE' => array("MULTI" =>"Y", "TAG" => CMaxCache::GetIBlockCacheTag($arTheme["CATALOG_IBLOCK_ID"]["VALUE"]))), $arItemsFilter, false, $nTopCount, array("ID", "IBLOCK_ID", "IBLOCK_SECTION_ID"));
+            $arItems = CMaxCache::CIBLockElement_GetList(
+                ['CACHE' => ['MULTI' => 'Y', 'TAG' => CMaxCache::GetIBlockCacheTag($arTheme['CATALOG_IBLOCK_ID']['VALUE'])]],
+                $arItemsFilter,
+                false,
+                $nTopCount,
+                 ['ID', 'IBLOCK_ID', 'IBLOCK_SECTION_ID']
+            );
 			?>
 			<?if($arItems):?>
 				<div class="ordered-block <?=$code?> cur with-title">
@@ -1308,7 +1315,6 @@ $APPLICATION->ShowViewContent('PERIOD_LINE');?>
 							if($arSectionsID){
 								$arSectionsID = array_unique($arSectionsID);
 							}
-
 							if($arSectionsID):?>
 									<?$GLOBALS["arDetailSections"] = array("ID" => $arSectionsID);?>
 									<?$APPLICATION->IncludeComponent(

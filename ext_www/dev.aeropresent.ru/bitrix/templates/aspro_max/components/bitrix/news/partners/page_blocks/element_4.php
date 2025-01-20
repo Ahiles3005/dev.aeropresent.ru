@@ -37,7 +37,7 @@ $APPLICATION->SetPageProperty("HIDE_LEFT_BLOCK", "Y");?>
 		} else {
 			$arParams["FILTER_NAME"] = "arPartnerProducts";
 		}
-		
+
 		if(!in_array("DETAIL_PAGE_URL", $arParams["LIST_OFFERS_FIELD_CODE"])){
 			$arParams["LIST_OFFERS_FIELD_CODE"][] = "DETAIL_PAGE_URL";
 		}
@@ -236,7 +236,7 @@ $APPLICATION->SetPageProperty("HIDE_LEFT_BLOCK", "Y");?>
 				"S_ORDER_SERVISE" => $arParams["S_ORDER_SERVISE"],
 				"T_GALLERY" => $arParams["T_GALLERY"],
 				"T_DOCS" => $arParams["T_DOCS"],
-				"T_GOODS" => str_replace("#BRAND_NAME#",$arElement["NAME"],(strlen($arParams["T_GOODS"])?$arParams["T_GOODS"]:GetMessage("T_GOODS"))),//$arParams["T_GOODS"],
+                "T_GOODS" => str_replace("#BRAND_NAME#", $arElement["NAME"], $arParams["T_GOODS"] ?: GetMessage("T_GOODS")),
 				"T_SERVICES" => $arParams["T_SERVICES"],
 				"T_PROJECTS" => $arParams["T_PROJECTS"],
 				"T_REVIEWS" => $arParams["T_REVIEWS"],
@@ -326,6 +326,7 @@ $APPLICATION->SetPageProperty("HIDE_LEFT_BLOCK", "Y");?>
 				//"CONTENT_LINKED_FILTER_BY_FILTER" => ($arTmpGoods['CHILDREN'] ? $arElement['~PROPERTY_LINK_GOODS_FILTER_VALUE']:''),
 				"PRICE_CODE" => $arParams["PRICE_CODE"],
 				"STORES" => $arParams["STORES"],
+                'HIDE_NOT_AVAILABLE_LINKED' => $arParams['HIDE_NOT_AVAILABLE'],
 				"HIDE_NOT_AVAILABLE" => $arParams["HIDE_NOT_AVAILABLE"],
 				"DISPLAY_ELEMENT_SLIDER" => $arParams["LINKED_ELEMENST_PAGE_COUNT"],
 				"LINKED_ELEMENST_PAGINATION" => $arParams["LINKED_ELEMENST_PAGINATION"],
@@ -357,7 +358,7 @@ $APPLICATION->SetPageProperty("HIDE_LEFT_BLOCK", "Y");?>
 
 		<?$html=ob_get_clean();?>
 		<?$APPLICATION->AddViewContent('goods_catalog_block_prolog', $html);//?>
-				
+
 				<?if($isAjax=="Y" || $isAjaxFilter):?>
 					<?$APPLICATION->RestartBuffer();?>
 				<?endif;?>
@@ -365,7 +366,7 @@ $APPLICATION->SetPageProperty("HIDE_LEFT_BLOCK", "Y");?>
 				<?ob_start()//goods_catalog_block ?>
 
 					<?if($arItems):?>
-						
+
 						<div class="catalog vertical filter_exists">
 							<?
 
@@ -412,7 +413,7 @@ $APPLICATION->SetPageProperty("HIDE_LEFT_BLOCK", "Y");?>
 								</div>
 							<?endif;?>
 
-							
+
 
 							<div class="inner_wrapper">
 								<div class="ajax_load cur <?=$display?>" data-code="<?=$display?>">
@@ -579,7 +580,7 @@ $APPLICATION->SetPageProperty("HIDE_LEFT_BLOCK", "Y");?>
 							<?endif;?>
 						</div>
 					<?endif;?>
-				
+
 				<?$htmlCatalog=ob_get_clean();?>
 				<?$APPLICATION->AddViewContent('goods_catalog_block', $htmlCatalog);//?>
 
@@ -630,7 +631,7 @@ $APPLICATION->SetPageProperty("HIDE_LEFT_BLOCK", "Y");?>
 			<?endif;?>
 
 
-		</div>	
+		</div>
 	</div>
 	<?$APPLICATION->SetPageProperty("LEFT_BLOCK_CLASSES", "flexbox flexbox--row-reverse flexbox--gap flexbox--gap-32 flexbox--align-start flexbox--justify-space-between");?>
 <?elseif($arItems && $bHideLeftBlock):?>

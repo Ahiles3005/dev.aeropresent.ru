@@ -714,12 +714,15 @@ $bHideLeftBlock = $APPLICATION->GetDirProperty('HIDE_LEFT_BLOCK') == 'Y' || ($ar
 									"HIDE_NOT_AVAILABLE_OFFERS" => $arParams["HIDE_NOT_AVAILABLE_OFFERS"],
 									"ADD_DETAIL_TO_SLIDER" => $arParams["DETAIL_ADD_DETAIL_TO_SLIDER"],
 									"MAX_SCU_COUNT_VIEW" => $arParams['MAX_SCU_COUNT_VIEW'],
-									'CURRENT_BASE_PAGE' => $arLanding && strlen($arLanding['PROPERTY_URL_CONDITION_VALUE']) ? $canonicalUrl : null,
 									"SET_SKU_TITLE" => (($arTheme["TYPE_SKU"]["VALUE"] == "TYPE_1" && $arTheme["CHANGE_TITLE_ITEM_LIST"]["VALUE"] == "Y") ? "Y" : ""),
 									"IBINHERIT_TEMPLATES" => $arLanding ? $arIBInheritTemplates : array(),
 									'OFFER_SHOW_PREVIEW_PICTURE_PROPS' => $arParams['OFFER_SHOW_PREVIEW_PICTURE_PROPS'],
 									"REVIEWS_VIEW" => $arTheme["REVIEWS_VIEW"]["VALUE"] == "EXTENDED",
 									"COMPATIBLE_MODE" => "Y",
+                                    'CURRENT_BASE_PAGE' => TSolution\CacheableUrl::get(),
+                                    'PAGER_BASE_LINK' => TSolution\CacheableUrl::get(),
+                                    'PAGER_BASE_LINK_ENABLE' => 'Y',
+
 								),
 								$arResult["THEME_COMPONENT"]
 							);?>
@@ -810,7 +813,7 @@ $bHideLeftBlock = $APPLICATION->GetDirProperty('HIDE_LEFT_BLOCK') == 'Y' || ($ar
 			/*bd end*/
 
 			$APPLICATION->AddViewContent('top_class', 'emptys');?>
-			
+
 			<script src="<?=SITE_TEMPLATE_PATH;?>/vendor/js/carousel/owl/owl.carousel.js" data-skip-moving="true" async=""></script>
 			<?
 			$APPLICATION->AddHeadString('<link href="'.$APPLICATION->oAsset->getFullAssetPath(SITE_TEMPLATE_PATH.'/vendor/css/carousel/owl/owl.carousel.css').'" data-template-style="true" rel="stylesheet">');

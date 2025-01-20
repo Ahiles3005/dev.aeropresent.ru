@@ -1,6 +1,6 @@
 <?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 /** @global CMain $APPLICATION */
-CJSCore::Init(array("image")); 
+CJSCore::Init(array("image"));
 ?>
 <?if ($arResult['IMAGES'] && $arResult["is_ajax_post"] != "Y"):?>
 <div class="reviews-gallery-block" >
@@ -292,7 +292,7 @@ else
 						</div>
 					</div>
 					<?if($arParams['NO_USE_IMAGE'] == 'N' && !empty($arParams['MAX_IMAGE_COUNT'])):?>
-						<div class="drop-zone bordered rounded3">							
+						<div class="drop-zone bordered rounded3">
 							<div class ="drop-zone__wrapper rounded3">
 								<input type="file" id="comment_images" multiple="multiple" name="comment_images[]" accept="image/*" title="" class="drop-zone__wrapper-input uniform-ignore">
 							</div>
@@ -571,7 +571,7 @@ else
 							}
 
 							?>
-							<div class="blog-comment-date"><?=FormatDate('d F, H:i', MakeTimeStamp($comment["DateFormated"]))?></div>
+							<div class="blog-comment-date"><?=FormatDate('d F Y, H:i', MakeTimeStamp($comment["DateFormated"]))?></div>
 						</div>
 
 						<div class="blog-info__rating">
@@ -587,7 +587,7 @@ else
 						</div>
 					</div>
 					<?/*<div class="blog-clear-float"></div>*/?>
-					
+
 					<? if (isset($comment['UF_ASPRO_COM_APPROVE']) && $comment['UF_ASPRO_COM_APPROVE']): ?>
 						<div class="blog-comment-approve alert alert-success alert-success--with-icon font_sxs">
 							<?= CMax::showSpriteIconSvg(SITE_TEMPLATE_PATH.'/images/svg/content_icons_sprite.svg#icon-checkmark', 'svg-checkmark', [
@@ -596,7 +596,7 @@ else
 							<?= isset($arParams["REAL_CUSTOMER_TEXT"]) && strlen($arParams["REAL_CUSTOMER_TEXT"]) ? $arParams["REAL_CUSTOMER_TEXT"] : GetMessage('T_REAL_CUSTOMER_TEXT_DEFAULT'); ?>
 						</div>
 					<? endif; ?>
-					
+
 					<div class="blog-comment-content">
 						<?if(strlen($comment["TitleFormated"])>0)
 						{
@@ -707,15 +707,15 @@ else
 							<?// answer button?>
 							<?if ($bCanUserComment === true):?>
 								<span class="blog-comment-answer blog-comment-action color_222">
-									<a href="javascript:void(0)" 
-										class="blog-comment-action__link muted" 
+									<a href="javascript:void(0)"
+										class="blog-comment-action__link muted"
 										onclick="commentAction('<?=$comment['ID'];?>', this, 'showComment');"
 										data-type='showComment'
 									><?=GetMessage("B_B_MS_REPLY");?></a>
 								</span>
 								<span class="blog-vert-separator"></span>
 							<?endif;?>
-														
+
 							<?// edit comment button?>
 							<?if ($comment["CAN_EDIT"] == "Y"):?>
 								<script>
@@ -723,39 +723,39 @@ else
 									top.title<?=$comment["ID"];?> = title<?=$comment["ID"];?> = '<?=CUtil::JSEscape($comment["TITLE"]);?>';
 								</script>
 								<span class="blog-comment-edit blog-comment-action color_222">
-									<a href="javascript:void(0)" 
-										class="blog-comment-action__link muted" 
+									<a href="javascript:void(0)"
+										class="blog-comment-action__link muted"
 										onclick="commentAction('<?=$comment['ID'];?>', this, 'editComment');"
 										data-type='editComment'
 									><?=GetMessage("BPC_MES_EDIT");?></a>
 								</span>
 								<span class="blog-vert-separator"></span>
 							<?endif;?>
-							
+
 							<?// hide comment button?>
 							<?if (strlen($comment["urlToShow"])>0):?>
 								<span class="blog-comment-show blog-comment-action color_222">
 									<a class="blog-comment-action__link muted"
 									title="<?=GetMessage('BPC_MES_SHOW');?>"
 										<?if ($arParams["AJAX_POST"] == "Y"):?>
-											href="javascript:void(0)" 
-											onclick="return hideShowComment('<?=$comment['urlToShow'] . '&' . bitrix_sessid_get();?>', '<?=$comment['ID'];?>');" 
+											href="javascript:void(0)"
+											onclick="return hideShowComment('<?=$comment['urlToShow'] . '&' . bitrix_sessid_get();?>', '<?=$comment['ID'];?>');"
 										<?else:?>
-											href="<?=$comment["urlToShow"] . "&" . bitrix_sessid_get();?>" 
+											href="<?=$comment["urlToShow"] . "&" . bitrix_sessid_get();?>"
 										<?endif;?>
 									><?=GetMessage("BPC_MES_SHOW");?></a>
 								</span>
 								<span class="blog-vert-separator"></span>
 							<?endif;?>
-								
+
 							<?// show comment button?>
 							<?if (strlen($comment["urlToHide"])>0):?>
 								<?$targetURL = $comment['urlToHide'].'&'.bitrix_sessid_get();?>
 								<span class="blog-comment-show blog-comment-action color_222">
-									<a class="blog-comment-action__link muted" 
+									<a class="blog-comment-action__link muted"
 									title="<?=GetMessage('BPC_MES_HIDE');?>"
 										<?if($arParams["AJAX_POST"] == "Y"):?>
-											href="javascript:void(0)" 
+											href="javascript:void(0)"
 											onclick="return hideShowComment('<?=$targetURL;?>', '<?=$comment['ID'];?>');"
 										<?else:?>
 											href="<?=$targetURL;?>"
@@ -772,13 +772,13 @@ else
 								$targetURL = $comment['urlToApprove'].'&'.bitrix_sessid_get();
 								?>
 								<span class="blog-comment-approve blog-comment-action color_222">
-									<a 
-										class="blog-comment-action__link muted" title="<?=GetMessage($bpcMessage);?>" 
+									<a
+										class="blog-comment-action__link muted" title="<?=GetMessage($bpcMessage);?>"
 										<?if($arParams["AJAX_POST"] == "Y"):?>
 											href="javascript:void(0)"
-											onclick="return hideShowComment('<?=$targetURL;?>', '<?=$comment['ID'];?>');" 
+											onclick="return hideShowComment('<?=$targetURL;?>', '<?=$comment['ID'];?>');"
 										<?else:?>
-											href="<?=$targetURL;?>" 
+											href="<?=$targetURL;?>"
 										<?endif;?>
 									><?=GetMessage($bpcMessage);?></a>
 								</span>
@@ -793,7 +793,7 @@ else
 								<span class="blog-comment-delete blog-comment-action color_222">
 									<a class="blog-comment-action__link muted"
 										<?if($arParams["AJAX_POST"] == "Y"):?>
-											href="javascript:void(0)" 
+											href="javascript:void(0)"
 											onclick="if(confirm('<?=GetMessage('BPC_MES_DELETE_POST_CONFIRM');?>')) deleteComment('<?=$targetURL;?>', '<?=$comment['ID'];?>');" title="<?=GetMessage("BPC_MES_DELETE");?>"
 										<?else:?>
 											href="javascript:if(confirm('<?=GetMessage("BPC_MES_DELETE_POST_CONFIRM");?>')) window.location='<?=$targetURL;?>'" class="blog-comment-action__link muted" title="<?=GetMessage("BPC_MES_DELETE");?>"
@@ -802,16 +802,16 @@ else
 								</span>
 								<span class="blog-vert-separator"></span>
 							<?endif;?>
-							
+
 							<?// mark comment as spam button?>
 							<?if (strlen($comment["urlToSpam"])>0):?>
 								<span class="blog-comment-delete blog-comment-action blog-comment-spam color_222">
-									<a href="<?=$comment["urlToSpam"];?>" 
-										class="blog-comment-action__link muted" 
+									<a href="<?=$comment["urlToSpam"];?>"
+										class="blog-comment-action__link muted"
 										title="<?=GetMessage("BPC_MES_SPAM_TITLE");?>"><?=GetMessage("BPC_MES_SPAM");?></a>
 								</span>
 							<?endif;?>
-							
+
 							<?// like buttons?>
 							<?if ($arParams["SHOW_RATING"] === "Y"):?>
 								<span class="rating_vote_text pull-right" style="display:inline-block !important;">

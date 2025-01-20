@@ -35,7 +35,7 @@ if($bHideLeftBlock){
 	} else {
 		$arTheme["FILTER_VIEW"]["VALUE"] = 'VERTICAL';
 	}
-	
+
 }
 $bShowSortInFilter = ($arParams['SHOW_SORT_IN_FILTER'] != 'N');
 ?>
@@ -100,14 +100,14 @@ $bShowSortInFilter = ($arParams['SHOW_SORT_IN_FILTER'] != 'N');
 			}
 			if(in_array("QUANTITY", $arSorts)){
 				$arAvailableSort["CATALOG_AVAILABLE"] = array("QUANTITY", "desc");
-			}			
+			}
 
 			$defaulSortButtons = array("SORT","POPULARITY", "NAME", "PRICE", "QUANTITY", "CUSTOM");
 			$propsInSort = array();
 			$propsInSortName = array();
 			foreach($arSorts as $sort_prop){
 				if(!in_array($sort_prop, $defaulSortButtons)){
-					$arAvailableSort['PROPERTY_'.$sort_prop] = array('PROPERTY_'.$sort_prop, "desc");
+					$arAvailableSort['PROPERTY_'.mb_strtoupper($sort_prop)] = array('PROPERTY_'.$sort_prop, "desc");
 					$propsInSort[] = $sort_prop;
 				}
 			}
@@ -115,41 +115,41 @@ $bShowSortInFilter = ($arParams['SHOW_SORT_IN_FILTER'] != 'N');
 				foreach($propsInSort as $propSortCode){
 					$dbRes = CIBlockProperty::GetList(array(), array('ACTIVE' => 'Y', 'IBLOCK_ID' => $arParams['IBLOCK_ID'], 'CODE' => $propSortCode));
 					while($arPropperty = $dbRes->Fetch()){
-						$propsInSortName['PROPERTY_'.$arPropperty['CODE']] = $arPropperty['NAME'];
+						$propsInSortName['PROPERTY_'.mb_strtoupper($arPropperty['CODE'])] = $arPropperty['NAME'];
 					}
 				}
-				
+
 			}
-						
-			$sortElementField = ToUpper($arParams["ELEMENT_SORT_FIELD"]);
+
+			$sortElementField = mb_strtoupper($arParams["ELEMENT_SORT_FIELD"]);
 			if(in_array("CUSTOM", $arSorts) && !array_key_exists($sortElementField, $arAvailableSort) ){
-				$arAvailableSort[$sortElementField] = array("CUSTOM", ToLower($arParams["ELEMENT_SORT_ORDER"]));
-			}			
+				$arAvailableSort[$sortElementField] = array("CUSTOM", mb_strtolower($arParams["ELEMENT_SORT_ORDER"]));
+			}
 
 			$sort = "SHOWS";
 			$customSort = false;
-			if((array_key_exists("sort", $_REQUEST) && array_key_exists(ToUpper($_REQUEST["sort"]), $arAvailableSort)) || (array_key_exists("sort", $_SESSION) && array_key_exists(ToUpper($_SESSION["sort"]), $arAvailableSort)) || $arParams["ELEMENT_SORT_FIELD"]){
+			if((array_key_exists("sort", $_REQUEST) && array_key_exists(mb_strtoupper($_REQUEST["sort"]), $arAvailableSort)) || (array_key_exists("sort", $_SESSION) && array_key_exists(mb_strtoupper($_SESSION["sort"]), $arAvailableSort)) || $arParams["ELEMENT_SORT_FIELD"]){
 				if($_REQUEST["sort"]){
-					$sort = htmlspecialcharsbx(ToUpper($_REQUEST["sort"]));
-					$_SESSION["sort"] = htmlspecialcharsbx(ToUpper($_REQUEST["sort"]));
+					$sort = htmlspecialcharsbx(mb_strtoupper($_REQUEST["sort"]));
+					$_SESSION["sort"] = htmlspecialcharsbx(mb_strtoupper($_REQUEST["sort"]));
 				}
 				elseif($_SESSION["sort"]){
-					$sort = ToUpper($_SESSION["sort"]);
+					$sort = mb_strtoupper($_SESSION["sort"]);
 				}
 				else{
-					$sort = ToUpper($arParams["ELEMENT_SORT_FIELD"]);					
-					$sort = (strpos($sort, 'SCALED_PRICE_') === 0) ? 'PRICE' : $sort;					
+					$sort = mb_strtoupper($arParams["ELEMENT_SORT_FIELD"]);
+					$sort = (strpos($sort, 'SCALED_PRICE_') === 0) ? 'PRICE' : $sort;
 				}
 			}
 
 			if( $sort === $sortElementField ){
 				if(!array_key_exists($sortElementField, $arAvailableSort) || $arAvailableSort[$sortElementField][0] === 'CUSTOM'  ){
 					$customSort = true;
-				}				
-			} 			
-			
+				}
+			}
+
 			$sort_order=$arAvailableSort[$sort][1];
-			if((array_key_exists("order", $_REQUEST) && in_array(ToLower($_REQUEST["order"]), Array("asc", "desc"))) || (array_key_exists("order", $_REQUEST) && in_array(ToLower($_REQUEST["order"]), Array("asc", "desc")) ) || $arParams["ELEMENT_SORT_ORDER"]){
+			if((array_key_exists("order", $_REQUEST) && in_array(mb_strtolower($_REQUEST["order"]), Array("asc", "desc"))) || (array_key_exists("order", $_REQUEST) && in_array(mb_strtolower($_REQUEST["order"]), Array("asc", "desc")) ) || $arParams["ELEMENT_SORT_ORDER"]){
 				if($_REQUEST["order"]){
 					$sort_order = htmlspecialcharsbx($_REQUEST["order"]);
 					$_SESSION["order"] = htmlspecialcharsbx($_REQUEST["order"]);
@@ -158,7 +158,7 @@ $bShowSortInFilter = ($arParams['SHOW_SORT_IN_FILTER'] != 'N');
 					$sort_order = $_SESSION["order"];
 				}
 				else{
-					$sort_order = ToLower($arParams["ELEMENT_SORT_ORDER"]);
+					$sort_order = mb_strtolower($arParams["ELEMENT_SORT_ORDER"]);
 				}
 			}
 			$arDelUrlParams = array('sort', 'order', 'control_ajax', 'ajax_get_filter', 'linerow', 'display');
@@ -167,7 +167,7 @@ $bShowSortInFilter = ($arParams['SHOW_SORT_IN_FILTER'] != 'N');
 				<div class="dropdown-select">
 					<div class="dropdown-select__title font_xs darken">
 						<span>
-							<?if($sort_order && $sort):?>								
+							<?if($sort_order && $sort):?>
 								<?if( in_array($sort, array_keys($propsInSortName)) ):?>
 									<?=\Bitrix\Main\Localization\Loc::getMessage('SORT_TITLE_PROPETY', array('#CODE#' => $propsInSortName[$sort])).\Bitrix\Main\Localization\Loc::getMessage('SECT_ORDER_'.$sort_order)?>
 								<?else:?>
@@ -193,10 +193,10 @@ $bShowSortInFilter = ($arParams['SHOW_SORT_IN_FILTER'] != 'N');
 										<?else:?>
 											<a href="<?=$url;?>" class="dropdown-select__list-link <?=$value?> <?=$key?> darken <?=($arParams['AJAX_CONTROLS'] == 'Y' ? ' js-load-link' : '');?>" data-url="<?=$url;?>" rel="nofollow">
 										<?endif;?>
-											<?if( in_array($key, array_keys($propsInSortName)) ):?>
+											<?if(in_array($key, array_keys($propsInSortName)) ):?>
 												<span><?=\Bitrix\Main\Localization\Loc::getMessage('SORT_TITLE_PROPETY', array('#CODE#' => $propsInSortName[$key])).\Bitrix\Main\Localization\Loc::getMessage('SECT_ORDER_'.$value)?></span>
 											<?else:?>
-												<span><?=\Bitrix\Main\Localization\Loc::getMessage('SECT_SORT_'.($arAvailableSort[$key][0] === 'CUSTOM' ? 'CUSTOM' : $key)).\Bitrix\Main\Localization\Loc::getMessage('SECT_ORDER_'.$value)?></span>												
+												<span><?=\Bitrix\Main\Localization\Loc::getMessage('SECT_SORT_'.($arAvailableSort[$key][0] === 'CUSTOM' ? 'CUSTOM' : $key)).\Bitrix\Main\Localization\Loc::getMessage('SECT_ORDER_'.$value)?></span>
 											<?endif;?>
 										<?if($bCurrentLink):?>
 											</span>

@@ -11,6 +11,10 @@ if ($viewFilter === 'COMPACT') {
     if ($hideLeftBlock === 'Y' && !$bSmartFilterExpanded) {
         $template_filter = 'main';
     }
+}else if($viewFilter === 'VERTICAL'){
+    if($bSmartFilterExpanded && $hideLeftBlock === 'Y') {
+        $template_filter .= '_compact';
+    }
 }
 
 if ($arParams["AJAX_FILTER_CATALOG"] === "Y") {
@@ -18,6 +22,9 @@ if ($arParams["AJAX_FILTER_CATALOG"] === "Y") {
 }
 
 $TOP_VERTICAL_FILTER_PANEL = $arTheme["LEFT_BLOCK_CATALOG_SECTIONS"]['VALUE'] == 'Y' ? $arTheme["FILTER_VIEW"]['DEPENDENT_PARAMS']['TOP_VERTICAL_FILTER_PANEL']['VALUE'] : 'N';
+
+TSolution\CacheableUrl::addSmartFilterNameParam($arParams['FILTER_NAME']);
+
 $APPLICATION->IncludeComponent(
 	"bitrix:catalog.smart.filter",
 	$template_filter,

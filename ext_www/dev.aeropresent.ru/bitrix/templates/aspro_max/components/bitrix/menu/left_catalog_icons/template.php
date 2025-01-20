@@ -64,7 +64,7 @@
 																]);?>
 															<?else:?>
 																<img class="lazy" data-src="<?=$arChildItem["IMAGES"]["src"];?>" src="<?=\Aspro\Functions\CAsproMax::showBlankImg($arChildItem["IMAGES"]["src"]);?>" alt="<?=$arChildItem["NAME"];?>" title="<?=$arChildItem["NAME"]?>" />
-															<?endif;?>	
+															<?endif;?>
 														</a>
 													</span>
 												<?endif;?>
@@ -168,18 +168,20 @@
 														false, array('ACTIVE_COMPONENT' => 'Y', 'HIDE_ICONS' => 'Y')
 													);
 													?>
-												<?elseif($bRightBrand && $arItem['UF_MENU_BRANDS']):?>
+												<?elseif($bRightBrand && is_array($arItem['UF_MENU_BRANDS'])):?>
 													<div class="brands-wrapper">
 														<?foreach ($arItem['UF_MENU_BRANDS'] as $brand):?>
-															<div class="brand-wrapper">
-																<?if($brand['DETAIL_PAGE_URL']):?>
-																	<a href="<?=$brand['DETAIL_PAGE_URL']?>">
-																<?endif;?>
-																	<img src="<?=CFile::GetPath($brand['PREVIEW_PICTURE'])?>" alt="<?=$brand['NAME']?>" title="<?=$brand['NAME']?>" />
-																<?if($brand['DETAIL_PAGE_URL']):?>
-																	</a>
-																<?endif;?>
-															</div>
+                                                            <?if(is_array($brand)) :?>
+                                                                <div class="brand-wrapper">
+                                                                    <?if($brand['DETAIL_PAGE_URL']):?>
+                                                                        <a href="<?=$brand['DETAIL_PAGE_URL']?>">
+                                                                    <?endif;?>
+                                                                        <img src="<?=CFile::GetPath($brand['PREVIEW_PICTURE'])?>" alt="<?=$brand['NAME']?>" title="<?=$brand['NAME']?>" />
+                                                                    <?if($brand['DETAIL_PAGE_URL']):?>
+                                                                        </a>
+                                                                    <?endif;?>
+                                                                </div>
+                                                            <?endif;?>
 														<?endforeach;?>
 													</div>
 												<?endif;?>

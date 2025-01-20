@@ -49,7 +49,7 @@
 				$GLOBALS['arrProductsFilter'][] = $arStoresFilter;
 			}
 		}
-		
+
 	}
 	?>
 <?endif;?>
@@ -63,7 +63,7 @@
 		"S_ORDER_SERVISE" => $arParams["S_ORDER_SERVISE"],
 		"T_GALLERY" => $arParams["T_GALLERY"],
 		"T_DOCS" => $arParams["T_DOCS"],
-		"T_GOODS" => str_replace("#BRAND_NAME#",$arElement["NAME"],(strlen($arParams["T_GOODS"])?$arParams["T_GOODS"]:GetMessage("T_GOODS"))),//$arParams["T_GOODS"],
+		"T_GOODS" => str_replace("#BRAND_NAME#", $arElement["NAME"], $arParams["T_GOODS"] ?: GetMessage("T_GOODS")),
 		"T_SERVICES" => $arParams["T_SERVICES"],
 		"T_PROJECTS" => $arParams["T_PROJECTS"],
 		"T_REVIEWS" => $arParams["T_REVIEWS"],
@@ -153,7 +153,6 @@
 		//"CONTENT_LINKED_FILTER_BY_FILTER" => ($arTmpGoods['CHILDREN'] ? $arElement['~PROPERTY_LINK_GOODS_FILTER_VALUE']:''),
 		"PRICE_CODE" => $arParams["PRICE_CODE"],
 		"STORES" => $arParams["STORES"],
-		"HIDE_NOT_AVAILABLE" => $arParams["HIDE_NOT_AVAILABLE"],
 		"DISPLAY_ELEMENT_SLIDER" => $arParams["LINKED_ELEMENST_PAGE_COUNT"],
 		"LINKED_ELEMENST_PAGINATION" => $arParams["LINKED_ELEMENST_PAGINATION"],
 		"SHOW_DISCOUNT_PERCENT_NUMBER" => $arParams["SHOW_DISCOUNT_PERCENT_NUMBER"],
@@ -173,6 +172,7 @@
 		'SHOW_POPUP_PRICE' => (CMax::GetFrontParametrValue('SHOW_POPUP_PRICE') == 'Y'),
 		"CONVERT_CURRENCY" => $arParams["CONVERT_CURRENCY"],
 		"CURRENCY_ID" => $arParams["CURRENCY_ID"],
+        'HIDE_NOT_AVAILABLE_LINKED' => $arParams['HIDE_NOT_AVAILABLE'],
 		"HIDE_NOT_AVAILABLE" => $arParams["HIDE_NOT_AVAILABLE"],
 		'HIDE_NOT_AVAILABLE_OFFERS' => $arParams["HIDE_NOT_AVAILABLE_OFFERS"],
 		"ADD_DETAIL_TO_SLIDER" => $arParams["ADD_DETAIL_TO_SLIDER"],
@@ -211,13 +211,13 @@
 		$arItemsFilter = array("IBLOCK_ID" => $catalogIBlockID, "ACTIVE"=>"Y", "PROPERTY_".$arParams["LINKED_PRODUCTS_PROPERTY"] => $arElement["ID"], 'SECTION_GLOBAL_ACTIVE' => 'Y');
 		if( $arParams['HIDE_NOT_AVAILABLE'] === 'Y' )
 			$arItemsFilter['AVAILABLE'] = 'Y';
-		
+
 		CMax::makeElementFilterInRegion($arItemsFilter);
 		if( is_array($GLOBALS['arRegionLink']) && CMax::GetFrontParametrValue('REGIONALITY_FILTER_ITEM') == 'Y' && CMax::GetFrontParametrValue('REGIONALITY_FILTER_CATALOG') == 'Y' ){
 			$arItemsFilter = array_merge($GLOBALS['arRegionLink'], $arItemsFilter);
 		}
 
-		if( $arRegion ){			
+		if( $arRegion ){
 			if( $arRegion['LIST_STORES'] && $arParams['HIDE_NOT_AVAILABLE'] === 'Y' ){
 				$arStoresFilter = TSolution\Filter::getAvailableByStores($arParams['STORES']);
 				if($arStoresFilter){

@@ -191,7 +191,7 @@ if ($arResult['MODULES']['catalog'])
 	if ( $boolSKU && $featureProps = \Bitrix\Iblock\Model\PropertyFeature::getDetailPageShowPropertyCodes( $arSKU["IBLOCK_ID"], array('CODE' => 'Y') ) ) {
 		$arParams['OFFERS_PROPERTY_CODE'] = $featureProps;
 	}
-	
+
 	if ($boolSKU && !empty($arParams['OFFER_TREE_PROPS']))
 	{
 		$arSKUPropList = CIBlockPriceTools::getTreeProperties(
@@ -360,7 +360,7 @@ if ($arParams['USE_ADDITIONAL_GALLERY'] === 'Y') {
             if (!empty($imageIDs)) {
                 foreach ($imageIDs as $imgID) {
                     $arFileImage = CFile::GetFileArray($imgID);
-                   
+
 					$alt = trim($arFileImage['DESCRIPTION']) ?: trim($arResult['DETAIL_PICTURE']['ALT']) ?: trim($arFileImage['ALT']) ?: trim($arResult['NAME']);
 					$title = trim($arFileImage['DESCRIPTION']) ?: trim($arResult['DETAIL_PICTURE']['TITLE']) ?: trim($arFileImage['TITLE']) ?: trim($arResult['NAME']);
 
@@ -531,7 +531,7 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 				}
 				$arCell['SORT'] = $arSKUPropList[$strOneCode]['VALUES'][$arCell['VALUE']]['SORT'];
 			}
-			
+
 			$arRow[$strOneCode] = $arCell;
 		}
 		$arMatrix[$keyOffer] = $arRow;
@@ -542,7 +542,7 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 		$arOffer['MORE_PHOTO_COUNT'] = 0;
 		$arOffer['ALT_TITLE_GET'] = $arParams['ALT_TITLE_GET'];
 		$offerSlider = CMax::getSliderForItemExt($arOffer, $arParams['OFFER_ADD_PICT_PROP'], true); // $arParams['ADD_DETAIL_TO_SLIDER'] == 'Y'
-		
+
 		$arOffer['MORE_PHOTO'] = $offerSlider;
 
 		if($arOffer['MORE_PHOTO']){
@@ -558,7 +558,7 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 				}
 			}
 		}
-		
+
 		$arOffer['MORE_PHOTO_COUNT'] = count($arOffer['MORE_PHOTO']);
 
 		$boolSKUDisplayProps = !empty($arOffer['DISPLAY_PROPERTIES']);
@@ -700,7 +700,7 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 				$foundOffer = ($arResult['OFFER_ID_SELECTED'] == $arOffer['ID']);
 			else
 				$foundOffer = $arOffer['CAN_BUY'];
-				
+
 			if ($foundOffer)
 				$intSelected = $keyOffer;
 			if (empty($arResult['MIN_PRICE']) /*&& $arOffer['CAN_BUY']*/)
@@ -867,7 +867,7 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 				$percent=round(($arOneRow["PRICE"]["DISCOUNT_DIFF"]/$arOneRow["PRICE"]["VALUE"])*100, 2);
 				$arOneRow["PRICE"]["DISCOUNT_DIFF_PERCENT_RAW"]="-".$percent."%";
 			}
-			
+
 			$arMatrix[$keyOffer] = $arOneRow;
 		}
 	}
@@ -1015,7 +1015,7 @@ if ($arResult['CATALOG'] && isset($arResult['OFFERS']) && !empty($arResult['OFFE
 	if (-1 == $intSelected){
 		$intSelected = 0;
 	}
-	
+
 	$arResult['JS_OFFERS'] = $arMatrix;
 	$arResult['OFFERS_SELECTED'] = $intSelected;
 
@@ -1058,8 +1058,8 @@ if ($arResult['MODULES']['catalog'] && $arResult['CATALOG'])
 			$arResult['OFFER_GROUP'] = true;
 		}
 	}
-	
-	if($arParams['USE_PRICE_COUNT']) 
+
+	if($arParams['USE_PRICE_COUNT'])
 	{
 		if($arResult['OFFERS'])
 		{
@@ -1104,8 +1104,8 @@ if ($arResult['MODULES']['catalog'] && $arResult['CATALOG'])
 	} elseif (isset($arResult['ITEM_PRICE_MODE']) && $arResult['ITEM_PRICE_MODE'] === 'Q') {
 		//set PRICE_MATRIX when PRICE_RANGE will start not from 1
 		if (
-			function_exists('CatalogGetPriceTableEx') 
-			&& (isset($arResult['PRICE_MATRIX'])) 
+			function_exists('CatalogGetPriceTableEx')
+			&& (isset($arResult['PRICE_MATRIX']))
 			&& !$arResult['PRICE_MATRIX']
 			&& $arResult['CAT_PRICES']
 		) {
@@ -1128,7 +1128,7 @@ if ($arResult['MODULES']['catalog'] && $arResult['CATALOG'])
 		$bNeedFindPicture = (CMax::GetFrontParametrValue("SHOW_FIRST_SKU_PICTURE") == "Y") && $bEmptyPictureProduct;
 		if( $bNeedFindPicture ){
 			$bFindPicture = false;
-						
+
 			foreach ($arResult['OFFERS'] as $keyOffer => $arOffer) {
 				if (($arOffer['DETAIL_PICTURE'] && $arOffer['PREVIEW_PICTURE']) || (!$arOffer['DETAIL_PICTURE'] && $arOffer['PREVIEW_PICTURE'])) {
 					$arOffer['DETAIL_PICTURE'] = $arOffer['PREVIEW_PICTURE'];
@@ -1457,7 +1457,7 @@ if(in_array('HELP_TEXT', $arParams['PROPERTY_CODE']))
 					"EDIT_TEMPLATE" => ""
 				)
 			);?>
-		<?$help_text = ob_get_contents();		
+		<?$help_text = ob_get_contents();
 		ob_end_clean();
 		$bshowHelpTextFromFile = true;
 		if( strlen( trim($help_text) ) < 1){
@@ -1469,12 +1469,12 @@ if(in_array('HELP_TEXT', $arParams['PROPERTY_CODE']))
 				$bshowHelpTextFromFile = false;
 			}
 		}
-		
+
 		if( $bshowHelpTextFromFile ){
 			$arResult['HELP_TEXT'] = $help_text;
 			$arResult['HELP_TEXT_FILE'] = true;
 		}
-		?>		
+		?>
 	<?endif;?>
 <?}
 
@@ -1482,7 +1482,7 @@ if(in_array('HELP_TEXT', $arParams['PROPERTY_CODE']))
 $arResult["VIDEO"] = \Aspro\Max\Video\Inline::getFilesFromProperties($arResult['DISPLAY_PROPERTIES']);
 
 if($arInherite['UF_VIDEO']){
-	$arResult["VIDEO"]['VIDEO_FILE'] = array_merge((array)$arResult["VIDEO"]['VIDEO_FILE'], array_map(fn($arVideoFile) => unserialize($arVideoFile), $arInherite['UF_VIDEO']));
+	$arResult["VIDEO"]['VIDEO_FILE'] = array_merge((array)$arResult["VIDEO"]['VIDEO_FILE'], array_map(fn($arVideoFile) => Solution::unserialize($arVideoFile), $arInherite['UF_VIDEO']));
 }
 
 if($arInherite['UF_VIDEO_IFRAME']){
@@ -1499,7 +1499,7 @@ if(!empty($arResult['DISPLAY_PROPERTIES']))
 
 	$arGroupsProp = array();
 	if($arResult["DISPLAY_PROPERTIES"])
-	{ 
+	{
 		foreach($arResult["DISPLAY_PROPERTIES"] as $propCode => $arProp)
 		{
 			$arGroupsProp[$propCode] = $arProp;
@@ -1510,7 +1510,7 @@ if(!empty($arResult['DISPLAY_PROPERTIES']))
 
 if('TYPE_1' == $arParams['TYPE_SKU'] && $arResult['OFFERS']){
 	//for ajax offers
-	
+
 	$arResult['SKU_CONFIG'] = array(
 		"ALT_TITLE_GET" => $arParams["ALT_TITLE_GET"],
 		"SHOW_ABSENT" => $arParams["SHOW_ABSENT"],

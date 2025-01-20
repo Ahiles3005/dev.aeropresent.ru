@@ -52,18 +52,15 @@
 	}
 	?>
 <?endif;?>
-
-
 <?$APPLICATION->IncludeComponent(
 	"bitrix:news.detail",
 	"news",
 	Array(
-		'HIDE_NOT_AVAILABLE_LINKED' => $arParams['HIDE_NOT_AVAILABLE'],
 		"S_ASK_QUESTION" => $arParams["S_ASK_QUESTION"],
 		"S_ORDER_SERVISE" => $arParams["S_ORDER_SERVISE"],
 		"T_GALLERY" => $arParams["T_GALLERY"],
 		"T_DOCS" => $arParams["T_DOCS"],
-		"T_GOODS" => str_replace("#BRAND_NAME#",$arElement["NAME"],(strlen($arParams["T_GOODS"])?$arParams["T_GOODS"]:GetMessage("T_GOODS"))),//$arParams["T_GOODS"],
+		"T_GOODS" => str_replace("#BRAND_NAME#", $arElement["NAME"], $arParams["T_GOODS"] ?: GetMessage("T_GOODS")),
 		"T_SERVICES" => $arParams["T_SERVICES"],
 		"T_PROJECTS" => $arParams["T_PROJECTS"],
 		"T_REVIEWS" => $arParams["T_REVIEWS"],
@@ -130,7 +127,7 @@
 		"IBLOCK_LINK_NEWS_ID" => $arParams["IBLOCK_LINK_NEWS_ID"],
 		"IBLOCK_LINK_BLOG_ID" => $arParams["IBLOCK_LINK_BLOG_ID"],
 		"IBLOCK_LINK_SERVICES_ID" => $arParams["IBLOCK_LINK_SERVICES_ID"],
-	    	"IBLOCK_LINK_TIZERS_ID" => $arParams["IBLOCK_LINK_TIZERS_ID"],
+	    "IBLOCK_LINK_TIZERS_ID" => $arParams["IBLOCK_LINK_TIZERS_ID"],
 		"IBLOCK_LINK_REVIEWS_ID" => $arParams["IBLOCK_LINK_REVIEWS_ID"],
 		"IBLOCK_LINK_STAFF_ID" => $arParams["IBLOCK_LINK_STAFF_ID"],
 		"IBLOCK_LINK_VACANCY_ID" => $arParams["IBLOCK_LINK_VACANCY_ID"],
@@ -141,7 +138,7 @@
 		"BLOCK_SERVICES_NAME" => $arParams["BLOCK_SERVICES_NAME"],
 		"BLOCK_NEWS_NAME" => $arParams["BLOCK_NEWS_NAME"],
 		"BLOCK_BLOG_NAME" => $arParams["BLOCK_BLOG_NAME"],
-	    	"BLOCK_TIZERS_NAME" => $arParams["BLOCK_TIZERS_NAME"],
+	    "BLOCK_TIZERS_NAME" => $arParams["BLOCK_TIZERS_NAME"],
 		"BLOCK_REVIEWS_NAME" => $arParams["BLOCK_REVIEWS_NAME"],
 		"BLOCK_STAFF_NAME" => $arParams["BLOCK_STAFF_NAME"],
 		"BLOCK_VACANCY_NAME" => $arParams["BLOCK_VACANCY_NAME"],
@@ -150,10 +147,10 @@
 		"BLOCK_LANDINGS_NAME" => $arParams["BLOCK_LANDINGS_NAME"],
 		"BLOCK_PARTNERS_NAME" => $arParams["BLOCK_PARTNERS_NAME"],
 		"DETAIL_BLOCKS_ALL_ORDER" => ($arParams["DETAIL_BLOCKS_ALL_ORDER"] ? $arParams["DETAIL_BLOCKS_ALL_ORDER"] : 'tizers,desc,char,docs,services,news,blog,vacancy,reviews,projects,staff,landings,comments'),
-		//"CONTENT_LINKED_FILTER_BY_FILTER" => ($arTmpGoods['CHILDREN'] ? $arElement['~PROPERTY_LINK_GOODS_FILTER_VALUE']:''),
 		"PRICE_CODE" => $arParams["PRICE_CODE"],
 		"STORES" => $arParams["STORES"],
-		"HIDE_NOT_AVAILABLE" => $arParams["HIDE_NOT_AVAILABLE"],
+		"HIDE_NOT_AVAILABLE_LINKED" => $arParams["HIDE_NOT_AVAILABLE"],
+        "HIDE_NOT_AVAILABLE" => $arParams["HIDE_NOT_AVAILABLE"],
 		"DISPLAY_ELEMENT_SLIDER" => $arParams["LINKED_ELEMENST_PAGE_COUNT"],
 		"LINKED_ELEMENST_PAGINATION" => $arParams["LINKED_ELEMENST_PAGINATION"],
 		"SHOW_DISCOUNT_PERCENT_NUMBER" => $arParams["SHOW_DISCOUNT_PERCENT_NUMBER"],
@@ -173,7 +170,6 @@
 		'SHOW_POPUP_PRICE' => (CMax::GetFrontParametrValue('SHOW_POPUP_PRICE') == 'Y'),
 		"CONVERT_CURRENCY" => $arParams["CONVERT_CURRENCY"],
 		"CURRENCY_ID" => $arParams["CURRENCY_ID"],
-		"HIDE_NOT_AVAILABLE" => $arParams["HIDE_NOT_AVAILABLE"],
 		'HIDE_NOT_AVAILABLE_OFFERS' => $arParams["HIDE_NOT_AVAILABLE_OFFERS"],
 		"ADD_DETAIL_TO_SLIDER" => $arParams["ADD_DETAIL_TO_SLIDER"],
 		"SHOW_MEASURE" => $arParams["SHOW_MEASURE"],
@@ -182,7 +178,6 @@
 		"SHOW_DISCOUNT_TIME" => $arParams["SHOW_DISCOUNT_TIME"],
 		"SHOW_ONE_CLICK_BUY" => $arParams["SHOW_ONE_CLICK_BUY"],
 		"SHOW_OLD_PRICE" => $arParams["SHOW_OLD_PRICE"],
-		//"PRODUCT_PROPERTIES" => $arParams["PRODUCT_PROPERTIES"],
 		"SALE_STIKER" => $arParams["SALE_STIKER"],
 		"STIKERS_PROP" => $arParams["STIKERS_PROP"],
 		"SHOW_RATING" => $arParams["SHOW_RATING"],
