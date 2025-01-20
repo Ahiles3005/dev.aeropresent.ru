@@ -1,10 +1,5 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetPageProperty("HIDE_LEFT_BLOCK", "N");
-$APPLICATION->SetPageProperty("MENU_SHOW_ELEMENTS", "Y");
-$APPLICATION->SetPageProperty("keywords", "купить шары с доставкой в спб, заказать шары, каталог шаров");
-$APPLICATION->SetPageProperty("description", "Заказать шары в интернет-магазине AeroPresent по минимальной цене. Предоставляем гарантию на нашу продукцию. Заходите прямо сейчас! +7 (812) 331-45-95");
-$APPLICATION->SetPageProperty("title", "Купить шары с доставкой в СПб по доступной цене | AeroPresent");
-$APPLICATION->SetTitle("Каталог шаров");
+$APPLICATION->SetTitle("Каталог");
 $APPLICATION->IncludeComponent(
 	"bitrix:catalog", 
 	"main", 
@@ -40,9 +35,7 @@ $APPLICATION->IncludeComponent(
 		"FILTER_PROPERTY_CODE" => array(
 			0 => "IN_STOCK",
 			1 => "CML2_ARTICLE",
-			2 => "VIDEO_YOUTUBE",
-			3 => "POPUP_VIDEO",
-			4 => "",
+			2 => "",
 		),
 		"FILTER_PRICE_CODE" => array(
 			0 => "BASE",
@@ -129,13 +122,13 @@ $APPLICATION->IncludeComponent(
 		"OFFERS_CART_PROPERTIES" => "",
 		"SHOW_TOP_ELEMENTS" => "Y",
 		"SECTION_COUNT_ELEMENTS" => "Y",
-		"SECTION_TOP_DEPTH" => "4",
+		"SECTION_TOP_DEPTH" => "2",
 		"SECTIONS_LIST_PREVIEW_PROPERTY" => "UF_SECTION_DESCR",
 		"SHOW_SECTION_LIST_PICTURES" => "Y",
-		"PAGE_ELEMENT_COUNT" => "21",
+		"PAGE_ELEMENT_COUNT" => "20",
 		"LINE_ELEMENT_COUNT" => "3",
-		"ELEMENT_SORT_FIELD" => "CATALOG_AVAILABLE ",
-		"ELEMENT_SORT_ORDER" => "desc",
+		"ELEMENT_SORT_FIELD" => "sort",
+		"ELEMENT_SORT_ORDER" => "asc",
 		"ELEMENT_SORT_FIELD2" => "sort",
 		"ELEMENT_SORT_ORDER2" => "asc",
 		"LIST_PROPERTY_CODE" => array(
@@ -285,8 +278,8 @@ $APPLICATION->IncludeComponent(
 		"LIST_OFFERS_LIMIT" => "10",
 		"SORT_BUTTONS" => array(
 			0 => "POPULARITY",
-			1 => "PRICE",
-			2 => "CUSTOM",
+			1 => "NAME",
+			2 => "PRICE",
 		),
 		"SORT_PRICES" => "REGION_PRICE",
 		"DEFAULT_LIST_TEMPLATE" => "block",
@@ -357,7 +350,7 @@ $APPLICATION->IncludeComponent(
 		),
 		"PROPERTIES_DISPLAY_LOCATION" => "TAB",
 		"SHOW_BRAND_PICTURE" => "Y",
-		"SHOW_ASK_BLOCK" => "Y",
+		"SHOW_ASK_BLOCK" => "N",
 		"ASK_FORM_ID" => "2",
 		"SHOW_ADDITIONAL_TAB" => "N",
 		"PROPERTIES_DISPLAY_TYPE" => "TABLE",
@@ -670,7 +663,7 @@ $APPLICATION->IncludeComponent(
 		"BUNDLE_ITEMS_COUNT" => "3",
 		"SHOW_LANDINGS_SEARCH" => "Y",
 		"SHOW_LANDINGS" => "Y",
-		"LANDING_POSITION" => "AFTER_PRODUCTS",
+		"LANDING_POSITION" => "BEFORE_PRODUCTS",
 		"USE_DETAIL_PREDICTION" => "Y",
 		"SECTION_BG" => "UF_SECTION_BG_IMG",
 		"OFFER_SHOW_PREVIEW_PICTURE_PROPS" => array(
@@ -688,17 +681,17 @@ $APPLICATION->IncludeComponent(
 		"SECTION_TYPE_VIEW" => "FROM_MODULE",
 		"SHOW_BUY_DELIVERY" => "Y",
 		"TITLE_BUY_DELIVERY" => "Условия оплаты",
-		"BLOG_URL" => "u1-blog-s1_s2",
+		"BLOG_URL" => "u1-blog-s1",
 		"LANDING_SEARCH_COUNT_MOBILE" => "3",
 		"USE_BIG_DATA_IN_SEARCH" => "N",
 		"SHOW_MORE_SUBSECTIONS" => "Y",
-		"SHOW_SIDE_BLOCK_LAST_LEVEL" => "Y",
+		"SHOW_SIDE_BLOCK_LAST_LEVEL" => "N",
 		"SHOW_SORT_IN_FILTER" => "Y",
 		"SUBSECTION_PREVIEW_PROPERTY" => "DESCRIPTION",
 		"SHOW_SUBSECTION_DESC" => "Y",
 		"LANDING_SECTION_COUNT_MOBILE" => "3",
 		"SHOW_SMARTSEO_TAGS" => "Y",
-		"SHOW_SKU_DESCRIPTION" => "Y",
+		"SHOW_SKU_DESCRIPTION" => "N",
 		"MODULES_ELEMENT_COUNT" => "10",
 		"USE_CUSTOM_RESIZE" => "N",
 		"DETAIL_SET_PRODUCT_TITLE" => "Собрать комплект",
@@ -716,26 +709,6 @@ $APPLICATION->IncludeComponent(
 		"BIGDATA_SHOW_FROM_SECTION" => "N",
 		"SMARTSEO_TAGS_COUNT" => "10",
 		"SMARTSEO_TAGS_COUNT_MOBILE" => "3",
-		"MAX_IMAGE_COUNT" => "10",
-		"NO_USE_IMAGE" => "N",
-		"REVIEW_COMMENT_REQUIRED" => "Y",
-		"REVIEW_FILTER_BUTTONS" => array(
-		),
-		"REAL_CUSTOMER_TEXT" => "",
-		"USE_COMPARE_GROUP" => "N",
-		"SHOW_SORT_RANK_BUTTON" => "Y",
-		"HIDE_SUBSECTIONS_LIST" => "N",
-		"USE_LANDINGS_GROUP" => "N",
-		"LANDINGS_GROUP_FROM_SEO" => "N",
-		"SMARTSEO_TAGS_BY_GROUPS" => "N",
-		"SMARTSEO_TAGS_SHOW_DEACTIVATED" => "N",
-		"SMARTSEO_TAGS_SORT" => "SORT",
-		"SMARTSEO_TAGS_LIMIT" => "",
-		"DISPLAY_LINKED_ELEMENT_SLIDER_CROSSLINK" => "",
-		"SHOW_KIT_ALL" => "N",
-		"BIGDATA_EXT_BOTTOM" => "bigdata_bottom_1",
-		"BIGDATA_COUNT" => "5",
-		"BIGDATA_TYPE_VIEW" => "FROM_MODULE",
 		"SEF_URL_TEMPLATES" => array(
 			"sections" => "catalog/",
 			"section" => "#SECTION_CODE_PATH#/",
